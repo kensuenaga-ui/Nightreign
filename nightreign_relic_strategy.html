@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nightreign Relic Strategy — Core Principles & Findings</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080a10;
+  --bg-panel: #0f1219;
+  --bg-accent: #141820;
+  --bg-card: #181d28;
+  --teal: #2a9d8f;
+  --teal-bright: #40c9b8;
+  --teal-dim: #1a6b62;
+  --teal-glow: rgba(42,157,143,0.08);
+  --gold: #c9a84c;
+  --gold-bright: #e8d080;
+  --gold-dim: #8a7530;
+  --red: #c73e3e;
+  --red-bright: #e85555;
+  --green: #3d9960;
+  --orange: #d08040;
+  --purple: #9070c0;
+  --blue: #5090d0;
+  --text: #c8c4b8;
+  --text-dim: #68655c;
+  --text-bright: #eae6da;
+  --divider: #1e2230;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-weight:400; line-height:1.7; overflow-x:hidden; }
+
+.hero { min-height:60vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:60px 40px; position:relative; }
+.hero::before { content:''; position:absolute; top:0;left:0;right:0;bottom:0; background:radial-gradient(ellipse 50% 60% at 50% 50%, var(--teal-glow) 0%, transparent 70%); pointer-events:none; }
+.hero-eyebrow { font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.3em; color:var(--teal-dim); margin-bottom:1rem; }
+.hero h1 { font-family:'Cinzel',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:900; letter-spacing:0.04em; background:linear-gradient(180deg,var(--teal-bright) 0%,var(--teal) 60%,var(--teal-dim) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.3em; }
+.hero-sub { font-size:0.95rem; color:var(--text-dim); max-width:560px; }
+
+.section { max-width:800px; margin:0 auto; padding:60px 40px; }
+.rune-div { display:flex; justify-content:center; padding:20px 0; opacity:0.3; }
+
+.eyebrow { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--teal-dim); margin-bottom:0.4em; }
+h2 { font-family:'Cinzel',serif; font-size:1.6rem; font-weight:700; color:var(--teal-bright); letter-spacing:0.03em; margin-bottom:0.4em; }
+h3 { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:600; color:var(--gold); letter-spacing:0.02em; margin:2em 0 0.6em; }
+h3:first-of-type { margin-top:1em; }
+p { margin-bottom:1em; font-size:0.92rem; }
+.accent-bar { width:40px; height:3px; border-radius:2px; margin-bottom:1.5em; }
+.bar-teal { background:var(--teal); }
+.bar-gold { background:var(--gold); }
+.bar-red { background:var(--red); }
+.bar-green { background:var(--green); }
+.bar-orange { background:var(--orange); }
+.bar-purple { background:var(--purple); }
+
+ul.bl { list-style:none; padding:0; margin:0.8em 0; }
+ul.bl li { position:relative; padding-left:1.4em; margin-bottom:0.65em; font-size:0.9rem; line-height:1.65; }
+ul.bl li::before { content:'◆'; position:absolute; left:0; top:0.3em; font-size:0.55rem; color:var(--teal); }
+ul.bl.gold li::before { color:var(--gold); }
+ul.bl.red li::before { color:var(--red-bright); }
+ul.bl.green li::before { color:var(--green); }
+ul.bl.orange li::before { color:var(--orange); }
+strong { color:var(--text-bright); }
+
+.panel { background:var(--bg-panel); border:1px solid var(--divider); border-radius:8px; padding:20px 24px; margin:1.2em 0; }
+.panel-title { font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; color:var(--teal); text-transform:uppercase; margin-bottom:0.8em; }
+
+table.dt { width:100%; border-collapse:collapse; font-size:0.84rem; margin:1em 0; }
+table.dt th { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.08em; color:var(--text-dim); text-align:left; padding:8px 12px; border-bottom:1px solid var(--divider); text-transform:uppercase; }
+table.dt td { padding:8px 12px; border-bottom:1px solid var(--divider); color:var(--text); }
+table.dt tr.hl td { color:var(--teal-bright); font-weight:600; background:rgba(42,157,143,0.06); }
+table.dt .val { font-family:'JetBrains Mono',monospace; color:var(--teal-bright); font-weight:500; }
+table.dt .val-gold { font-family:'JetBrains Mono',monospace; color:var(--gold); font-weight:500; }
+table.dt .val-red { font-family:'JetBrains Mono',monospace; color:var(--red-bright); font-weight:500; }
+table.dt .note { color:var(--text-dim); font-size:0.82rem; }
+
+.callout { background:var(--bg-accent); border-left:3px solid var(--teal); padding:16px 20px; margin:1.5em 0; border-radius:0 6px 6px 0; font-size:0.92rem; color:var(--teal-bright); line-height:1.7; }
+.callout.gold { border-color:var(--gold); color:var(--gold); }
+.callout.red { border-color:var(--red); color:var(--red-bright); }
+.callout.warn { border-color:var(--orange); color:var(--orange); }
+
+.bucket { display:grid; grid-template-columns:auto 1fr; gap:8px 14px; align-items:baseline; padding:10px 14px; background:var(--bg-accent); border-radius:6px; border-left:3px solid var(--teal-dim); margin-bottom:8px; font-size:0.88rem; }
+.bucket-tag { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--teal-bright); letter-spacing:0.06em; white-space:nowrap; }
+.bucket-desc { color:var(--text); }
+.bucket.dead { border-color:var(--red); opacity:0.7; }
+.bucket.dead .bucket-tag { color:var(--red-bright); }
+
+.step-grid { counter-reset:step; }
+.step { display:grid; grid-template-columns:32px 1fr; gap:12px; margin-bottom:12px; align-items:start; }
+.step-num { font-family:'Cinzel',serif; font-weight:700; font-size:1rem; color:var(--teal); text-align:center; padding-top:2px; }
+.step-num::before { counter-increment:step; content:counter(step); }
+.step-text { font-size:0.9rem; }
+
+.milestone { display:grid; grid-template-columns:1fr auto; gap:8px; padding:6px 0; border-bottom:1px solid var(--divider); font-size:0.88rem; }
+.milestone:last-child { border:none; }
+.milestone .label { color:var(--text); }
+.milestone .dmg { font-family:'JetBrains Mono',monospace; font-weight:500; }
+
+.trap-table { width:100%; border-collapse:collapse; font-size:0.84rem; }
+.trap-table th { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.08em; color:var(--text-dim); text-align:left; padding:8px 10px; border-bottom:1px solid var(--divider); }
+.trap-table td { padding:8px 10px; border-bottom:1px solid var(--divider); vertical-align:top; }
+.trap-table td:first-child { color:var(--orange); font-weight:500; white-space:nowrap; }
+.trap-table td:nth-child(2) { color:var(--text-dim); }
+.trap-table td:nth-child(3) { color:var(--red-bright); }
+
+.footer { text-align:center; padding:40px; font-size:0.72rem; color:var(--text-dim); opacity:0.5; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:640px) { .two-col { grid-template-columns:1fr; } }
+
+.tag { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:0.65rem; padding:2px 8px; border-radius:3px; letter-spacing:0.06em; margin-right:4px; }
+.tag-confirmed { background:rgba(61,153,96,0.15); color:var(--green); }
+.tag-suspected { background:rgba(208,128,64,0.15); color:var(--orange); }
+.tag-dead { background:rgba(199,62,62,0.15); color:var(--red); }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-eyebrow">ELDEN RING NIGHTREIGN</div>
+  <h1>Relic Strategy Guide</h1>
+  <div class="hero-sub">Core principles and empirical findings for Deep of Night relic optimization. Compiled by Ken from extensive in-game testing across Revenant and Executor builds — not community consensus, but personal research verified against live data.</div>
+</section>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 1 ============ -->
+<div class="section">
+  <div class="eyebrow">01 — Foundation</div>
+  <h2>The Two Damage Pipelines</h2>
+  <div class="accent-bar bar-teal"></div>
+
+  <p>Nightreign has two completely separate damage calculation systems. Understanding which one your build uses determines everything about how you stack relics.</p>
+
+  <h3>Weapon Pipeline</h3>
+  <p>For melee attacks, infused weapon swings, and weapon arts.</p>
+  <div class="panel">
+    <div class="panel-title">Calculation Order</div>
+    <p style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--teal-bright); margin:0;">
+      Base Weapon AR → Infusion/Buff → Affinity Attack Power × Melee × Skill × Physical × Character-Specific
+    </p>
+  </div>
+  <ul class="bl">
+    <li><strong>Improved Affinity Attack Power</strong> <span class="tag tag-confirmed">CONFIRMED</span> — separate multiplier on Flaming Strike Cursed Claws build (30+ damage gain over Physical +4)</li>
+    <li><strong>"Boosts Attack Power of Added Affinity Attacks"</strong> — explicitly for weapon infusions and greases only, does NOT affect incantations</li>
+  </ul>
+
+  <h3>Incantation Pipeline</h3>
+  <p>For spells cast from a seal. Different calculation, different available buckets.</p>
+  <div class="panel">
+    <div class="panel-title">Calculation Order</div>
+    <p style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--teal-bright); margin:0;">
+      Seal Scaling × FTH → Spell Base → [Damage Type + Spell School] × Improved Incantations × Affinity*
+    </p>
+    <p style="font-size:0.75rem; color:var(--text-dim); margin:0.5em 0 0;">* Affinity is school-dependent — see Bucket Rules</p>
+  </div>
+  <ul class="bl">
+    <li><strong>Improved Affinity Attack Power</strong> is school-dependent — works on Giants' Flame (O Flame), does <strong>NOT</strong> work on Erdtree Worship (Wrath of Gold)</li>
+    <li><strong>Improved Incantations</strong> <span class="tag tag-confirmed">CONFIRMED</span> — separate multiplier from damage type/spell school (30 damage gain on fire build)</li>
+  </ul>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 2 ============ -->
+<div class="section">
+  <div class="eyebrow">02 — Core Mechanic</div>
+  <h2>Damage Bucket Rules</h2>
+  <div class="accent-bar bar-gold"></div>
+
+  <div class="callout">Effects within the same bucket <strong>ADD</strong> together. Effects across different buckets <strong>MULTIPLY</strong> together. Spreading across buckets gives more damage than stacking one bucket — but only when the effects being compared are similar size.</div>
+
+  <h3>Confirmed Same-Bucket Pairs</h3>
+  <div class="bucket">
+    <span class="bucket-tag">SAME BUCKET</span>
+    <span class="bucket-desc"><strong>Physical Attack Up + Improved Bestial Incantations</strong> — swapping one for the other gave 1-point difference <span class="tag tag-confirmed">TESTED</span></span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">SAME BUCKET</span>
+    <span class="bucket-desc"><strong>Fire Attack Power Up + Improved Giants' Flame</strong> — strongly suspected based on Bestial precedent <span class="tag tag-suspected">SUSPECTED</span></span>
+  </div>
+  <p style="font-size:0.85rem; color:var(--text-dim);">Pattern: damage type and spell school effects are likely one additive bucket for the incantation pipeline.</p>
+
+  <h3>Confirmed Separate Buckets — Incantation Pipeline</h3>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET 1</span>
+    <span class="bucket-desc">Damage Type (Fire Attack Up) + Spell School (Giants' Flame) — additive within</span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET 2</span>
+    <span class="bucket-desc">Improved Incantations — +30 damage gain proves separate multiplier <span class="tag tag-confirmed">CONFIRMED</span></span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET 3</span>
+    <span class="bucket-desc">Improved Affinity Attack Power — +30 damage loss when removed on Giants' Flame <span class="tag tag-confirmed">CONFIRMED</span></span>
+  </div>
+
+  <h3>Confirmed Separate Buckets — Weapon Pipeline</h3>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET A</span>
+    <span class="bucket-desc">Improved Melee Attack Power <span class="tag tag-confirmed">CONFIRMED</span></span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET B</span>
+    <span class="bucket-desc">Improved Skill Attack Power — both Melee + Skill apply to Cursed Sword post-1.03.2 <span class="tag tag-confirmed">CONFIRMED</span></span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET C</span>
+    <span class="bucket-desc">Improved Affinity Attack Power — outperformed Physical +4 on Flaming Strike build <span class="tag tag-confirmed">CONFIRMED</span></span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET D</span>
+    <span class="bucket-desc">Physical Attack Up — likely separate from Melee/Skill <span class="tag tag-suspected">UNTESTED</span></span>
+  </div>
+  <div class="bucket">
+    <span class="bucket-tag">BUCKET E</span>
+    <span class="bucket-desc">[Executor] Skill Boosts Attack — +35% damage, -40% negation while attacking. Synergizes with "Nullify Attacks When Negation is Lowered" <span class="tag tag-confirmed">CONFIRMED</span></span>
+  </div>
+
+  <h3>Dead Effects by Pipeline</h3>
+  <div class="bucket dead">
+    <span class="bucket-tag">DEAD</span>
+    <span class="bucket-desc">Improved Affinity Attack Power on Erdtree Worship incantations (Wrath of Gold, Discus of Light)</span>
+  </div>
+  <div class="bucket dead">
+    <span class="bucket-tag">DEAD</span>
+    <span class="bucket-desc">"Boosts Attack Power of Added Affinity Attacks" on any incantation — weapon pipeline only</span>
+  </div>
+  <div class="bucket dead">
+    <span class="bucket-tag">DEAD</span>
+    <span class="bucket-desc">Katana-specific relics on Cursed Sword — different weapon classification</span>
+  </div>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 3 ============ -->
+<div class="section">
+  <div class="eyebrow">03 — Deep Relic Efficiency</div>
+  <h2>The +3 Sweet Spot Rule</h2>
+  <div class="accent-bar bar-green"></div>
+
+  <p>Deep relic damage type tiers, datamined from regulation.bin via Nexus Mods:</p>
+
+  <table class="dt">
+    <thead><tr><th>Tier</th><th>Value</th><th>Jump</th><th>Demerit</th></tr></thead>
+    <tbody>
+      <tr><td>+0</td><td class="val">3%</td><td class="note">—</td><td class="note">None</td></tr>
+      <tr><td>+1</td><td class="val">4%</td><td class="note">+1%</td><td class="note">None</td></tr>
+      <tr><td>+2</td><td class="val">5%</td><td class="note">+1%</td><td class="note">None (standard cap)</td></tr>
+      <tr class="hl"><td><strong>+3</strong></td><td class="val">8.5%</td><td class="val">+3.5%</td><td style="color:var(--green)">Mild or none</td></tr>
+      <tr><td>+4</td><td class="val">10%</td><td class="note">+1.5%</td><td class="val-red">Always harsh</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout gold">+3 is the efficiency king. 85% of +4's value, significantly milder demerits. The +2→+3 jump (3.5%) is the biggest single-tier gain. The +3→+4 jump (1.5%) rarely justifies the mandatory curse.</div>
+
+  <p><strong>Exception:</strong> When a +4 has a self-offsetting demerit (e.g., Sleep Buildup + Sleep Resistance on the same relic), the demerit cost is zero and the +4 is free value.</p>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 4 ============ -->
+<div class="section">
+  <div class="eyebrow">04 — Reference Data</div>
+  <h2>Effect Values (Datamined)</h2>
+  <div class="accent-bar bar-teal"></div>
+
+  <table class="dt">
+    <thead><tr><th>Effect</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Improved Spell School (Giants' Flame, etc.)</td><td class="val-gold">+12%</td><td class="note">No tiers, flat value</td></tr>
+      <tr><td>Improved Incantations (base)</td><td class="val">+11%</td><td class="note">Deep relic only</td></tr>
+      <tr><td>Improved Incantations +2</td><td class="val">Higher</td><td class="note">Untested exact value</td></tr>
+      <tr><td>ISA (Improved Initial Standard Attack)</td><td class="val">+13%</td><td class="note">First hit of R1/L1 chain</td></tr>
+      <tr><td>Improved Critical Hits</td><td class="val">1.12× / 1.18× / 1.24×</td><td class="note">Per tier (+0/+1/+2)</td></tr>
+      <tr><td>[Executor] Skill Boosts Attack</td><td class="val-gold">+35%</td><td class="val-red">-40% negation while attacking</td></tr>
+      <tr><td>[Revenant] Max FP on Ability</td><td class="val">~+2 FP/ghost</td><td class="note">20% proc rate, ~50-70 bonus FP/run</td></tr>
+      <tr><td>Attack Power with 3+ Weapons</td><td class="val">+12%</td><td class="note">Requires 3 same-type weapons</td></tr>
+      <tr><td>Attack Up vs Poison/Rot/Frost Enemy</td><td class="val">+10%</td><td class="note">Conditional</td></tr>
+      <tr><td>Boosts Affinity Attacks</td><td class="val">+10%</td><td class="note">Weapon pipeline only</td></tr>
+      <tr><td>Taking Attacks Improves Attack</td><td class="val">+15%</td><td class="note">10 second duration</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 5 ============ -->
+<div class="section">
+  <div class="eyebrow">05 — Advanced</div>
+  <h2>Spreading vs Stacking</h2>
+  <div class="accent-bar bar-orange"></div>
+
+  <p>The bucket spreading rule has a breakpoint. When one effect is significantly larger than the alternatives, brute-force stacking can beat multiplicative spreading.</p>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-title" style="color:var(--teal)">Spread — 511 DMG ✓</div>
+      <p style="font-size:0.85rem; margin:0;">Fire +4 + Giants' Flame ×2 + Fire +2 + Fire +1<br>+ Improved Incantations +2<br>+ Affinity Attack +2<br><br><span style="color:var(--green)">Demerits: 2 mild, self-managed</span></p>
+    </div>
+    <div class="panel">
+      <div class="panel-title" style="color:var(--orange)">Stack — 530 DMG ✗</div>
+      <p style="font-size:0.85rem; margin:0;">Same bucket 1<br>+ THREE Fire +4 replacing buckets 2 &amp; 3<br><br><span style="color:var(--red-bright)">Demerits: 5 harsh, double unresisted sleep</span></p>
+    </div>
+  </div>
+
+  <div class="callout warn">19 more damage isn't worth dying to sleep mid-Nightlord. Spread across buckets when effects are similar size. Stack the biggest effect only when demerits stay manageable. Always weigh the curse against the gain.</div>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 6 ============ -->
+<div class="section">
+  <div class="eyebrow">06 — Slot Strategy</div>
+  <h2>Standard vs Deep Relics</h2>
+  <div class="accent-bar bar-gold"></div>
+
+  <h3>Standard Relics (Slots 1–3)</h3>
+  <ul class="bl gold">
+    <li>Cap at +2 tier (only 5% for damage types)</li>
+    <li><strong>Spell school effects are stronger than +2 damage type</strong> — Giants' Flame gives 12% vs Fire +2's 5%. Always prioritize spell school in standard slots.</li>
+    <li><strong>Giants' Flame confirmed stronger than Fire +2 in direct swap</strong> — drove O Flame from 460 to 484</li>
+    <li>Stacking multiple spell school effects is optimal (double Giants' Flame = +27 damage on fire build)</li>
+    <li><strong>White vessel slots accept any color</strong> — this unlocked a second Giants' Flame from a Yellow relic in a White standard slot</li>
+  </ul>
+
+  <h3>Deep Relics (Slots 4–6)</h3>
+  <ul class="bl gold">
+    <li>Access +3 (8.5%) and +4 (10%) tiers — the only place damage type effects outperform spell school</li>
+    <li>+3 is the sweet spot for efficiency</li>
+    <li><strong>Always check ALL demerits</strong> — CSV exports only show first 3 effects, deep relics can have 4-6. Screenshot in-game before committing.</li>
+    <li>Character-specific effects (Revenant FP, Executor skill boost) can be irreplaceable — don't sacrifice them for marginal DPS</li>
+  </ul>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 7 ============ -->
+<div class="section">
+  <div class="eyebrow">07 — Vessels</div>
+  <h2>Vessel Optimization</h2>
+  <div class="accent-bar bar-purple"></div>
+
+  <p>Color constraint is the real bottleneck. The best relic in your collection might not fit your vessel's color slots.</p>
+
+  <ul class="bl">
+    <li>Always check if <strong>rearranging which bucket goes in which color slot</strong> improves companion effects — same DPS, different demerits</li>
+    <li><strong>White (wild card) slots are extremely valuable</strong> — they access your entire collection for that slot</li>
+    <li>Don't forget standard slot constraints — Starting Spell relics are color-locked and non-negotiable</li>
+  </ul>
+
+  <div class="panel">
+    <div class="panel-title">Vessel Selection Process</div>
+    <div class="step-grid">
+      <div class="step"><div class="step-num"></div><div class="step-text">Identify your 3 non-negotiable DPS effects (one per bucket)</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text">Check which colors each effect is available in at highest viable tier</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text">Find the vessel whose color configuration gives the best match with mildest demerits</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text">Verify standard slot constraints — your Starting Spell color determines vessel eligibility</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 8 ============ -->
+<div class="section">
+  <div class="eyebrow">08 — Process</div>
+  <h2>Build Optimization Checklist</h2>
+  <div class="accent-bar bar-teal"></div>
+
+  <div class="panel">
+    <div class="step-grid">
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Identify your damage pipeline</strong> — weapon or incantation? This determines which buckets exist.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>List available buckets</strong> — some spells lack a matching school boost (Erdtree Worship has none). Don't assume 3 buckets; verify.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Get one effect in each bucket first</strong> — before stacking duplicates in any single bucket.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Prefer +3 deep relics over +4</strong> — unless the +4 has clean companions or a self-offsetting demerit.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Check ALL demerits in-game</strong> — not from CSV exports. Deep relics hide effects past position 3.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Evaluate companion effects</strong> — a +3 with useful utility beats a +4 with dead weight and a harsh curse.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Check vessel color compatibility</strong> — consider rearranging bucket-to-slot assignment for better demerits.</div></div>
+      <div class="step"><div class="step-num"></div><div class="step-text"><strong>Don't forget the White slot</strong> — it might unlock a stronger off-color relic you've been overlooking.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 9 ============ -->
+<div class="section">
+  <div class="eyebrow">09 — Traps</div>
+  <h2>Known Trap Effects</h2>
+  <div class="accent-bar bar-red"></div>
+
+  <table class="trap-table">
+    <thead><tr><th>Effect</th><th>Sounds Like</th><th>Reality</th></tr></thead>
+    <tbody>
+      <tr><td>Wielding Two Armaments</td><td>Passive when dual-wielding</td><td>L1 powerstance attacks only</td></tr>
+      <tr><td>Improved Affinity Attack Power</td><td>Universal for all casters</td><td>Works on Giants' Flame, NOT on Erdtree Worship — school-specific</td></tr>
+      <tr><td>Undertaker flight-heal</td><td>Heal allies during ult</td><td>Impractical — worst character relic in the game</td></tr>
+      <tr><td>Partial HP Restoration (Rally)</td><td>Stackable healing</td><td>Does NOT stack — one copy only</td></tr>
+      <tr><td>Dormant Power Discovery</td><td>Additive weapon pool</td><td>First one only — overwrites, doesn't add</td></tr>
+      <tr><td>Duchess skill invulnerability</td><td>Defensive upgrade</td><td>Redundant — Restage has zero recovery frames</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="rune-div"><svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#2a9d8f" stroke-width="1" fill="none"/></svg></div>
+
+<!-- ============ SECTION 10 ============ -->
+<div class="section">
+  <div class="eyebrow">10 — Empirical Data</div>
+  <h2>Session Findings Log</h2>
+  <div class="accent-bar bar-gold"></div>
+
+  <h3>Bucket Discoveries</h3>
+  <ul class="bl green">
+    <li>Physical Attack Up + Improved Bestial Incantations = <strong>SAME bucket</strong> (1 pt difference)</li>
+    <li>Fire Attack Power + Improved Giants' Flame = <strong>likely same bucket</strong> (untested in isolation)</li>
+    <li>Improved Incantations = <strong>CONFIRMED separate bucket</strong> (+30 damage)</li>
+    <li>Improved Affinity Attack Power = <strong>CONFIRMED separate</strong> for Giants' Flame (+30 damage), <strong>CONFIRMED dead</strong> for Erdtree Worship</li>
+    <li>Improved Affinity Attack Power = <strong>CONFIRMED separate in weapon pipeline</strong> (outperforms Physical +4 on Flaming Strike)</li>
+  </ul>
+
+  <h3>Revenant O Flame — DPS Milestones</h3>
+  <div class="panel">
+    <div class="milestone"><span class="label">Starting point</span><span class="dmg" style="color:var(--text-dim)">436</span></div>
+    <div class="milestone"><span class="label">After spreading to 3 buckets</span><span class="dmg" style="color:var(--orange)">484</span></div>
+    <div class="milestone"><span class="label">After second Giants' Flame in White slot</span><span class="dmg" style="color:var(--teal-bright)">511</span></div>
+    <div class="milestone"><span class="label">Triple Fire +4 stacking (abandoned — demerits)</span><span class="dmg" style="color:var(--text-dim);text-decoration:line-through">530</span></div>
+    <div class="milestone"><span class="label"><strong>Final optimized build</strong></span><span class="dmg" style="color:var(--gold-bright);font-size:1.1rem">511</span></div>
+  </div>
+
+  <h3>Executor Build A — Peak Numbers</h3>
+  <div class="panel">
+    <div class="milestone"><span class="label">Suncatcher skill</span><span class="dmg" style="color:var(--red-bright)">1,700+</span></div>
+    <div class="milestone"><span class="label">Critical hit</span><span class="dmg" style="color:var(--red-bright)">1,400+</span></div>
+    <div class="milestone"><span class="label">R1 combo (5 hits, balanced build)</span><span class="dmg" style="color:var(--gold-bright)">1,691</span></div>
+  </div>
+</div>
+
+<div class="footer">
+  Nightreign Relic Strategy — June 2026<br>
+  Based on empirical testing and datamined values. FromSoft does not document these mechanics.<br>
+  <em>Verify before building around assumptions.</em>
+</div>
+
+</body>
+</html>
