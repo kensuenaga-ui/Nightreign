@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Executor — The Strongest Nightfarer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #08090e;
+  --bg-dark: #0c0e16;
+  --bg-panel: #11141e;
+  --bg-accent: #171b28;
+  --bg-card: #1a1e2c;
+  --gold: #c9a84c;
+  --gold-bright: #e8d080;
+  --gold-dim: #8a7530;
+  --gold-glow: rgba(201, 168, 76, 0.15);
+  --red: #c73e3e;
+  --red-bright: #e85555;
+  --blue: #4a7ab5;
+  --blue-bright: #6aa0d8;
+  --purple: #7a50b0;
+  --purple-bright: #a070d0;
+  --green: #3d9960;
+  --orange: #c06030;
+  --orange-bright: #e08848;
+  --text: #d5d1c5;
+  --text-dim: #7a776d;
+  --text-bright: #f0ece0;
+  --divider: #252a3a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ========================= GLOBAL ========================= */
+.section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  position: relative;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.section-divider svg { opacity: 0.4; }
+
+h1, h2, h3, h4 { font-family: 'Cinzel', serif; color: var(--gold-bright); }
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.75em;
+  margin-top: 2em;
+}
+
+p { margin-bottom: 1em; font-size: 0.95rem; }
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.5em;
+}
+
+/* ========================= HERO ========================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 40px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 60%, var(--gold-dim) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.3em;
+}
+
+.hero-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 3rem;
+}
+
+.hero-sword {
+  margin-bottom: 3rem;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 30px rgba(201,168,76,0.3));
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: min(500px, 90%);
+}
+
+.hero-stat {
+  background: var(--bg-panel);
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.hero-stat .label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.hero-stat .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--red-bright);
+}
+
+.hero-stat .value.dim { color: var(--text-dim); font-size: 1.3rem; }
+
+/* ========================= CONTENT SECTIONS ========================= */
+.accent-bar {
+  width: 40px;
+  height: 3px;
+  margin-bottom: 1.5em;
+  border-radius: 2px;
+}
+
+.accent-red { background: var(--red); }
+.accent-blue { background: var(--blue); }
+.accent-green { background: var(--green); }
+.accent-purple { background: var(--purple); }
+.accent-orange { background: var(--orange); }
+.accent-gold { background: var(--gold); }
+
+.bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 1em 0;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.75em;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.bullet-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  font-size: 0.65rem;
+  top: 0.35em;
+}
+
+.bullet-list.red li::before { color: var(--red-bright); }
+.bullet-list.blue li::before { color: var(--blue-bright); }
+.bullet-list.green li::before { color: var(--green); }
+.bullet-list.purple li::before { color: var(--purple-bright); }
+.bullet-list.orange li::before { color: var(--orange-bright); }
+.bullet-list.gold li::before { color: var(--gold); }
+
+/* ========================= PANELS & CARDS ========================= */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin: 1.5em 0;
+}
+
+.panel-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 1em;
+  text-transform: uppercase;
+}
+
+.bucket-grid {
+  display: grid;
+  gap: 10px;
+  margin: 1em 0;
+}
+
+.bucket {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--bg-accent);
+  border-radius: 6px;
+  border-left: 3px solid var(--gold-dim);
+  font-size: 0.88rem;
+}
+
+.bucket-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.08em;
+}
+
+.bucket-name { color: var(--text); }
+
+.bucket-note {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+/* ========================= COMPARISON TABLE ========================= */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.85rem;
+}
+
+.comparison-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--divider);
+  text-transform: uppercase;
+}
+
+.comparison-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--divider);
+  color: var(--text-dim);
+}
+
+.comparison-table tr.highlight td {
+  color: var(--gold-bright);
+  font-weight: 500;
+}
+
+.comparison-table .yes { color: var(--green); }
+.comparison-table .no { color: var(--text-dim); opacity: 0.4; }
+
+/* ========================= STAT BARS ========================= */
+.stat-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 30px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.stat-label { font-size: 0.82rem; color: var(--text-dim); }
+.stat-value { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--text-bright); }
+
+.stat-bar-track {
+  height: 8px;
+  background: var(--bg-deep);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.fill-gold { background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+.fill-green { background: linear-gradient(90deg, #2a7040, var(--green)); }
+.fill-red { background: linear-gradient(90deg, #8a2020, var(--red)); }
+.fill-blue { background: linear-gradient(90deg, #2a4a70, var(--blue)); }
+
+/* ========================= TWO COLUMN PANELS ========================= */
+.dual-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 1.5em 0;
+}
+
+@media (max-width: 640px) {
+  .dual-panels { grid-template-columns: 1fr; }
+}
+
+.scaling-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--divider);
+  font-size: 0.88rem;
+}
+
+.scaling-row:last-child { border-bottom: none; }
+.scaling-val { font-family: 'Cinzel', serif; font-weight: 700; color: var(--gold-bright); }
+
+/* ========================= WEAPON CARDS ========================= */
+.weapon-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+}
+
+.weapon-card h4 {
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.weapon-scaling {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--purple-bright);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.weapon-card p { font-size: 0.88rem; color: var(--text-dim); margin: 0; }
+
+/* ========================= LOOP DIAGRAM ========================= */
+.loop-step {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--divider);
+  align-items: baseline;
+}
+
+.loop-step:last-child { border-bottom: none; }
+
+.loop-step-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.loop-step-desc { font-size: 0.88rem; color: var(--text-dim); }
+
+.loop-step.active .loop-step-label { color: var(--orange-bright); }
+.loop-step.passive .loop-step-label { color: var(--text-dim); }
+.loop-step.final .loop-step-label { color: var(--gold); }
+.loop-step.final .loop-step-desc { color: var(--gold-dim); }
+
+/* ========================= DEMERIT ROW ========================= */
+.demerit {
+  margin-bottom: 1.2em;
+}
+
+.demerit-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--orange-bright);
+  margin-bottom: 2px;
+}
+
+.demerit-desc { font-size: 0.88rem; color: var(--text-dim); }
+
+/* ========================= TIER LIST ========================= */
+.tier {
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.tier-s { background: var(--bg-accent); border-left: 3px solid var(--gold); }
+.tier-a { background: var(--bg-panel); border-left: 3px solid var(--orange); }
+.tier-b { background: var(--bg-panel); border-left: 3px solid var(--divider); }
+
+.tier-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.tier-s .tier-label { color: var(--gold-bright); font-size: 1.05rem; }
+.tier-a .tier-label { color: var(--orange-bright); font-size: 0.95rem; }
+.tier-b .tier-label { color: var(--text-dim); font-size: 0.9rem; }
+
+.tier-desc { font-size: 0.85rem; color: var(--text-dim); }
+
+/* ========================= CALLOUT ========================= */
+.callout {
+  background: var(--bg-accent);
+  border-left: 3px solid var(--gold);
+  padding: 20px 24px;
+  margin: 2em 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  color: var(--gold);
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* ========================= FOOTER ========================= */
+.footer {
+  text-align: center;
+  padding: 40px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+/* ========================= RUNE SVG ART ========================= */
+.rune-divider {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+  opacity: 0.35;
+}
+
+.section-bg-glow {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, var(--gold-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-eyebrow">ELDEN RING NIGHTREIGN</div>
+
+  <svg class="hero-sword" width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 10 L60 150" stroke="url(#swordGrad)" stroke-width="2.5"/>
+    <path d="M56 20 L60 10 L64 20" stroke="url(#swordGrad)" stroke-width="1.5" fill="none"/>
+    <path d="M55 25 L60 12 L65 25" fill="rgba(201,168,76,0.08)"/>
+    <path d="M60 140 L60 155" stroke="#c9a84c" stroke-width="4"/>
+    <path d="M35 155 L85 155" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M30 155 Q32 150 35 155" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <path d="M85 155 Q88 150 90 155" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <path d="M55 157 L65 157 L63 180 L60 190 L57 180 Z" fill="rgba(201,168,76,0.25)" stroke="#c9a84c" stroke-width="1"/>
+    <circle cx="60" cy="155" r="4" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.6"/>
+    <line x1="58" y1="40" x2="58" y2="130" stroke="rgba(201,168,76,0.08)" stroke-width="6"/>
+    <defs>
+      <linearGradient id="swordGrad" x1="60" y1="10" x2="60" y2="155">
+        <stop offset="0%" stop-color="#e8d080"/>
+        <stop offset="100%" stop-color="#8a7530"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <h1>THE EXECUTOR</h1>
+  <div class="hero-sub">A Case for the Strongest Nightfarer</div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="label">Suncatcher Skill</div>
+      <div class="value">1,700+</div>
+    </div>
+    <div class="hero-stat">
+      <div class="label">Critical Hit</div>
+      <div class="value">1,400+</div>
+    </div>
+    <div class="hero-stat">
+      <div class="label">R1 Combo (5 hits, balanced build)</div>
+      <div class="value">1,691</div>
+    </div>
+    <div class="hero-stat">
+      <div class="label">Wrath of Gold (Revenant best)</div>
+      <div class="value dim">860</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RUNE DIVIDER ============ -->
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ CURSED SWORD ============ -->
+<div class="section">
+  <div class="eyebrow">01 — The Weapon</div>
+  <h2>Cursed Sword</h2>
+  <div class="accent-bar accent-red"></div>
+
+  <p>The Cursed Sword is not just the Executor's signature weapon — it is the single most efficient damage delivery system in Nightreign. While active, every swing benefits from both Melee Attack Power and Skill Attack Power simultaneously, a property unique to the Cursed Sword since Patch 1.03.2. No other weapon accesses two confirmed separate multiplicative damage buckets on every normal attack.</p>
+
+  <h3>Combat Superiority</h3>
+  <ul class="bullet-list red">
+    <li>Highest melee DPS in the game — every swing carries Melee × Skill multipliers post-1.03.2</li>
+    <li>Best critical hit damage — 1,400+ with proper relic stacking</li>
+    <li>Best skill damage — Suncatcher is the highest-damage repeatable skill at 1,700+ per activation</li>
+    <li>Stance breaking — heavy attacks and Suncatcher deal massive posture damage</li>
+    <li>Guard breaking — shreds through shield-bearing enemies</li>
+    <li>100% damage negation on successful deflects — can deflect almost every attack in the game</li>
+    <li>All block-triggered passives and advantages activate on deflect without any downside — Guardian in Steel Guard suffers chip damage on every block, meaning every block passive costs HP. Executor gets the same passive procs for free on deflect with zero damage taken</li>
+  </ul>
+
+  <h3>The Suncatcher Guard-Cancel Loop</h3>
+  <p>By guard-cancelling Suncatcher's recovery and immediately re-entering the skill, the Executor chains the highest-damage skill in the game with minimal downtime. Every activation receives the full Melee × Skill multiplier stack. No other Nightfarer has a repeatable damage loop of this magnitude.</p>
+
+  <div class="panel">
+    <div class="panel-title">Damage Stack — Every Cursed Sword Swing</div>
+    <div class="bucket-grid">
+      <div class="bucket"><span class="bucket-label">BUCKET A</span><span class="bucket-name">Improved Melee Attack Power</span><span class="bucket-note">Confirmed ×</span></div>
+      <div class="bucket"><span class="bucket-label">BUCKET B</span><span class="bucket-name">Improved Skill Attack Power</span><span class="bucket-note">Confirmed × (post-1.03.2)</span></div>
+      <div class="bucket"><span class="bucket-label">BUCKET C</span><span class="bucket-name">Physical Attack Up +X</span><span class="bucket-note">Likely separate</span></div>
+      <div class="bucket"><span class="bucket-label">BUCKET D</span><span class="bucket-name">[Executor] Skill Boosts Attack</span><span class="bucket-note">Character-specific ×</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ PASSIVE INTERACTIONS ============ -->
+<div class="section">
+  <div class="eyebrow">02 — The Hidden Edge</div>
+  <h2>Passive Interactions</h2>
+  <div class="accent-bar accent-purple"></div>
+
+  <p>Every Nightfarer faces the same dilemma: the weapon with the best passive proc is rarely the weapon with the best damage. The Executor breaks this system entirely. Cursed Sword is already the weapon you never put down — and it triggers every passive category in the game.</p>
+
+  <h3>Cursed Stance Mode</h3>
+  <ul class="bullet-list purple">
+    <li><strong>Walking passives</strong> (e.g. Wraiths While Walking) activate during Cursed Stance movement — repositioning in combat stance counts as walking. Other characters choose between moving and attacking. Executor does both.</li>
+    <li><strong>Attack-activated passives</strong> (e.g. Lightning Strike on Attack) trigger on every Cursed Sword swing — every hit that already benefits from the Melee × Skill stack also procs free bonus damage.</li>
+    <li><strong>Charge-activated passives</strong> trigger in Cursed mode — Art Charge mechanics proc their full passive chain while in the game's highest-DPS state.</li>
+  </ul>
+
+  <h3>Crucible Beast Mode</h3>
+  <p>Even during transformation — the ultimate art with the highest burst, invincibility, healing, and ailment immunity — attack-activated passives still trigger on every claw swipe. The Executor is never in a state where his passive engine turns off.</p>
+
+  <div class="callout">On other Nightfarers, the passive is a compromise. On Executor, every attack-activated passive is automatically on the best weapon in your kit. There is no trade-off. You get free procs on the weapon that already has four multiplicative damage buckets.</div>
+
+  <h3>Highest DPS With the Best Weapons</h3>
+  <p>Beyond Cursed Sword, Executor achieves the highest DPS with the three most coveted weapon drops in Nightreign:</p>
+
+  <div class="weapon-card">
+    <h4>Rivers of Blood</h4>
+    <div class="weapon-scaling">DEX / ARC</div>
+    <p>S DEX + B ARC maximizes damage and intrinsic bleed. Corpse Piler chains perfectly with the attack-activated passive engine.</p>
+  </div>
+  <div class="weapon-card">
+    <h4>Moonveil</h4>
+    <div class="weapon-scaling">DEX / INT</div>
+    <p>S DEX pushes the physical cap. Transient Moonlight is one of the fastest skill activations, fully benefiting from Improved Skill Attack Power.</p>
+  </div>
+  <div class="weapon-card">
+    <h4>Halo Scythe</h4>
+    <div class="weapon-scaling">DEX / FTH</div>
+    <p>S DEX drives the base. The holy projectile skill gives safe ranged burst, carrying the full Melee + Skill multiplier stack.</p>
+  </div>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ TRANSFORMATION ============ -->
+<div class="section">
+  <div class="eyebrow">03 — The Ultimate Art</div>
+  <h2>Aspects of the Crucible: Beast</h2>
+  <div class="accent-bar accent-blue"></div>
+
+  <p>The Executor's transformation is not a damage steroid or a panic button — it is both, simultaneously, while also serving as a mobility tool, a healing platform, a resurrection mechanic, and a status cleanse. No other Ultimate Art touches this breadth of utility while dealing the highest single-hit damage.</p>
+
+  <h3>Offensive</h3>
+  <ul class="bullet-list blue">
+    <li>Crucible Knife deals the highest Ultimate Art damage in the game</li>
+    <li>Extended invincibility frames during activation and key attack animations</li>
+    <li>Increased damage output across all attacks while transformed</li>
+    <li>Roar stunlocks entire groups of enemies — full crowd control coverage</li>
+  </ul>
+
+  <h3>Defensive & Utility</h3>
+  <ul class="bullet-list blue">
+    <li>Activation cancels all active status ailments and grants immunity to new ones</li>
+    <li>Cannot be thrown or grabbed — immune to the most dangerous Nightlord mechanics</li>
+    <li>Fast traversal while transformed for reaching objectives or downed allies</li>
+  </ul>
+
+  <h3>Team Support</h3>
+  <ul class="bullet-list blue">
+    <li>Can heal allies during transformation — tested to fully heal teammates from near death at level 3</li>
+    <li>Can resurrect both downed teammates simultaneously</li>
+    <li>Offensive and support happen at the same time — no DPS sacrifice for team utility</li>
+  </ul>
+
+  <div class="panel">
+    <div class="panel-title">Ultimate Art Comparison</div>
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Nightfarer</th><th>Damage</th><th>Heals</th><th>Revives</th><th>I-Frames</th><th>Cleanse</th><th>CC</th><th>Mobility</th></tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td>Executor</td><td>Highest</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Long</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>Guardian</td><td>Moderate</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Short</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+        <tr><td>Wylder</td><td>High</td><td class="no">No</td><td class="no">No</td><td>Short</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>Undertaker</td><td>Moderate</td><td style="color:var(--text-dim)">Allies*</td><td class="yes">Yes</td><td>Med</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:0.72rem; color:var(--text-dim); margin-top:8px;">* Undertaker's flight-heal is impractical — flagged as trap effect.</div>
+  </div>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ STATS & KATANA ============ -->
+<div class="section">
+  <div class="eyebrow">04 — The Foundation</div>
+  <h2>Stats, Passive & Katana</h2>
+  <div class="accent-bar accent-green"></div>
+
+  <h3>Tenacity — The Seppuku Enabler</h3>
+  <p>The Executor's passive makes him the only truly viable seppuku character in Nightreign. Where other Nightfarers would destroy themselves with self-damaging weapon arts, Tenacity recovery makes self-harm strategies not just survivable but actively powerful — opening the Glass Samurai archetype that no other character can safely access.</p>
+
+  <h3>Stat Profile</h3>
+  <p>Beyond his S-ranked primary stats, all of the Executor's melee-relevant stats are strong. His Dexterity makes him the best katana and dex weapon user in the game. His Arcane enables status effect builds no other melee character can match.</p>
+
+  <div class="dual-panels">
+    <div class="panel" style="margin:0">
+      <div class="panel-title">Combat Stats</div>
+      <div class="stat-row"><span class="stat-label">Dexterity</span><div class="stat-bar-track"><div class="stat-bar-fill fill-gold" style="width:90%"></div></div><span class="stat-value">9</span></div>
+      <div class="stat-row"><span class="stat-label">Arcane</span><div class="stat-bar-track"><div class="stat-bar-fill fill-gold" style="width:80%"></div></div><span class="stat-value">8</span></div>
+      <div class="stat-row"><span class="stat-label">Endurance</span><div class="stat-bar-track"><div class="stat-bar-fill fill-green" style="width:80%"></div></div><span class="stat-value">8</span></div>
+      <div class="stat-row"><span class="stat-label">Vigor</span><div class="stat-bar-track"><div class="stat-bar-fill fill-red" style="width:70%"></div></div><span class="stat-value">7</span></div>
+      <div class="stat-row"><span class="stat-label">Mind</span><div class="stat-bar-track"><div class="stat-bar-fill fill-blue" style="width:60%"></div></div><span class="stat-value">6</span></div>
+    </div>
+    <div class="panel" style="margin:0">
+      <div class="panel-title">Weapon Scaling</div>
+      <div class="scaling-row"><span>STR Scaling</span><span class="scaling-val">B</span></div>
+      <div class="scaling-row"><span>DEX Scaling</span><span class="scaling-val">S</span></div>
+      <div class="scaling-row"><span>ARC Scaling</span><span class="scaling-val">S</span></div>
+      <div class="scaling-row"><span>Katana Proficiency</span><span class="scaling-val">Best in class</span></div>
+    </div>
+  </div>
+
+  <h3>The Starting Katana</h3>
+  <ul class="bullet-list green">
+    <li>Starts every expedition with a katana — intrinsic bleed buildup from the first swing</li>
+    <li>At level 2, the katana upgrades to outperform all purple-rarity katanas found in the field</li>
+    <li>Highest DEX in the game means the katana scales better for Executor than any other Nightfarer</li>
+    <li>Arcane enables automatic bleed, and can be tooled for 3 simultaneous status procs — bleed, poison, and frost</li>
+  </ul>
+
+  <h3>Arcane & Status Proc Potential</h3>
+  <p>The Executor's Arcane stat is the foundation for the most complex self-status engine in the game. The Proctopath build runs four simultaneous buildup curses feeding into Night of Dregs' status gauge mechanic, turning self-inflicted ailments into an ever-climbing damage multiplier. No other Nightfarer has the stat profile or passive survivability to sustain this.</p>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ BUILD DEPTH ============ -->
+<div class="section">
+  <div class="eyebrow">05 — The Builds</div>
+  <h2>The Complete Picture</h2>
+  <div class="accent-bar accent-gold"></div>
+
+  <p>The Executor supports more viable endgame build archetypes than any other Nightfarer:</p>
+
+  <div class="weapon-card" style="border-left: 3px solid var(--gold);">
+    <h4>Build A — Cursed Primary</h4>
+    <p>ISA + Suncatcher guard-cancel loop. Pure melee dominance. 1,700+ skill hits.</p>
+  </div>
+  <div class="weapon-card" style="border-left: 3px solid var(--red);">
+    <h4>Build B — Powerstance Katana</h4>
+    <p>Dual ISA + Bleed + optional Frost. Status engine with raw DPS.</p>
+  </div>
+  <div class="weapon-card" style="border-left: 3px solid var(--blue);">
+    <h4>Glass Samurai</h4>
+    <p>Deflect-heavy, curses creating defensive synergy. High-skill ceiling.</p>
+  </div>
+  <div class="weapon-card" style="border-left: 3px solid var(--green);">
+    <h4>Proctor Plus</h4>
+    <p>Night of Dregs + Night of the Wise + Poison Moth Flight. Status loop mastery.</p>
+  </div>
+  <div class="weapon-card" style="border-left: 3px solid var(--purple);">
+    <h4>Proctopath</h4>
+    <p>Self-status engine with four simultaneous buildup curses. The most complex build in the game.</p>
+  </div>
+
+  <h3>Structural Advantages</h3>
+  <ul class="bullet-list gold">
+    <li><strong>Zero RNG dependency</strong> — Executor walks into every expedition with his endgame weapon already equipped. Cursed Sword is a character skill, not a drop. Revenant needs seals, Recluse needs staves, Raider needs the right weapon type. Executor's build is never bricked by bad RNG.</li>
+    <li><strong>Six weapons, six passives, no compromise</strong> — Cursed Sword doesn't occupy a weapon slot. Every other character must dedicate at least one slot to their primary damage weapon, leaving only five slots for passive effects. Executor gets all six slots purely for passives while his strongest weapon exists outside the inventory entirely.</li>
+    <li><strong>Zero smithing stone dependency</strong> — while other characters spend Day 1 time hunting mines for smithing stones to upgrade their primary weapon, Executor is clearing objectives and building art gauge. Over a full 3-day expedition, that tempo advantage compounds significantly.</li>
+    <li><strong>Zero FP cost on basic combat</strong> — the entire R1 chain and Cursed Sword loop costs no FP. Starlight shard management is barely relevant compared to casters burning through FP bars every engagement.</li>
+    <li><strong>No weapon obsolescence</strong> — Cursed Sword scales with relics throughout the run. The starting katana upgrades at level 2 to outclass purple-rarity field drops. There is no "waiting to come online."</li>
+  </ul>
+
+  <h3>Solo: Uncontested</h3>
+  <ul class="bullet-list gold">
+    <li>Deflect-based defense means zero reliance on healing flask economy</li>
+    <li>Self-sufficient healing via rally, transformation, and Tenacity recovery</li>
+    <li>Highest burst damage for punish windows and stance-broken ripostes</li>
+    <li>Transformation is both DPS phase and emergency escape</li>
+    <li>Status proc versatility means no Nightlord encounter is a bad matchup</li>
+  </ul>
+
+  <h3>Team: Silently Dominant</h3>
+  <ul class="bullet-list gold">
+    <li>Doesn't need team support — frees teammates to play their own game</li>
+    <li>Transformation resurrection provides a safety net for the entire squad</li>
+    <li>Confluence-based ult chaining turns Crucible Knife into a team-wide burst window</li>
+    <li>Stance-breaking and roar CC create openings every teammate benefits from</li>
+  </ul>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ CLOSING ARGUMENT ============ -->
+<div class="section">
+  <div class="eyebrow">06 — The Verdict</div>
+  <h2>The Closing Argument</h2>
+  <div class="accent-bar accent-orange"></div>
+
+  <h3>The Ultimate Art Cycle</h3>
+  <p>With art gauge fill relics and Ultimate Art Auto Charge, the Executor transforms every couple of minutes instead of once per boss phase. This turns gameplay into an unbreakable loop with no vulnerable state:</p>
+
+  <div class="panel">
+    <div class="loop-step active"><span class="loop-step-label">CURSED SWORD</span><span class="loop-step-desc">Highest melee DPS. Deflect tanking. Every passive proc active. Art gauge filling on every kill.</span></div>
+    <div class="loop-step passive"><span class="loop-step-label">ART GAUGE FULL</span><span class="loop-step-desc">Transformation available in minutes, not boss phases.</span></div>
+    <div class="loop-step active"><span class="loop-step-label">CRUCIBLE BEAST</span><span class="loop-step-desc">Roar stunlocks everything. Massive burst. Heals team. Rezzes allies. Cleanses ailments. Invincible. Passives still firing.</span></div>
+    <div class="loop-step passive"><span class="loop-step-label">TRANSFORM ENDS</span><span class="loop-step-desc">Full HP. Clean status. Tenacity recovered. Right back into Cursed Sword.</span></div>
+    <div class="loop-step final"><span class="loop-step-label">REPEAT</span><span class="loop-step-desc">There is no downtime. There is no vulnerable phase.</span></div>
+  </div>
+
+  <h3>Demerits That Don't Apply</h3>
+  <p>Deep relics impose stat penalties as trade-offs. But Cursed Sword builds don't use the stats being taxed:</p>
+
+  <div class="demerit"><div class="demerit-name">Reduced Arcane</div><div class="demerit-desc">Cursed Sword doesn't proc status. Free Vigor + Endurance.</div></div>
+  <div class="demerit"><div class="demerit-name">Reduced Strength & Intelligence</div><div class="demerit-desc">Cursed Sword scales primarily off DEX. Free Physical Attack Up.</div></div>
+  <div class="demerit"><div class="demerit-name">Lower Attack Below Max HP</div><div class="demerit-desc">8.5% penalty below 85% HP. Deflect tanking keeps you high.</div></div>
+
+  <h3>The Real Tier List</h3>
+  <div class="tier tier-s"><div class="tier-label">Executor</div><div class="tier-desc">Does everything. Best at most of it. No weak state.</div></div>
+  <div class="tier tier-a"><div class="tier-label">Duchess & Ironeye</div><div class="tier-desc">Restage and Marking are the only mechanics that are genuinely unique force multipliers Executor cannot replicate. They earn their slots on these alone.</div></div>
+  <div class="tier tier-b"><div class="tier-label">Everyone Else</div><div class="tier-desc">Filling a role Executor already covers, with less damage.</div></div>
+
+  <div class="callout">Other characters have a strong mode and a weak mode. Executor has a strong mode and a stronger mode, and he cycles between them on a short timer. Every system in the game that creates trade-offs simply does not apply to him. He is the reason the game doesn't have PvP.</div>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ CHARACTER RANKING MATRIX ============ -->
+<div class="section" style="max-width:1100px;">
+  <div class="eyebrow">07 — The Numbers</div>
+  <h2>Character Ranking Matrix</h2>
+  <div class="accent-bar accent-gold"></div>
+
+  <p>Every Nightfarer ranked 1–10 across the categories that matter in Deep of Night. <span style="color:var(--gold);">1 = best in class.</span> Subjective rankings informed by tested builds and community data.</p>
+
+  <div style="overflow-x:auto; margin:2em 0;">
+    <table class="rank-table">
+      <thead>
+        <tr>
+          <th class="cat-header">Category</th>
+          <th class="char-header ex">EXE</th>
+          <th class="char-header">WYL</th>
+          <th class="char-header">GDN</th>
+          <th class="char-header">IRN</th>
+          <th class="char-header">RAI</th>
+          <th class="char-header">RCL</th>
+          <th class="char-header">DUC</th>
+          <th class="char-header">REV</th>
+          <th class="char-header">SCH</th>
+          <th class="char-header">UND</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="group-header"><td colspan="11">OFFENSE</td></tr>
+        <tr><td>Melee DPS Ceiling</td><td class="r1">1</td><td>4</td><td>6</td><td>9</td><td>2</td><td>10</td><td>3</td><td>7</td><td>8</td><td>5</td></tr>
+        <tr><td>Ranged DPS</td><td>4</td><td>7</td><td>9</td><td class="r1">1</td><td>10</td><td>2</td><td>8</td><td>5</td><td>3</td><td>6</td></tr>
+        <tr><td>Skill Damage</td><td class="r1">1</td><td>3</td><td>6</td><td>4</td><td>5</td><td>8</td><td>2</td><td>9</td><td>7</td><td>10</td></tr>
+        <tr><td>Critical Hit Damage</td><td class="r1">1</td><td>4</td><td>5</td><td>7</td><td>3</td><td>10</td><td>2</td><td>8</td><td>9</td><td>6</td></tr>
+        <tr><td>Guard Counter Damage</td><td class="r1">1</td><td>5</td><td>2</td><td>8</td><td>3</td><td>10</td><td>7</td><td>9</td><td>6</td><td>4</td></tr>
+        <tr><td>Ultimate Art Damage</td><td class="r1">1</td><td>2</td><td>7</td><td>8</td><td>3</td><td>6</td><td>5</td><td>9</td><td>10</td><td>4</td></tr>
+        <tr><td>Stance Breaking</td><td class="r1">1</td><td>4</td><td>3</td><td>7</td><td>2</td><td>10</td><td>8</td><td>9</td><td>6</td><td>5</td></tr>
+        <tr><td>Status Effect Potential</td><td class="r1">1</td><td>3</td><td>8</td><td>6</td><td>5</td><td>7</td><td>2</td><td>4</td><td>9</td><td>10</td></tr>
+        <tr><td>Spell / Incantation Power</td><td>7</td><td>8</td><td>9</td><td>6</td><td>10</td><td class="r1">1</td><td>5</td><td>2</td><td>3</td><td>4</td></tr>
+
+        <tr class="group-header"><td colspan="11">DEFENSE & SURVIVAL</td></tr>
+        <tr><td>Damage Negation</td><td class="r1">1</td><td>4</td><td>2</td><td>8</td><td>5</td><td>10</td><td>6</td><td>7</td><td>9</td><td>3</td></tr>
+        <tr><td>Self-Healing</td><td>2</td><td>5</td><td>4</td><td>7</td><td>6</td><td>9</td><td>8</td><td class="r1">1</td><td>10</td><td>3</td></tr>
+        <tr><td>Survivability (overall)</td><td class="r1">1</td><td>3</td><td>2</td><td>7</td><td>5</td><td>10</td><td>4</td><td>8</td><td>9</td><td>6</td></tr>
+        <tr><td>Ailment Resistance</td><td class="r1">1</td><td>5</td><td>4</td><td>7</td><td>6</td><td>9</td><td>8</td><td>3</td><td>10</td><td>2</td></tr>
+
+        <tr class="group-header"><td colspan="11">TEAM UTILITY</td></tr>
+        <tr><td>Team Healing</td><td>3</td><td>7</td><td>2</td><td>8</td><td>9</td><td>10</td><td>6</td><td class="r1">1</td><td>4</td><td>5</td></tr>
+        <tr><td>Resurrection</td><td>4</td><td>8</td><td class="r1">1</td><td>8</td><td>8</td><td>8</td><td>3</td><td>2</td><td>8</td><td>5</td></tr>
+        <tr><td>Crowd Control</td><td class="r1">1</td><td>2</td><td>3</td><td>7</td><td>6</td><td>4</td><td>8</td><td>9</td><td>5</td><td>10</td></tr>
+        <tr><td>Team Damage Amplification</td><td>5</td><td>6</td><td>7</td><td class="r1">1</td><td>8</td><td>9</td><td>2</td><td>4</td><td>3</td><td>10</td></tr>
+        <tr><td>Aggro Management</td><td>3</td><td>5</td><td class="r1">1</td><td>4</td><td>6</td><td>9</td><td>7</td><td>8</td><td>10</td><td>2</td></tr>
+        <tr><td>Ult Art Overall Utility</td><td class="r1">1</td><td>5</td><td>2</td><td>8</td><td>9</td><td>7</td><td>6</td><td>3</td><td>10</td><td>4</td></tr>
+
+        <tr class="group-header"><td colspan="11">STRUCTURAL</td></tr>
+        <tr><td>Starting Weapon Quality</td><td class="r1">1</td><td>2</td><td>3</td><td>5</td><td>4</td><td>8</td><td>6</td><td>7</td><td>9</td><td>10</td></tr>
+        <tr><td>Weapon RNG Independence</td><td class="r1">1</td><td>5</td><td>5</td><td>5</td><td>5</td><td>8</td><td>5</td><td>9</td><td>10</td><td>5</td></tr>
+        <tr><td>FP Efficiency</td><td class="r1">1</td><td>3</td><td>4</td><td>6</td><td>2</td><td>10</td><td>5</td><td>8</td><td>9</td><td>7</td></tr>
+        <tr><td>Build Variety</td><td class="r1">1</td><td>5</td><td>7</td><td>8</td><td>4</td><td>9</td><td>2</td><td>3</td><td>10</td><td>6</td></tr>
+        <tr><td>Passive Proc Access</td><td class="r1">1</td><td>4</td><td>5</td><td>6</td><td>3</td><td>9</td><td>2</td><td>7</td><td>8</td><td>10</td></tr>
+        <tr><td>Smithing Stone Independence</td><td class="r1">1</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+
+        <tr class="group-header"><td colspan="11">OVERALL</td></tr>
+        <tr><td>Solo Deep of Night</td><td class="r1">1</td><td>3</td><td>6</td><td>4</td><td>5</td><td>8</td><td>2</td><td>7</td><td>9</td><td>10</td></tr>
+        <tr><td>Team Contribution</td><td>2</td><td>5</td><td>4</td><td class="r1">1</td><td>8</td><td>9</td><td>3</td><td>6</td><td>7</td><td>10</td></tr>
+        <tr><td>Fun Factor</td><td class="r1">1</td><td>3</td><td>7</td><td>5</td><td>4</td><td>6</td><td>2</td><td>8</td><td>9</td><td>10</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="avg-row">
+          <td>Average Rank</td>
+          <td class="r1" id="avg-exe"></td>
+          <td id="avg-wyl"></td>
+          <td id="avg-gdn"></td>
+          <td id="avg-irn"></td>
+          <td id="avg-rai"></td>
+          <td id="avg-rcl"></td>
+          <td id="avg-duc"></td>
+          <td id="avg-rev"></td>
+          <td id="avg-sch"></td>
+          <td id="avg-und"></td>
+        </tr>
+        <tr class="final-rank-row">
+          <td>Final Ranking</td>
+          <td class="r1" id="rank-exe"></td>
+          <td id="rank-wyl"></td>
+          <td id="rank-gdn"></td>
+          <td id="rank-irn"></td>
+          <td id="rank-rai"></td>
+          <td id="rank-rcl"></td>
+          <td id="rank-duc"></td>
+          <td id="rank-rev"></td>
+          <td id="rank-sch"></td>
+          <td id="rank-und"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p style="font-size:0.78rem; color:var(--text-dim);">EXE = Executor · WYL = Wylder · GDN = Guardian · IRN = Ironeye · RAI = Raider · RCL = Recluse · DUC = Duchess · REV = Revenant · SCH = Scholar · UND = Undertaker</p>
+</div>
+
+<style>
+.rank-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.rank-table th, .rank-table td {
+  padding: 7px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--divider);
+}
+
+.rank-table .cat-header {
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  min-width: 180px;
+}
+
+.rank-table .char-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  padding: 10px 8px;
+}
+
+.rank-table .char-header.ex { color: var(--gold); }
+
+.rank-table td:first-child {
+  text-align: left;
+  color: var(--text);
+  font-size: 0.84rem;
+}
+
+.rank-table td { color: var(--text-dim); transition: background-color 0.3s; }
+
+.rank-table .r1 {
+  color: var(--gold-bright) !important;
+  font-weight: 600;
+  background: rgba(201,168,76,0.18) !important;
+}
+
+.rank-table .group-header td {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-dim);
+  text-align: left;
+  padding: 16px 10px 6px;
+  border-bottom: 1px solid var(--gold-dim);
+  background: none;
+}
+
+.rank-table .avg-row td {
+  font-weight: 600;
+  color: var(--text-bright);
+  border-top: 2px solid var(--gold-dim);
+  border-bottom: none;
+  padding-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.rank-table .avg-row td:first-child {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  color: var(--gold);
+}
+
+.rank-table .final-rank-row td {
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  padding: 12px 10px;
+  border-bottom: none;
+}
+
+.rank-table .final-rank-row td:first-child {
+  color: var(--gold);
+}
+</style>
+
+<script>
+// Calculate averages and final rankings from table data
+(function() {
+  const table = document.querySelector('.rank-table tbody');
+  const rows = table.querySelectorAll('tr:not(.group-header)');
+  const charCount = 10;
+  const sums = new Array(charCount).fill(0);
+  let rowCount = 0;
+
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length === charCount + 1) {
+      for (let i = 1; i <= charCount; i++) {
+        sums[i-1] += parseInt(cells[i].textContent);
+      }
+      rowCount++;
+    }
+  });
+
+  const avgs = sums.map(s => (s / rowCount).toFixed(1));
+  const ids = ['exe','wyl','gdn','irn','rai','rcl','duc','rev','sch','und'];
+  ids.forEach((id, i) => {
+    document.getElementById('avg-' + id).textContent = avgs[i];
+  });
+
+  // Calculate final ranking from averages
+  const indexed = avgs.map((a, i) => ({avg: parseFloat(a), idx: i}));
+  indexed.sort((a, b) => a.avg - b.avg);
+  const ranks = new Array(charCount);
+  indexed.forEach((item, pos) => { ranks[item.idx] = pos + 1; });
+
+  const ordinals = ['','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th'];
+  ids.forEach((id, i) => {
+    const cell = document.getElementById('rank-' + id);
+    cell.textContent = ordinals[ranks[i]];
+    if (ranks[i] === 1) cell.classList.add('r1');
+  });
+
+  // Heatmap coloring
+  function heatColor(val) {
+    // 1 = best (gold/green), 10 = worst (deep red/dark)
+    const t = (val - 1) / 9; // 0 to 1
+    // Color stops: 1=gold-green, 3=green, 5=muted, 7=orange, 10=dark red
+    let r, g, b, a;
+    if (t <= 0.25) {
+      // Gold-green to green
+      const lt = t / 0.25;
+      r = Math.round(60 + (1 - lt) * 140);
+      g = Math.round(160 + (1 - lt) * 40);
+      b = Math.round(50 + lt * 20);
+      a = 0.25 - lt * 0.07;
+    } else if (t <= 0.5) {
+      // Green to neutral
+      const lt = (t - 0.25) / 0.25;
+      r = Math.round(60 + lt * 40);
+      g = Math.round(160 - lt * 80);
+      b = Math.round(70 - lt * 20);
+      a = 0.18 - lt * 0.1;
+    } else if (t <= 0.75) {
+      // Neutral to orange-red
+      const lt = (t - 0.5) / 0.25;
+      r = Math.round(100 + lt * 80);
+      g = Math.round(80 - lt * 40);
+      b = Math.round(50 - lt * 20);
+      a = 0.08 + lt * 0.1;
+    } else {
+      // Orange-red to deep red
+      const lt = (t - 0.75) / 0.25;
+      r = Math.round(180 + lt * 20);
+      g = Math.round(40 - lt * 20);
+      b = Math.round(30 - lt * 10);
+      a = 0.18 + lt * 0.1;
+    }
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  // Apply heatmap to all data cells
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length === charCount + 1) {
+      for (let i = 1; i <= charCount; i++) {
+        const val = parseInt(cells[i].textContent);
+        if (!isNaN(val)) {
+          cells[i].style.backgroundColor = heatColor(val);
+        }
+      }
+    }
+  });
+
+  // Apply heatmap to average row too
+  ids.forEach((id, i) => {
+    const cell = document.getElementById('avg-' + id);
+    const val = parseFloat(cell.textContent);
+    if (!isNaN(val)) {
+      cell.style.backgroundColor = heatColor(val);
+    }
+  });
+})();
+</script>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ FINAL RANKING ============ -->
+<div class="section">
+  <div class="eyebrow">08 — The Verdict</div>
+  <h2>Final Ranking</h2>
+  <div class="accent-bar accent-gold"></div>
+
+  <p>Across 27 categories spanning offense, defense, team utility, and structural advantages, the numbers speak for themselves. The Executor doesn't win every category — Ironeye owns ranged DPS and team damage amplification, Revenant leads self and team healing, Guardian holds aggro management. But no other Nightfarer comes close to the breadth of #1 rankings the Executor holds.</p>
+
+  <h3>What the Matrix Reveals</h3>
+
+  <div class="weapon-card" style="border-left: 3px solid var(--gold);">
+    <h4 style="color:var(--gold-bright)">Executor — The Complete Package</h4>
+    <p>First place in the majority of categories. No category ranked below middle of the pack except ranged DPS — the one axis he doesn't play on. Every weakness is a conscious choice (melee range), not a limitation. The only character whose "worst" category is one he doesn't need.</p>
+  </div>
+
+  <div class="weapon-card" style="border-left: 3px solid var(--orange);">
+    <h4 style="color:var(--orange-bright)">Duchess & Ironeye — The Force Multipliers</h4>
+    <p>Duchess and Ironeye earn their places through mechanics no other character replicates. Restage's damage replay and Ironeye's Marking are unique force multipliers that scale with the entire team's output. They don't compete with Executor for the same role — they amplify whatever he's already doing.</p>
+  </div>
+
+  <div class="weapon-card" style="border-left: 3px solid var(--blue);">
+    <h4 style="color:var(--blue-bright)">Wylder & Guardian — Solid Foundations</h4>
+    <p>Wylder brings reliable damage and crowd control. Guardian is the dedicated tank and team anchor. Both fill clear roles competently, but neither achieves the cross-category dominance that defines the top tier.</p>
+  </div>
+
+  <div class="weapon-card" style="border-left: 3px solid var(--divider);">
+    <h4 style="color:var(--text-dim)">The Specialists</h4>
+    <p>Raider, Revenant, Recluse, Scholar, and Undertaker each have niches — Raider's raw weapon damage, Revenant's healing, Recluse's spell ceiling — but niche strength doesn't compensate for the categories they concede. In a game where every system feeds into every other system, the generalist who masters all systems beats the specialist every time.</p>
+  </div>
+
+  <div class="callout" style="margin-top:2em;">
+    The Executor is ranked first not because he is the best at one thing, but because he is competitive or dominant in nearly everything. In a game built on trade-offs, he is the character who doesn't make any. The matrix doesn't lie — and it doesn't even account for player skill, which only widens the gap.
+  </div>
+</div>
+
+<div class="rune-divider">
+  <svg width="200" height="20" viewBox="0 0 200 20"><path d="M0 10 L80 10 L90 2 L100 10 L110 2 L120 10 L200 10" stroke="#c9a84c" stroke-width="1" fill="none"/></svg>
+</div>
+
+<!-- ============ THE NIGHTLORD ROUNDTABLE ============ -->
+<div class="section" style="max-width:780px;">
+  <div class="eyebrow">Epilogue — Intercepted Transmission</div>
+  <h2 style="font-size:1.5rem;">Minutes of the Everdark Sovereign Emergency Council</h2>
+  <div class="accent-bar accent-red"></div>
+
+  <p style="font-style:italic; color:var(--text-dim); margin-bottom:2em;">The following transcript was recovered from the charred remnants of a War Table deep within the Nightlands. It appears to document a heated emergency session between the Everdark Sovereigns regarding the growing Nightfarer threat. Translated from Old Nighttongue. Some passages are damaged.</p>
+
+  <div class="dialogue">
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL, Baron of Night</span>
+      <span class="dl-tag">— presiding</span>
+    </div>
+    <div class="dl-text">Order. ORDER. I have called this council because our losses are becoming... statistically uncomfortable. The Nightfarers grow bolder. We must discuss which among them pose the greatest threat to our continued sovereignty over the dark.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR, Fissure in the Fog</span>
+      <span class="dl-tag">— pulsing with golden light</span>
+    </div>
+    <div class="dl-text">Are we certain this meeting is necessary? I was in the middle of charging my nuke. It takes FORTY-FIVE minutes to reach full power and I will NOT be starting over.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO, Miasma of Night</span>
+    </div>
+    <div class="dl-text">You and that nuke, Fulghor. You know half of them just walk sideways and it misses?</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">It does NOT miss. They dodge. There is a difference. My nuke is PRECISE.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS, Fathom of Night</span>
+    </div>
+    <div class="dl-text">Precisely missing, yes. Can we begin? Some of us have expeditions to ruin.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">ENOUGH. Can we start with the ones that don't concern us? I'd like some good news before we get to the... difficult part of the agenda.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">The Scholar.</div>
+
+    <div class="dl-pause">[ Laughter from all present. Even the Night Aspect, observing silently from the far end of the table, makes a sound that might be amusement. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS, Fathom of Night</span>
+    </div>
+    <div class="dl-text">The one with the little knives? He showed up to my chamber last week. Threw a knife at me. I thought it was a letter opener. I was going to ask if he'd brought correspondence.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">He tried to "Analyse" me once. Stood there with his monocle, scribbling notes while I charged a full slam. I almost felt bad. Almost. I believe his notes read "very large" before he was crushed.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">The Scholar is a known non-threat. His damage output is... let me consult the data... ah yes. Emotional. His damage output is emotional. He supports his allies, which would be admirable if his allies weren't also carrying him through every encounter like a small child at a theme park.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">I've observed the teams he runs with. They buy things for him at shops. They wait at doorways for him to catch up. They clear rooms and then turn around to check if he's still alive. Last week I watched an Executor and a Raider demolish an entire Great Encampment while the Scholar jogged in forty seconds later, panting, and the Executor dropped a smithing stone at his feet like leaving food out for a stray cat.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">I heard one of them say — and I quote — "hey little guy, I got some food for you, have a seat." To their TEAMMATE. In the middle of a BOSS APPROACH. The Scholar sat down and ate while they fought a field boss without him. He is not a Nightfarer. He is a mascot.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">He is, at best, emotional support for the actual combatants. Like bringing a stuffed animal to war. Next.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">The Guardian. Or as the mortals call him on their communication networks — "Birdman."</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">Ah, the one who holds up his shield and slowly loses. I respect his commitment to standing still while I whittle his health through his block. He takes chip damage on every single hit. I can literally see his HP bar shrinking while he thinks he's defending. It's like watching someone bail water from a sinking boat with a colander.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">I shot my arrow at a Guardian once. He raised his shield. He blocked it. He took chip damage from the holy barrage and died with his shield still raised. He went down defending. I almost wrote a eulogy.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">He does have that flying resurrection art—</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">Which he needs. Frequently. Because he's always the first one down. The man built his entire identity around not dying and he's the most reliable casualty in every expedition. His Wings of Salvation should be renamed "Wings of I Needed This Because I'm the Guardian."</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">To be fair, his guard counters are actually strong—</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">Oh, don't start being fair, Caligo. We're Everdark Sovereigns. We don't DO fair. His guard counters are strong but he has to survive my attacks to use them, and survival is not his area of expertise despite it being LITERALLY his job description. I've seen mortal commentary on their networks — one of them wrote, and I quote, "I got so used to Executor being able to deflect anything and thought maybe Guardian could block anything. He cannot." Followed by weeping symbols. Two of them.</div>
+
+    <div class="dl-pause">[ Muffled amusement. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">What about the Undertaker?</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">She flew past me once. I believe she was trying to heal her allies mid-flight. She missed them. She missed me. She missed the floor. She flew directly into a wall and the camera followed her there. I stood alone in my arena for six full seconds wondering if the fight was still happening.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">Her chain attacks are... fine. She hits me several times in a row and I think "this is mildly irritating" and then she runs out of stamina and I flatten her. She's like being attacked by an aggressive housecat.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">I watched an Undertaker try to resurrect a teammate with her ultimate. She flew across the entire arena, passed through two of her allies without touching either of them, and impaled herself on my holy spire. I didn't even attack. She just... collected herself on my architecture.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">That flight-heal relic might be the worst effect in the game. And I've SEEN the Scholar's damage numbers.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">Moving on. The Ironeye.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">The bowman. He stands very far away and shoots me. Then he stands very far away and shoots me again. Then his teammates do something interesting while he stands very far away and shoots me. I have never once felt in danger from the Ironeye. I have, however, felt deeply bored.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">I actually respect the Ironeye. He understands the value of a long-range attack. We have that in common.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">Fulghor, you fire ONE nuke and then stand there recharging for half the fight. You and the Ironeye have nothing in common. At least he shoots more than once.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+      <span class="dl-tag">— flaring angrily</span>
+    </div>
+    <div class="dl-text">My nuke is a STATEMENT. His arrows are a CONVERSATION. Different philosophies.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">His Marking ability does concern me. When he tags my weak points, the others hit harder. But the Ironeye himself? He's a war correspondent. He's covering the battle from a safe distance and filing reports. His contribution is making other people's contributions larger. That's middle management.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">I've observed that even his own teammates find him dull. I intercepted communications from a mortal squad last week. The Executor wrote — and I quote — "I love you brother but watching you play Ironeye is like watching someone play a spreadsheet." The Raider added an image of a sleeping creature. The Ironeye did not deny it.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">He is effective. I will give him that. But effective and exciting are different continents. An Ironeye once joined a fight against me and I genuinely forgot he was there until I noticed my health was lower than expected. That is his entire combat identity: you forget he exists and then you're dead. It's not dramatic. It's not honourable. It's... payroll.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">The Wylder?</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">Competent. Dull. The mortals call him "John Nightreign" because he is the most generic protagonist in the history of combat. He hits things with his greatsword. He grapples with the hook. He does adequate damage. I have fought the Wylder a hundred times and I cannot tell you a single memorable thing about any of those encounters. He is the plain oatmeal of Nightfarers. Nutritionally complete. Aggressively forgettable.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">I believe he was the tutorial character. That explains much.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">He grappled me once. Pulled himself directly into my face. I was so startled I forgot to attack. Then he hit me with his greatsword and I remembered. We both agreed it was an unremarkable experience and moved on with our lives.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">The Recluse?</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">She's dangerous when she has FP. So for about forty-five seconds per expedition. Then she's a woman in robes holding an empty stick, looking at me with what I can only describe as profound regret. I've seen Recluses resort to hitting me with their staff. Physically. Like a broom. I let it happen because it was the most entertaining thing that occurred all night.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">I will say — a Recluse with a full FP bar and the right cocktail can genuinely hurt. That triple-element cocktail they mix—</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">For forty-five seconds, Fulghor. Then she's swinging a stick.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">Fair point. She's a firework. Beautiful, brief, and then everyone goes home.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">And the Revenant? Before we move on to the... heavier topics.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">The ghost girl. She summons dead things to fight for her. I find this personally offensive. I am the sovereign of darkness and she is FREELANCING in my domain. Her summons hit me with all the force of a concerned thought, but her incantations can sting when she has the right seal.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">The problem with the Revenant is that her entire damage ceiling is trapped in one additive bucket. We obtained this intelligence from intercepted theorycrafting sessions. Her spell school boosts and damage type boosts all add together — they don't multiply. Meanwhile the character we're about to discuss—</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+      <span class="dl-tag">— raising a hand</span>
+    </div>
+    <div class="dl-text">Not yet. Let me enjoy the last few seconds of this meeting where I feel in control.</div>
+
+    <div class="dl-pause">[ Extended silence. The mood shifts. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+      <span class="dl-tag">— shuffling documents</span>
+    </div>
+    <div class="dl-text">Before we address the... primary concern, I want to acknowledge the Nightfarers who have genuinely earned our respect through combat. The Duchess.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">The Duchess is lethal. I want that on record. She moves like she's made of smoke — backflipping through my combos, daggers out, and then that Restage ability replays every hit she and her allies just landed. I've watched her replay an Executor's Suncatcher as bonus damage. She turns other people's violence into MORE violence. That is genuinely terrifying.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">She is the one who makes strong teams into unstoppable ones. Alone, she is dangerous. Beside an Executor or a Raider who are already dealing enormous damage, she DOUBLES the problem. Her invisibility after backstabs is infuriating — she vanishes, repositions, and the next thing I feel is another critical from behind. Every time I turn around, she's already somewhere else.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">And she simply refuses to die. I have watched a Duchess — alone, both teammates down, no flasks — dodge my entire moveset for MINUTES. Not attacking. Not healing. Just... dancing. Backflipping through every combo, rolling through every slam, that Magnificent Poise turning her into smoke I cannot touch. She was building her ultimate gauge purely from survival. And when Finale charged, she went invisible, walked calmly to both teammates, revived them, and the fight resumed as though I hadn't just spent three minutes trying to kill one woman with daggers. I have never felt more disrespected in my entire existence as a Nightlord.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">She used Finale against me once. Entire team went invisible. I stood there charging my nuke at nothing for ten seconds while they healed, repositioned, and planned their next assault. When they reappeared, they were behind me. All three of them. It felt like a mugging.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">And the Raider.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+      <span class="dl-tag">— dimming nervously</span>
+    </div>
+    <div class="dl-text">The Raider is my personal nightmare. He doesn't care about elegance. He picks up the biggest weapon he can find and he hits me with it until I stop moving. A Raider with a greataxe doesn't need four damage multipliers — he just needs one swing to connect and suddenly I'm missing a quarter of my health bar. He walks straight through my lightning field like it's a light drizzle and caves in my face with a chunk of iron.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+      <span class="dl-tag">— dismissive wave</span>
+    </div>
+    <div class="dl-text">Can't relate. The Raider is free for me. He swings that oversized hatchet and I simply... move. He commits to those massive wind-ups and I punish every single one. Last week a Raider charged his heaviest attack and I thrust through him before the axe reached the apex of its arc. He staggered, I comboed, he died. And when a Raider tries that Retaliate nonsense on me? I drop my nuke. It damages, and — this is the beautiful part — it procs sleep. The Raider is standing there in his big defensive pose, feeling very brave, and then he falls asleep. In the middle of a boss fight. I kill him while he naps. Every time.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">Easy for you to say. You're fast. You're mobile. I'm standing still charging my arrow while he's sprinting at me with a great hammer. By the time I fire, he's already inside my guard swinging at my ankles. My holy arrows barely tickle him through that Retaliate stance — he literally uses MY attack as a BUFF. I hit him and he says thank you.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">So the Raider is a Fulghor killer but a Maris appetizer. Interesting matchup spread.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">The Raider is the honest warrior. No tricks, no transformations — just raw, staggering power delivered through the biggest piece of metal available. I respect that. I kill it easily, but I respect it.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">You don't get to respect something that doesn't threaten you, Maris. That's called condescension.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">ENOUGH. The point is — the three of them together are the problem.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">The three of them together — Executor, Duchess, Raider — that is the composition I dread. The Executor deflects everything and shreds my stance. The Raider hits like a collapsing building. The Duchess replays all of it and backstabs me while I'm staggering. I lasted forty-three seconds against that team last Thursday. Forty-three seconds. I have dialogue lines longer than that fight.</div>
+
+    <div class="dl-pause">[ A longer, heavier silence. Even Fulghor stops crackling. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+      <span class="dl-tag">— voice lowered</span>
+    </div>
+    <div class="dl-text">Now. We must address the real reason I called this council.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">...</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">...The Executor.</div>
+
+    <div class="dl-pause">[ The candles in the war room dim. Something in the foundations of the Nightlands shifts. At the far end of the table, the Night Aspect opens its eyes. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">Three expeditions ago, an Executor entered my arena. Alone. I assumed it would be quick. I opened with my overhead slam — the one that flattens Guardian in two hits. He deflected it. Full negation. Zero damage. He deflected MY OVERHEAD SLAM and then hit me back so hard I staggered. I am a Nightlord. I staggered.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">I fired my nuke at one. My NUKE, Adel. The pride of my arsenal. He deflected it. I didn't know that was POSSIBLE. I designed that attack to be undodgeable. He didn't dodge it. He PARRIED A WAVE OF CONCENTRATED HOLY FIRE. I had to sit down afterwards. In my own arena. I sat on my own holy spire and contemplated my career choices.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">They deflect everything. I tested this. I used every attack in my repertoire. The lunging thrust. The spinning combo. The grab — he cannot be grabbed. The area denial — he rolled through it and hit me with that accursed Suncatcher before I finished the animation. Seventeen hundred damage. On a SKILL. Repeatedly. He guard-cancels and does it again. And again. I have nightmares about the sound it makes.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">I poisoned one last week. I was pleased with myself. He transformed into the Beast and it simply... went away. All of it. The poison, the rot I'd been building, the bleed — gone. Cleansed on transformation. And then the Beast ROARED and every enemy in my arena was stunlocked for what felt like an eternity. My elite guards. My variants. All standing there, vibrating, while he carved through them like they were made of parchment.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">The ROAR. Can we talk about the roar? I am a being of pure sacred fury. I command the golden light. I split the sky with holy fire. And when that thing roared at me, I FLINCHED. A Nightlord. Flinching. At a mortal man who turned into a slightly larger mortal man with horns. This is what we've come to.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">It gets worse. He healed both of his teammates during the transformation. Both. Simultaneously. From near death to full. While still doing the highest damage in the room. While being invincible. While immune to every status I could apply. And then the transformation ended and he was back in that Cursed Sword stance with full health and a clean status bar and I realised — I realised he doesn't have a weak phase.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">There is no window. Every other Nightfarer has a moment where they're vulnerable — the Recluse runs out of FP, the Guardian's stamina breaks, the Revenant is locked in a casting animation. The Executor goes from his strongest state to his strongest-er state and back again on a timer that gets shorter the more enemies he kills. He is a perpetual motion machine of violence.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">And the passives. I watched one walk through my poison field and summon WRAITHS. From WALKING. He was proccing walking passives while in his combat stance because the game considers his repositioning to be walking. He was attacking me, summoning ghosts, deflecting my counters, and building his ultimate gauge ALL AT THE SAME TIME. I have six phases. He has zero phases because every phase is his best phase.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">And unlike the Guardian — who at least has the COURTESY to take chip damage when he blocks — the Executor takes NOTHING on a successful deflect. Nothing! Zero! The Guardian holds up a shield and slowly dies. The Executor waves his sword at my attack and it simply ceases to exist. Same block passives trigger. Different outcome. One costs health. The other is FREE.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">Did anyone else notice that he doesn't visit mines? Every other Nightfarer spends Day 1 scrambling for smithing stones. The Executor walks straight into combat because his weapon is a character skill that doesn't need upgrading. He has six weapon slots and every single one is dedicated to passive effects. SIX passives. While his actual weapon exists outside the inventory. It's as if he's playing a different game than the others.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">I tried to comfort myself by noting he has no ranged capability. Then one showed up with a Halo Scythe and started launching holy projectiles that carried his full melee and skill multiplier stack. Another brought Rivers of Blood and bled me from halfway across the arena with Corpse Piler. His S-rank Dexterity makes him the second-best bow user in the game. Behind the DEDICATED BOW CHARACTER.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">Hold on — he's a better archer than the Guardian? Than the Wylder? Than the Raider?</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">Better than all of them. S-rank Dexterity. He picks up a bow as a side hobby and outperforms characters who've been holding weapons their entire careers.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">What are his weaknesses? Genuinely. I am asking. Because I have been fighting Executors for months and I cannot find one.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">He requires player skill to reach his ceiling.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">The ones we're fighting HAVE player skill, Adel. That is the problem.</div>
+
+    <div class="dl-pause">[ Long, heavy silence. The Night Aspect, who has not spoken in three hundred years, shifts in its seat. All eyes turn to the far end of the table. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name aspect">THE NIGHT ASPECT</span>
+      <span class="dl-tag">— a voice like continents grinding</span>
+    </div>
+    <div class="dl-text">I have ended ten thousand Nightfarers. Guardians crumble. Recluses wither. Wylders tire. Scholars I do not notice at all. But the Executor... the Executor makes me remember what it felt like to be mortal. And I do not care for it.</div>
+
+    <div class="dl-pause">[ Nobody speaks for a very long time. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">So to summarise this council's findings: the Scholar is a librarian who wandered into a warzone, the Guardian is a man who brought a leaking umbrella to a hurricane, the Undertaker is a bat with a navigation disorder, the Ironeye is a middle manager, the Wylder is a bowl of oatmeal, and the Recluse is extremely dangerous for exactly as long as it takes to drink a cup of tea. Meanwhile the Executor deflects the laws of game design, transforms into an invincible healing murder-beast every two minutes, and has access to more multiplicative damage buckets than we have health bars.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+      <span class="dl-tag">— standing</span>
+    </div>
+    <div class="dl-text">I am formally proposing we petition FromSoftware to nerf the Executor before the next patch.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">They buffed him last patch.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">...What?</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">Patch 1.03.2. I have the full list. Would you like to hear it?</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+    </div>
+    <div class="dl-text">...Proceed.</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+      <span class="dl-tag">— reading from a scroll</span>
+    </div>
+    <div class="dl-text">Critical hit damage while Cursed Sword is active: increased. Guard Boost scaling: increased. Stamina consumption on successful deflections: reduced. Guard break when stamina is depleted after a successful deflect: removed entirely. He can now deflect at ZERO stamina and not be punished. Stagger damage on successful deflections: increased. Aspects of the Crucible Beast power: now scales with expedition depth in Deep of Night. Improved Skill Attack Power and Improved Melee Attack Power: now apply to ALL Cursed Sword attacks while active. The HP drain relic: reworked to be less punishing, with increased attack bonus. Healing relic duration: increased.</div>
+
+    <div class="dl-pause">[ Silence. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">That's... that's everything. They buffed EVERYTHING. Offense, defense, criticals, guard, stamina, transformation, relics — is there a single aspect of his kit they didn't improve?</div>
+
+    <div class="dl-line">
+      <span class="dl-name maris">MARIS</span>
+    </div>
+    <div class="dl-text">His walking speed is unchanged.</div>
+
+    <div class="dl-line">
+      <span class="dl-name fulghor">FULGHOR</span>
+    </div>
+    <div class="dl-text">HIS WALKING SPEED. That's the ONE THING they left alone. Everything else got STRONGER. On the character that was ALREADY the most dangerous mortal in Limveld.</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">One of the mortals' own journalists wrote — and I committed this to memory because it haunts me — "my Sekiro-loving heart just got everything it ever wanted." They were CELEBRATING, Adel. The mortals cheered when they learned their deadliest warrior was being made deadlier.</div>
+
+    <div class="dl-line">
+      <span class="dl-name aspect">THE NIGHT ASPECT</span>
+      <span class="dl-tag">— from the far end of the table</span>
+    </div>
+    <div class="dl-text">They nerfed the Scholar's throwing pots in the same patch.</div>
+
+    <div class="dl-pause">[ Fulghor makes a sound somewhere between a laugh and a sob. ]</div>
+
+    <div class="dl-line">
+      <span class="dl-name caligo">CALIGO</span>
+    </div>
+    <div class="dl-text">We are not the protagonists of this story, are we.</div>
+
+    <div class="dl-line">
+      <span class="dl-name adel">ADEL</span>
+      <span class="dl-tag">— sitting back down slowly</span>
+    </div>
+    <div class="dl-text">Council adjourned.</div>
+
+    <div class="dl-pause">[ The candles extinguish. In the distance, across the Nightlands, the sound of a Suncatcher guard-cancel loop echoes through the dark. It does not stop. ]</div>
+
+  </div>
+</div>
+
+<style>
+.dialogue {
+  margin: 1em 0;
+}
+
+.dl-line {
+  margin-top: 1.5em;
+  margin-bottom: 0.3em;
+}
+
+.dl-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+}
+
+.dl-name.adel { color: var(--gold); }
+.dl-name.caligo { color: var(--purple-bright); }
+.dl-name.maris { color: var(--blue-bright); }
+.dl-name.fulghor { color: var(--orange-bright); }
+.dl-name.aspect { color: var(--red-bright); }
+
+.dl-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-left: 0.5em;
+}
+
+.dl-text {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text);
+  padding-left: 0.5em;
+  border-left: 2px solid var(--divider);
+  margin-left: 0.5em;
+}
+
+.dl-pause {
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  margin: 1.5em 0;
+  text-align: center;
+  opacity: 0.7;
+}
+</style>
+
+<div class="footer">
+  Executor Build Analysis — June 2026<br>
+  All damage numbers from tested Deep of Night builds<br>
+  <span style="font-style:italic; opacity:0.6;">No Nightlords were consulted in the making of this document.</span>
+</div>
+
+</body>
+</html>

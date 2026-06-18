@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nightreign — Shield Weapon Art Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0f12;color:#c8c4b8;font-family:'DM Sans',sans-serif;min-height:100vh}
+.page-wrap{max-width:1200px;margin:0 auto;padding:20px 24px 60px}
+.hero{position:relative;text-align:center;padding:48px 20px 36px;margin-bottom:32px;overflow:hidden;border-radius:16px;background:linear-gradient(180deg,#14181f 0%,#1a1e28 50%,#0d0f12 100%);border:1px solid rgba(197,161,78,0.15)}
+.hero-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:400px;height:200px;background:radial-gradient(ellipse,rgba(197,161,78,0.08) 0%,transparent 70%);pointer-events:none}
+.hero svg{position:relative;z-index:1}
+.hero-title{font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:#c5a14e;letter-spacing:0.12em;text-transform:uppercase;margin-top:16px;position:relative;z-index:1}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:16px;color:#8a8475;font-style:italic;margin-top:6px;letter-spacing:0.04em;position:relative;z-index:1}
+.hero-line{width:200px;height:1px;background:linear-gradient(90deg,transparent,#c5a14e,transparent);margin:16px auto 0;position:relative;z-index:1}
+.legend{display:flex;flex-wrap:wrap;gap:14px;padding:12px 16px;background:#15171d;border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:20px;font-size:12px;color:#8a8475;align-items:center}
+.legend span{display:flex;align-items:center;gap:5px}
+.leg-sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+.filter-bar{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.filter-bar button{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#8a8475;cursor:pointer;transition:all 0.2s}
+.filter-bar button:hover{border-color:rgba(197,161,78,0.3);color:#c5a14e}
+.filter-bar button.active{background:rgba(197,161,78,0.12);color:#c5a14e;border-color:rgba(197,161,78,0.4)}
+.section{margin-bottom:32px}
+.section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:8px;position:relative}
+.section-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(197,161,78,0.3),transparent 60%)}
+.section-hdr h2{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:#c5a14e;letter-spacing:0.08em}
+.section-hdr .s-count{font-size:11px;color:#5a5648;background:rgba(197,161,78,0.08);padding:2px 8px;border-radius:6px}
+.type-dot{width:8px;height:8px;border-radius:50%}
+.type-dot.small{background:#5ba0d0}
+.type-dot.medium{background:#7ab34a}
+.type-dot.great{background:#d49a20}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.card{background:#16181f;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;transition:all 0.2s;position:relative;cursor:default}
+.card:hover{border-color:rgba(197,161,78,0.25);background:#1a1c24;transform:translateY(-1px)}
+.card.unique{border-color:rgba(197,161,78,0.4);box-shadow:0 0 12px rgba(197,161,78,0.06)}
+.card-star{position:absolute;top:5px;right:7px;font-size:11px;color:#c5a14e;text-shadow:0 0 4px rgba(197,161,78,0.4)}
+.card-img{width:68px;height:68px;border-radius:10px;background:#1e2028;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:6px;border:1px solid rgba(255,255,255,0.04)}
+.card-img img{width:62px;height:62px;object-fit:contain}
+.card-name{font-size:11.5px;font-weight:500;text-align:center;line-height:1.25;min-height:28px;display:flex;align-items:center;color:#d4d0c4}
+.card-skill{font-size:10px;text-align:center;line-height:1.3;margin-top:5px;padding:3px 7px;border-radius:6px;width:100%;font-weight:500;letter-spacing:0.02em}
+.sk-parry{background:rgba(91,160,208,0.12);color:#7ac0ef}
+.sk-buckler{background:rgba(140,120,220,0.12);color:#b0a0e8}
+.sk-bash{background:rgba(212,154,32,0.1);color:#d4a840}
+.sk-unique{background:rgba(197,161,78,0.15);color:#c5a14e}
+.sk-pool{background:rgba(255,255,255,0.04);color:#5a5648}
+.card-meta{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;justify-content:center}
+.pill{font-size:9px;padding:2px 6px;border-radius:6px;letter-spacing:0.02em}
+.pill-gb{background:rgba(255,255,255,0.05);color:#8a8475}
+.pill-status{background:rgba(220,60,60,0.12);color:#e07070}
+.pill-status.poison{background:rgba(100,180,60,0.12);color:#80c050}
+.pill-status.madness{background:rgba(212,154,32,0.12);color:#d4a840}
+.pill-status.frost{background:rgba(91,160,208,0.12);color:#7ac0ef}
+.card-dr{font-size:9px;color:#5a5648;margin-top:3px;text-align:center}
+.card-note{font-size:9px;color:#6a6050;margin-top:2px;text-align:center;font-style:italic}
+.section-divider{text-align:center;margin:28px 0;position:relative}
+.section-divider svg{position:relative;z-index:1}
+.section-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,rgba(197,161,78,0.15) 50%,transparent 90%)}
+.footer-note{font-size:11px;color:#5a5648;line-height:1.6;padding:12px 16px;border-left:2px solid rgba(197,161,78,0.25);margin-top:20px;background:rgba(197,161,78,0.03);border-radius:0 8px 8px 0}
+.footer-note strong{color:#8a8475}
+@media print{body{background:#fff;color:#333}.card{background:#f8f7f4;border-color:#ddd}.card-name{color:#222}.hero{background:#f0ede4;border-color:#c5a14e}.hero-title{color:#8a6a20}.section-hdr h2{color:#8a6a20}.filter-bar{display:none}}
+@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}.hero-title{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="hero">
+<div class="hero-glow"></div>
+<svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M60 4 L60 16" stroke="#c5a14e" stroke-width="1.5" opacity="0.6"/>
+<path d="M60 16 C60 16, 28 22, 20 40 C12 58, 26 72, 60 76 C94 72, 108 58, 100 40 C92 22, 60 16, 60 16Z" stroke="#c5a14e" stroke-width="1.2" fill="none" opacity="0.5"/>
+<path d="M60 20 C60 20, 34 25, 28 40 C22 55, 32 66, 60 70 C88 66, 98 55, 92 40 C86 25, 60 20, 60 20Z" stroke="#c5a14e" stroke-width="0.8" fill="rgba(197,161,78,0.04)" opacity="0.8"/>
+<circle cx="60" cy="42" r="10" stroke="#c5a14e" stroke-width="0.8" fill="none" opacity="0.4"/>
+<circle cx="60" cy="42" r="4" fill="#c5a14e" opacity="0.15"/>
+<path d="M48 42 L72 42" stroke="#c5a14e" stroke-width="0.5" opacity="0.3"/>
+<path d="M60 30 L60 54" stroke="#c5a14e" stroke-width="0.5" opacity="0.3"/>
+<path d="M36 32 L42 36" stroke="#c5a14e" stroke-width="0.5" opacity="0.2"/>
+<path d="M84 32 L78 36" stroke="#c5a14e" stroke-width="0.5" opacity="0.2"/>
+<path d="M36 52 L42 48" stroke="#c5a14e" stroke-width="0.5" opacity="0.2"/>
+<path d="M84 52 L78 48" stroke="#c5a14e" stroke-width="0.5" opacity="0.2"/>
+</svg>
+<div class="hero-title">Shield Armoury</div>
+<div class="hero-sub">Elden Ring: Nightreign &mdash; Weapon Art Reference</div>
+<div class="hero-line"></div>
+</div>
+<div class="legend">
+<span><span class="leg-sw" style="background:#5ba0d0"></span>Small</span>
+<span><span class="leg-sw" style="background:#7ab34a"></span>Medium</span>
+<span><span class="leg-sw" style="background:#d49a20"></span>Greatshield</span>
+<span style="margin-left:6px"><span class="leg-sw sk-parry"></span>Parry</span>
+<span><span class="leg-sw sk-buckler"></span>Buckler Parry</span>
+<span><span class="leg-sw sk-bash"></span>Shield Bash</span>
+<span><span class="leg-sw sk-unique"></span>Fixed unique</span>
+<span><span class="leg-sw sk-pool"></span>Random pool</span>
+<span style="color:#c5a14e">&#9733;&#9733; = always this skill</span>
+</div>
+<div class="filter-bar" id="filters"></div>
+<div id="content"></div>
+<div class="footer-note">
+<strong>Random pool</strong> shields roll a random skill each run from: Parry, Buckler Parry, Carian Retaliation, Golden Parry, Barricade Shield, Shield Bash, Shield Crash, Holy Ground, Storm Wall, Thops's Barrier, Vow of the Indomitable. Greatshield parry windows are shorter than small/medium. GB = guard boost (higher = less stamina on block). All shields have 100% physical guard negation. Elemental DR shown is the shield's strongest non-physical resistance. Data sourced April 2026.
+</div>
+</div>
+<script>
+var IMG=function(s){return"https://cdn.mobalytics.gg/cdn-cgi/image/format=auto,width=128,height=128/assets/elden-ring-nightreign/images/armaments/"+s+".webp"};
+var shields=[
+{n:"Buckler",t:"S",slug:"buckler",sk:"Buckler Parry",skT:"buckler",gb:42,u:1,dr:"Phy 100"},
+{n:"Blue-white Wooden Shield",t:"S",slug:"blue-white-wooden-shield",sk:"Random Pool",skT:"pool",gb:43,dr:"Mag 44"},
+{n:"Coil Shield",t:"S",slug:"coil-shield",sk:"Viper Bite",skT:"unique",gb:69,u:1,status:"Poison 56",dr:"Phy 100"},
+{n:"Gilded Iron Shield",t:"S",slug:"gilded-iron-shield",sk:"Parry",skT:"parry",gb:55,dr:"Hly 51"},
+{n:"Ice Crest Shield",t:"S",slug:"ice-crest-shield",sk:"Random Pool",skT:"pool",gb:56,dr:"Mag 55"},
+{n:"Iron Roundshield",t:"S",slug:"iron-roundshield",sk:"Random Pool",skT:"pool",gb:54,dr:"Balanced"},
+{n:"Man-serpent's Shield",t:"S",slug:"man-serpents-shield",sk:"Random Pool",skT:"pool",gb:58,dr:"Fir 52"},
+{n:"Perfumer's Shield",t:"S",slug:"perfumers-shield",sk:"Parry",skT:"parry",gb:68,dr:"Balanced"},
+{n:"Pillory Shield",t:"S",slug:"pillory-shield",sk:"Random Pool",skT:"pool",gb:41,dr:"Hly 43"},
+{n:"Red Thorn Roundshield",t:"S",slug:"red-thorn-roundshield",sk:"Parry",skT:"parry",gb:39,dr:"Fir 40"},
+{n:"Rickety Shield",t:"S",slug:"rickety-shield",sk:"Parry",skT:"parry",gb:37,dr:"Hly 40"},
+{n:"Rift Shield",t:"S",slug:"rift-shield",sk:"Random Pool",skT:"pool",gb:52,dr:"Fir 43"},
+{n:"Riveted Wooden Shield",t:"S",slug:"riveted-wooden-shield",sk:"Parry",skT:"parry",gb:44,dr:"Lit 38"},
+{n:"Spiralhorn Shield",t:"S",slug:"spiralhorn-shield",sk:"Random Pool",skT:"pool",gb:54,dr:"Lit 46"},
+{n:"Sun Realm Shield",t:"S",slug:"sun-realm-shield",sk:"Parry",skT:"parry",gb:43,dr:"Hly 44"},
+{n:"Albinauric Shield",t:"M",slug:"albinauric-shield",sk:"Parry",skT:"parry",gb:75,dr:"Mag 64"},
+{n:"Banished Knight's Shield",t:"M",slug:"banished-knights-shield",sk:"Random Pool",skT:"pool",gb:77,dr:"Fir 53"},
+{n:"Beast Crest Heater Shield",t:"M",slug:"beast-crest-heater-shield",sk:"Parry",skT:"parry",gb:53,dr:"Mag 52"},
+{n:"Beastman's Jar-shield",t:"M",slug:"beastmans-jar-shield",sk:"Random Pool",skT:"pool",gb:75,dr:"Lit 52"},
+{n:"Black Leather Shield",t:"M",slug:"black-leather-shield",sk:"Random Pool",skT:"pool",gb:62,dr:"Hly 48"},
+{n:"Blue Crest Heater Shield",t:"M",slug:"blue-crest-heater-shield",sk:"Parry",skT:"parry",gb:51,dr:"Hly 52"},
+{n:"Blue-gold Kite Shield",t:"M",slug:"blue-gold-kite-shield",sk:"Parry",skT:"parry",gb:62,dr:"Fir 51"},
+{n:"Brass Shield",t:"M",slug:"brass-shield",sk:"Random Pool",skT:"pool",gb:75,dr:"Fir 49"},
+{n:"Candletree Wooden Shield",t:"M",slug:"candletree-wooden-shield",sk:"Parry",skT:"parry",gb:50,dr:"Lit 52"},
+{n:"Carian Knight's Shield",t:"M",slug:"carian-knights-shield",sk:"Random Pool",skT:"pool",gb:74,dr:"Mag 71",note:"Int scaling"},
+{n:"Eclipse Crest Heater Shield",t:"M",slug:"eclipse-crest-heater-shield",sk:"Random Pool",skT:"pool",gb:52,dr:"Balanced"},
+{n:"Flame Crest Wooden Shield",t:"M",slug:"flame-crest-wooden-shield",sk:"Parry",skT:"parry",gb:49,dr:"Hly 52"},
+{n:"Great Turtle Shell",t:"M",slug:"great-turtle-shell",sk:"Barricade Shield",skT:"unique",gb:72,u:1,dr:"Balanced"},
+{n:"Haligtree Crest Greatshield",t:"M",slug:"haligtree-crest-greatshield",sk:"Random Pool",skT:"pool",gb:76,dr:"Hly 62"},
+{n:"Hawk Crest Wooden Shield",t:"M",slug:"hawk-crest-wooden-shield",sk:"Parry",skT:"parry",gb:48,dr:"Mag 52"},
+{n:"Inverted Hawk Heater Shield",t:"M",slug:"inverted-hawk-heater-shield",sk:"Parry",skT:"parry",gb:54,dr:"Fir 44"},
+{n:"Kite Shield",t:"M",slug:"kite-shield",sk:"Parry",skT:"parry",gb:60,dr:"Balanced"},
+{n:"Large Leather Shield",t:"M",slug:"large-leather-shield",sk:"Parry",skT:"parry",gb:61,dr:"Fir 52"},
+{n:"Marred Leather Shield",t:"M",slug:"marred-leather-shield",sk:"Random Pool",skT:"pool",gb:60,dr:"Fir 48"},
+{n:"Marred Wooden Shield",t:"M",slug:"marred-wooden-shield",sk:"Random Pool",skT:"pool",gb:48,dr:"Lit 44"},
+{n:"Red Crest Heater Shield",t:"M",slug:"red-crest-heater-shield",sk:"Random Pool",skT:"pool",gb:53,dr:"Fir 52"},
+{n:"Silver Mirrorshield",t:"M",slug:"silver-mirrorshield",sk:"Random Pool",skT:"pool",gb:72,dr:"Mag 89",note:"Best Mag DR in game"},
+{n:"Wooden Shield",t:"M",slug:"wooden-shield",sk:"Parry",skT:"parry",gb:47,dr:"Lit 43"},
+{n:"Ant's Skull Plate",t:"G",slug:"ants-skull-plate",sk:"Shield Bash",skT:"bash",gb:78,status:"Poison 84",dr:"Balanced 64"},
+{n:"Briar Greatshield",t:"G",slug:"briar-greatshield",sk:"Shield Bash",skT:"bash",gb:68,status:"Bleed 51",dr:"Balanced 62"},
+{n:"Crossed-tree Towershield",t:"G",slug:"crossed-tree-towershield",sk:"Shield Bash",skT:"bash",gb:62,dr:"Fir/Hly 66"},
+{n:"Crucible Hornshield",t:"G",slug:"crucible-hornshield",sk:"Shield Bash",skT:"bash",gb:81,dr:"Hly 73"},
+{n:"Cuckoo Greatshield",t:"G",slug:"cuckoo-greatshield",sk:"Random Pool",skT:"pool",gb:70,dr:"Mag 71"},
+{n:"Distinguished Greatshield",t:"G",slug:"distinguished-greatshield",sk:"Random Pool",skT:"pool",gb:70,dr:"Fir 62"},
+{n:"Dragonclaw Shield",t:"G",slug:"dragonclaw-shield",sk:"Shield Bash",skT:"bash",gb:80,dr:"Lit 80",note:"Best Lit DR in game"},
+{n:"Dragon Towershield",t:"G",slug:"dragon-towershield",sk:"Shield Bash",skT:"bash",gb:63,dr:"Fir 66"},
+{n:"Eclipse Crest Greatshield",t:"G",slug:"eclipse-crest-greatshield",sk:"Random Pool",skT:"pool",gb:71,dr:"Mag 73"},
+{n:"Erdtree Greatshield",t:"G",slug:"erdtree-greatshield",sk:"Golden Retaliation",skT:"unique",gb:81,u:1,dr:"Hly 77",note:"Best Hly DR in game"},
+{n:"Fingerprint Stone Shield",t:"G",slug:"fingerprint-stone-shield",sk:"Shield Bash",skT:"bash",gb:82,status:"Madness 56",dr:"Most balanced",note:"Best overall consistency"},
+{n:"Gilded Greatshield",t:"G",slug:"gilded-greatshield",sk:"Random Pool",skT:"pool",gb:72,dr:"Fir 65"},
+{n:"Golden Greatshield",t:"G",slug:"golden-greatshield",sk:"Shield Bash",skT:"bash",gb:81,dr:"Hly 72"},
+{n:"Icon Shield",t:"G",slug:"icon-shield",sk:"Random Pool",skT:"pool",gb:70,dr:"Hly 67",note:"HP regen passive"},
+{n:"Iron Porcupine",t:"G",slug:"iron-porcupine",sk:"Contagious Fury",skT:"unique",gb:72,u:1,dr:"Balanced",note:"Unique team buff"},
+{n:"Jellyfish Shield",t:"G",slug:"jellyfish-shield",sk:"Contagious Fury",skT:"unique",gb:72,u:1,dr:"Mag 64"},
+{n:"Manor Towershield",t:"G",slug:"manor-towershield",sk:"Random Pool",skT:"pool",gb:63,dr:"Balanced"},
+{n:"One-Eyed Shield",t:"G",slug:"one-eyed-shield",sk:"Flame Spit",skT:"unique",gb:74,u:1,dr:"Fir 66"},
+{n:"Redmane Greatshield",t:"G",slug:"redmane-greatshield",sk:"Random Pool",skT:"pool",gb:72,dr:"Fir 73",note:"Best Fir DR in game"},
+{n:"Spiked Palisade Shield",t:"G",slug:"spiked-palisade-shield",sk:"Shield Bash",skT:"bash",gb:52,status:"Bleed",dr:"Low overall"},
+{n:"Visage Shield",t:"G",slug:"visage-shield",sk:"Tongues of Fire",skT:"unique",gb:75,u:1,dr:"Fir 72",note:"Highest DPS shield"}
+];
+var filter="all";
+var skClass={parry:"sk-parry",buckler:"sk-buckler",bash:"sk-bash",unique:"sk-unique",pool:"sk-pool"};
+function stCls(s){if(!s)return"";s=s.toLowerCase();if(s.indexOf("poison")>=0)return" poison";if(s.indexOf("madness")>=0)return" madness";if(s.indexOf("frost")>=0)return" frost";return"";}
+function divSVG(){return '<div class="section-divider"><svg width="160" height="16" viewBox="0 0 160 16"><path d="M0 8 L60 8 L70 3 L80 13 L90 3 L100 8 L160 8" stroke="#c5a14e" stroke-width="0.8" fill="none" opacity="0.4"/><circle cx="80" cy="8" r="2" fill="#c5a14e" opacity="0.3"/></svg></div>';}
+function card(s){
+var cls="card"+(s.u?" unique":"");
+var star=s.u?'<span class="card-star">&#9733;&#9733;</span>':"";
+var st=s.status?'<span class="pill pill-status'+stCls(s.status)+'">'+s.status+'</span>':"";
+var nt=s.note?'<div class="card-note">'+s.note+'</div>':"";
+return '<div class="'+cls+'">'+star+'<div class="card-img"><img src="'+IMG(s.slug)+'" alt="'+s.n+'" loading="lazy" onerror="this.parentElement.innerHTML=\'&#x1F6E1;\'"></div><div class="card-name">'+s.n+'</div><div class="card-skill '+(skClass[s.skT]||"sk-pool")+'">'+s.sk+'</div><div class="card-meta"><span class="pill pill-gb">GB '+s.gb+'</span>'+st+'</div>'+(s.dr?'<div class="card-dr">'+s.dr+'</div>':"")+nt+'</div>';
+}
+function render(){
+var f=filter;
+var isSk=["parry","buckler","bash","unique","pool"].indexOf(f)>=0;
+var sm=[],md=[],gr=[];
+for(var i=0;i<shields.length;i++){
+var s=shields[i];
+var show=f==="all"||f===s.t||(isSk&&s.skT===f);
+if(show){if(s.t==="S")sm.push(s);else if(s.t==="M")md.push(s);else gr.push(s);}
+}
+var filters=["all","S","M","G","parry","bash","unique","pool"];
+var labels={all:"All shields",S:"Small",M:"Medium",G:"Greatshield",parry:"Parry",bash:"Shield Bash",unique:"Unique skill",pool:"Random pool"};
+var fhtml="";
+for(var j=0;j<filters.length;j++){var k=filters[j];fhtml+='<button class="'+(f===k?"active":"")+'" onclick="setF(\''+k+'\')">'+labels[k]+'</button>';}
+document.getElementById("filters").innerHTML=fhtml;
+var html="";
+if(sm.length){html+='<div class="section"><div class="section-hdr"><div class="type-dot small"></div><h2>Small Shields</h2><span class="s-count">'+sm.length+'</span></div><div class="grid">';for(var a=0;a<sm.length;a++)html+=card(sm[a]);html+='</div></div>';}
+if(sm.length&&md.length)html+=divSVG();
+if(md.length){html+='<div class="section"><div class="section-hdr"><div class="type-dot medium"></div><h2>Medium Shields</h2><span class="s-count">'+md.length+'</span></div><div class="grid">';for(var b=0;b<md.length;b++)html+=card(md[b]);html+='</div></div>';}
+if(md.length&&gr.length)html+=divSVG();
+if(gr.length){html+='<div class="section"><div class="section-hdr"><div class="type-dot great"></div><h2>Greatshields</h2><span class="s-count">'+gr.length+'</span></div><div class="grid">';for(var c=0;c<gr.length;c++)html+=card(gr[c]);html+='</div></div>';}
+document.getElementById("content").innerHTML=html;
+}
+window.setF=function(f){filter=f;render();};
+render();
+</script>
+</body>
+</html>

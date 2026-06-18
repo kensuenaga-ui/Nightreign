@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Who Should Not Have Lived</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 10px rgba(200,136,90,0.3),0 0 30px rgba(200,136,90,0.1)}50%{text-shadow:0 0 20px rgba(200,136,90,0.5),0 0 50px rgba(200,136,90,0.2)}}
+@keyframes burnEdge{0%,100%{box-shadow:inset 0 0 60px rgba(18,12,6,0.9),inset 0 0 120px rgba(12,8,3,0.5)}50%{box-shadow:inset 0 0 70px rgba(22,15,8,0.95),inset 0 0 130px rgba(15,10,5,0.6)}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0e0a06;color:#c0b498;min-height:100vh;overflow-x:hidden}
+.bg-texture{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(70,45,20,0.1) 0%,transparent 50%),radial-gradient(ellipse at 80% 30%,rgba(60,40,15,0.08) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(50,30,10,0.08) 0%,transparent 40%);pointer-events:none;z-index:0}
+.manuscript{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:20px 16px 80px}
+.page{position:relative;background:linear-gradient(168deg,#1a1410 0%,#14100a 30%,#181208 60%,#120e08 100%);border:1px solid rgba(200,136,90,0.1);border-radius:2px;padding:64px 56px;margin-bottom:40px;animation:fadeIn 1s ease both,burnEdge 8s ease-in-out infinite;box-shadow:0 4px 30px rgba(0,0,0,0.6),0 0 1px rgba(200,136,90,0.12);overflow:hidden}
+.page::before{content:'';position:absolute;top:12px;left:12px;right:12px;bottom:12px;border:1px solid rgba(200,136,90,0.05);pointer-events:none;z-index:1}
+.pa{position:absolute;pointer-events:none;z-index:0}
+.tp{text-align:center;padding:80px 56px 96px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh}
+.to1{width:240px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,136,90,0.4),transparent);margin:24px auto}
+.to2{height:2px;background:linear-gradient(90deg,transparent 5%,rgba(200,136,90,0.2) 20%,rgba(210,150,100,0.5) 50%,rgba(200,136,90,0.2) 80%,transparent 95%);width:300px;margin:32px auto}
+.tm{font-family:'Cinzel Decorative',serif;font-size:38px;font-weight:700;color:#c8885a;letter-spacing:0.08em;line-height:1.2;animation:glowPulse 4s ease-in-out infinite;position:relative;z-index:2}
+.ts{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;font-style:italic;color:#7a6548;letter-spacing:0.15em;text-transform:uppercase;margin-top:8px;position:relative;z-index:2}
+.ta{font-family:'Cormorant Garamond',serif;font-size:15px;color:#6a5538;font-style:italic;letter-spacing:0.06em;margin-top:8px;position:relative;z-index:2}
+.te{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#7a6550;max-width:440px;line-height:1.7;margin-top:40px;position:relative;z-index:2}
+.cn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:#5a4530;text-align:center;margin-bottom:6px;position:relative;z-index:2}
+.ct{font-family:'Cinzel Decorative',serif;font-size:24px;font-weight:700;color:#c8885a;text-align:center;margin-bottom:8px;letter-spacing:0.04em;position:relative;z-index:2}
+.cr{width:160px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,136,90,0.35),transparent);margin:0 auto 36px;position:relative;z-index:2}
+.in{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:#5a4530;text-align:center;margin-bottom:6px;position:relative;z-index:2}
+.it{font-family:'Cinzel',serif;font-size:18px;font-weight:600;color:#9a7050;text-align:center;margin-bottom:8px;letter-spacing:0.06em;font-style:italic;position:relative;z-index:2}
+.page p{font-family:'Cormorant Garamond',serif;font-size:18.5px;line-height:1.85;color:#b8a888;text-align:justify;margin-bottom:18px;text-indent:2em;hyphens:auto;position:relative;z-index:2}
+.page p:first-of-type{text-indent:0}
+.page p.fp::first-letter{font-family:'Cinzel Decorative',serif;font-size:58px;float:left;line-height:0.8;padding-right:8px;padding-top:6px;color:#c8885a;text-shadow:0 0 12px rgba(200,136,90,0.2)}
+.nd{text-indent:0!important}
+em{color:#d0c0a0;font-style:italic}
+strong{color:#c8885a;font-weight:600}
+.sb{text-align:center;margin:32px 0;color:#5a4530;font-size:14px;letter-spacing:0.5em;opacity:0.6;position:relative;z-index:2}
+.cl{text-align:center;text-indent:0!important;color:#c8885a;font-size:17px;letter-spacing:0.04em}
+.di{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#9a8a6a;line-height:1.8;margin:20px 24px;padding:12px 20px;border-left:2px solid rgba(200,136,90,0.12);position:relative;z-index:2;text-indent:0!important}
+.bl{background:rgba(200,136,90,0.03);border-left:2px solid rgba(200,136,90,0.15);padding:16px 20px;margin:28px 0;font-family:'Cinzel',serif;font-size:12.5px;color:#7a6548;letter-spacing:0.06em;line-height:2;position:relative;z-index:2}
+.bl .bh{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#5a4530;margin-bottom:8px;border-bottom:1px solid rgba(200,136,90,0.08);padding-bottom:6px}
+.bl .be{display:flex;gap:16px}
+.bl .bt{color:#5a4530;min-width:48px}
+.ld{color:#7a4a4a}
+.lv{color:#6a8a50}
+.lo{color:#8a7a58}
+.lr{color:#7a6a50}
+.pn{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:11px;color:#3a2e20;letter-spacing:0.2em;z-index:2}
+.colophon{text-align:center;padding:48px 56px;min-height:auto}
+.colt{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:#5a4530;letter-spacing:0.04em;line-height:1.8;position:relative;z-index:2}
+@media(max-width:700px){.page{padding:40px 28px}.tp{padding:56px 28px 64px;min-height:60vh}.tm{font-size:26px}.page p{font-size:17px}.page p.fp::first-letter{font-size:44px}}
+@media print{body{background:#0e0a06!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.bg-texture{display:none}.page{background:linear-gradient(168deg,#1a1410 0%,#14100a 30%,#181208 60%,#120e08 100%)!important;box-shadow:none!important;animation:none!important;break-inside:avoid;page-break-inside:avoid;margin-bottom:0!important}.page p{color:#b8a888!important}.tm,.ct,strong{color:#c8885a!important}.tp{min-height:auto!important;page-break-after:always}.manuscript{padding:0!important}}
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="manuscript">
+
+<!-- ═══ TITLE ═══ -->
+<div class="page tp">
+<svg class="pa" style="bottom:30px;right:20px;opacity:0.04" width="400" height="400" viewBox="0 0 400 400" fill="#c8885a" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="280" cy="100" rx="22" ry="25"/><path d="M258 125 L250 220 L260 320 L280 340 L300 320 L310 220 L302 125 Z" opacity="0.7"/><path d="M250 140 L210 160 L205 190 L220 200 L250 185 Z"/><path d="M310 140 L350 160 L355 190 L340 200 L310 185 Z"/>
+<path d="M340 200 L360 280 L365 350" stroke="#c8885a" stroke-width="8" fill="none" stroke-linecap="round"/>
+<path d="M376 195 Q395 200,390 220 Q385 235,375 225" fill="#c8885a" opacity="0.35"/>
+<ellipse cx="180" cy="120" rx="18" ry="22" transform="rotate(-5 180 120)"/><path d="M165 142 L158 220 L162 300 L180 315 L198 300 L202 220 L195 142 Z" opacity="0.6"/>
+<path d="M205 155 L225 175 L230 250" stroke="#c8885a" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M228 245 L232 320 L234 370" stroke="#c8885a" stroke-width="3" fill="none"/>
+<circle cx="188" cy="116" r="1.5" fill="#c8885a" opacity="0.8"/>
+<ellipse cx="90" cy="140" rx="15" ry="18"/><path d="M78 158 L72 220 L76 290 L90 305 L104 290 L108 220 L102 158 Z" opacity="0.5"/>
+<path d="M75 140 Q60 130,65 155 Q58 170,68 165" fill="#c8885a" opacity="0.25"/>
+<path d="M105 140 Q120 130,115 155 Q122 170,112 165" fill="#c8885a" opacity="0.25"/>
+</svg>
+<div class="to1"></div>
+<div class="ts">A Chronicle of Valour, Venom &amp; Vexation</div>
+<div class="tm">The Three Who Should<br>Not Have Lived</div>
+<div class="to1 to2"></div>
+<div class="ta">Being the Expedition Record of the Glass Samurai,<br>the Virtuous Thief, and the Pirate Who Came for Glory</div>
+<div class="te">"They quarrelled over every decision, agreed upon nothing, and somehow prevailed against everything. The scholars attributed this to fortune. The scholars were incorrect. It was spite."<br><br>— Expedition Report 7741, filed under 'Inexplicable'</div>
+<svg style="margin-top:36px;opacity:0.2;position:relative;z-index:2" width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="20" stroke="#c8885a" stroke-width="0.6"/><circle cx="30" cy="30" r="14" stroke="#c8885a" stroke-width="0.4"/><path d="M30 10 L30 50 M10 30 L50 30" stroke="#c8885a" stroke-width="0.4"/></svg>
+</div>
+
+<!-- ═══ I ═══ -->
+<div class="page">
+<svg class="pa" style="top:25px;right:25px;opacity:0.03" width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="#c8885a"><circle cx="100" cy="100" r="80" stroke-width="0.4"/><circle cx="100" cy="100" r="55" stroke-width="0.3"/><circle cx="50" cy="55" r="10" fill="#c8885a" opacity="0.12"/><circle cx="140" cy="45" r="12" fill="#c8885a" opacity="0.15"/><circle cx="110" cy="160" r="11" fill="#c8885a" opacity="0.13"/><path d="M50 55 L140 45 L110 160 Z" stroke-width="0.4" opacity="0.15"/></svg>
+<div class="cn">Chapter I</div>
+<div class="ct">The Company of Fools</div>
+<div class="cr"></div>
+
+<p class="fp">They were, by any reasonable measure, the worst possible combination of persons to entrust with the fate of anything.</p>
+
+<p>The first was the <strong>Executor</strong>—a condemned soul from the Land of Reeds, his body fused with fragments of Crucible armour by smithcraft so ancient that it predated the concept of regret. A former knight of the Erdtree who bore two souls within one frame—warrior and painter, twin aspects of a single broken vessel—and a cursed blade that drank vitality with the indiscriminate thirst of a man too long from the tavern. He savoured every battle. He <em>relished</em> every wound. The Roundtable scholars had long since ceased attempting to classify his temperament and had instead filed him under 'hazardous materials.'</p>
+
+<p>What the scholars did not know—what no one knew, save perhaps the sword—was that the Executor <em>thought.</em> Not merely about combat, but about everything. He observed the way light fell upon water. He catalogued the colours of ruin. He painted the Erdtree, again and again, in the quiet hours, each canvas an attempt to remember something the Night had taken from him. He was, beneath the madness and the murder, an artist. And artists, as any scholar will attest, are the most dangerous kind of madman, because they notice what others do not.</p>
+
+<p>The second was <strong>Punishette</strong>, called <em>the Duchess</em>—a virtuous thief and stepdaughter of the Viscount, whose capacity to escape anyone's grasp had earned her a title typically reserved for persons of considerably more legitimate standing. She served as the Priestess of the Roundtable Hold, which was rather like appointing a pickpocket to manage a treasury, except she performed the role with such insufferable grace that all objection died upon arrival.</p>
+
+<p>The Duchess was <em>sassy.</em> There existed no other word for it, though the scholars tried several—"impertinent," "acerbic," "possessed of a tongue sharpened on both sides"—before concluding that "sassy" was, regrettably, the most accurate descriptor available. She fought with daggers and sorcery and a dodge inherited from Bloodborne's darkest hour, and she regarded the world with the particular disdain of a person who had seen humanity at its worst—whilst robbing it—and had decided to save it anyway, if only to have something to complain about.</p>
+
+<p>The third was <strong>Daximus of Doom</strong>, called <em>the Raider</em>—a pirate who had sailed to the Lands Between because the opportunity to test himself against a Nightlord proved too glorious to decline. He was enormous. He was loud. He carried a double-headed greataxe that other men would struggle to lift as a wall ornament. His poise allowed him to stand firm against moderate assaults and flatten adversaries with what could only be described as vigorous enthusiasm.</p>
+
+<p>But the Raider was also <em>enigmatic,</em> and this was the part that confounded the other two. For a man who communicated primarily through impacts and bellowing, he possessed an unsettling stillness in the quiet moments. He would stare at the horizon for minutes at a time, saying nothing, and when pressed—by the Duchess, inevitably, who could not tolerate unexplained silence—he would simply shake his head and say, <em>"Naught worth repeating."</em> He had sailed from somewhere. He had left something behind. What it was, he did not share, and the others had learned, through the particular diplomacy of persons who carry bladed weapons, not to ask twice.</p>
+
+<p>They bickered constantly. The Executor thought the Raider reckless. The Raider thought the Executor morbid. The Duchess thought both of them exhausting and said so at regular intervals, usually whilst applying dagger to something's vital organs. They agreed upon nothing: not routes, not targets, not the correct sequence in which to open chests. They once spent an entire expedition's first minute arguing about which direction was north.</p>
+
+<p>They fought like demons.</p>
+
+<p>The Balancers expedition—seven white-winged valkyries bearing heroic weapons at the terminus of a three-day gauntlet—awaited them. They were going to attempt it with bickering and spite.</p>
+
+<span class="pn">— 1 —</span>
+</div>
+
+<!-- ═══ II — RED CHOIR ═══ -->
+<div class="page">
+<svg class="pa" style="bottom:35px;left:25px;opacity:0.03" width="220" height="180" viewBox="0 0 220 180" fill="#c8885a">
+<circle cx="50" cy="80" r="25" opacity="0.12"/><circle cx="110" cy="60" r="30" opacity="0.15"/><circle cx="170" cy="90" r="22" opacity="0.1"/>
+<path d="M105 35 L110 15 L115 35" stroke="#c8885a" stroke-width="1.5" fill="none" opacity="0.2"/>
+</svg>
+<div class="cn">Chapter II</div>
+<div class="ct">The Red Choir</div>
+<div class="cr"></div>
+
+<p class="fp">Not two minutes into the expedition, both the Raider and the Duchess lay upon the ground in states of acute mortality.</p>
+
+<p>The Oracle Envoys had been waiting—and these were no common Envoys. They were a <em>red variant</em>, which in the parlance of Limveld meant they had been blessed with considerably more malice. Where standard Envoys were plump, comical creatures that tooted their golden horns with bewildered menace, red Envoys tooted with <em>intent.</em> Their bubbles were not suggestions. They were proclamations of holy devastation, each one a shimmering sphere that tracked its quarry with the dogged persistence of a creditor.</p>
+
+<p>The Raider had charged directly into the centre of their formation—because the Raider always charged directly into the centre of everything—and received a concentrated salvo of golden bubbles that would have flattened a lesser fortress. He went down at the one-minute mark. The Duchess, attempting a flanking manoeuvre that would have been brilliant had the Envoys not been tracking her with feline attentiveness, followed six seconds later.</p>
+
+<p class="di">The Executor, standing amidst the carnage, looked at his two fallen companions and felt something that was not quite exasperation and not quite affection. It was the specific emotion reserved for when the people you have chosen—for reasons you cannot articulate and suspect may be pathological—require saving from the consequences of their own natures.</p>
+
+<p>The cursed blade sang. The Executor carved through the Red Choir with a precision that bordered on surgical—deflecting holy bubbles with the flat of the blade, sidestepping trumpet blasts, closing gaps that should not have been closable. He reached the Raider first—hauled the enormous pirate upright with a grunt that conveyed both effort and exasperation—then sprinted across the field to where the Duchess lay crumpled, dragged her to her feet, and immediately resumed killing everything within reach as though the interruption had been a minor administrative inconvenience.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — First Day: Noontide</div>
+<div class="be"><span class="bt">01:49</span><span class="lo lr">Rescued Daximus of Doom</span></div>
+<div class="be"><span class="bt">01:55</span><span class="lo lr">Rescued Punishette</span></div>
+<div class="be"><span class="bt">02:13</span><span class="lo lv">Felled Oracle Envoys</span></div>
+</div>
+
+<p><em>"You are welcome,"</em> the Executor said, sheathing the cursed blade.</p>
+
+<p><em>"Nobody asked,"</em> the Raider replied, brushing rubble from his pauldrons.</p>
+
+<p><em>"Both of you are insufferable,"</em> the Duchess observed. Then, so quietly that neither of them heard: <em>"Thank you."</em></p>
+
+<span class="pn">— 2 —</span>
+</div>
+
+<!-- ═══ III — GAOL, FORGE, CHIEF ═══ -->
+<div class="page">
+<svg class="pa" style="top:30px;right:20px;opacity:0.025" width="200" height="250" viewBox="0 0 200 250" fill="none" stroke="#c8885a">
+<circle cx="100" cy="80" r="60" stroke-width="1" opacity="0.2"/><circle cx="100" cy="80" r="45" stroke-width="0.6" opacity="0.15"/>
+<path d="M70 200 L130 200 L140 210 L60 210 Z" fill="#c8885a" opacity="0.1"/>
+<path d="M90 180 L110 180 L115 200 L85 200 Z" fill="#c8885a" opacity="0.08"/>
+</svg>
+<div class="cn">Chapter III</div>
+<div class="ct">The Gaol, the Forge, and the Chief</div>
+<div class="cr"></div>
+
+<p class="fp">The Evergaol opened at the fourth minute, and within its shimmering confines stood the Grave Warden Duelist—a towering brute of a guardian whose entire existence was a testament to the concept of futile resistance.</p>
+
+<p>The trio was still underlevel. This did not concern them.</p>
+
+<p>The Raider's greataxe descended upon the Grave Warden with the subtlety of a collapsing watchtower. The Executor followed half a breath later, the cursed blade opening a wound so clean it seemed almost considerate. The Duchess appeared behind it—she was always <em>behind</em> things, a habit born of a thief's instinct for backs and the soft places between armour plates—and her daggers finished the work. The Grave Warden did not die so much as it <em>disassembled.</em> Red mist. Paste. The scholars would later employ the phrase "comprehensive material redistribution."</p>
+
+<p>The Demi-Human Queen fell next at the fifth minute. She was not considered worth the syllables.</p>
+
+<p>The hours that followed were a study in organised brutality. A lone Night's Cavalry—not the paired night boss the Executor had fought in his solitary expedition, but a solitary field rider, blood-painted and mounted upon its funeral steed—met them upon the road at the eleventh minute. It was dispatched with the efficiency of three persons who had perfected the art of killing mounted warriors and found no further novelty in it.</p>
+
+<p>They ransacked a blacksmith village shortly after—one of those peculiar settlements where skill-changing smithing tables sat amidst buildings swarming with Bloodfiends. The Fiends were wretched servants of the Formless Mother, bloated with stolen vitae, their eyes the colour of wounds that refused to heal. The trio cut through them with wordless efficiency—the one thing they would <em>not</em> argue about.</p>
+
+<p>The Chief Bloodfiend fell at twelve minutes and thirty-four seconds. It had been large. It had been angry. It was now neither of those things.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — First Day: Noontide (cont.)</div>
+<div class="be"><span class="bt">04:09</span><span class="lo">Evergaol opened</span></div>
+<div class="be"><span class="bt">04:42</span><span class="lo lv">Felled Grave Warden Duelist</span></div>
+<div class="be"><span class="bt">05:25</span><span class="lo lv">Felled Demi-Human Queen</span></div>
+<div class="be"><span class="bt">11:17</span><span class="lo lv">Felled Night's Cavalry</span></div>
+<div class="be"><span class="bt">11:59</span><span class="lo">Skill-changing smithing table opened</span></div>
+<div class="be"><span class="bt">12:34</span><span class="lo lv">Felled Chief Bloodfiend</span></div>
+</div>
+
+<span class="pn">— 3 —</span>
+</div>
+
+<!-- ═══ INTERLUDE I ═══ -->
+<div class="page">
+<svg class="pa" style="bottom:40px;right:30px;opacity:0.02" width="180" height="180" viewBox="0 0 180 180" fill="#c8885a">
+<circle cx="90" cy="120" r="25" opacity="0.15"/>
+<path d="M75 115 Q80 90,90 85 Q100 90,105 115" opacity="0.1"/>
+<path d="M70 110 Q65 95,72 85 M110 110 Q115 95,108 85" stroke="#c8885a" stroke-width="0.8" fill="none" opacity="0.1"/>
+<circle cx="90" cy="120" r="8" fill="#0e0a06" opacity="0.3"/>
+</svg>
+<div class="in">Interlude</div>
+<div class="it">The Fire Between Wars</div>
+<div class="cr"></div>
+
+<p class="fp">They rested briefly at a Site of Grace, the three of them arranged around the golden light in the formation that had become habit: the Raider sitting heavily, axe across his knees, his breathing slow and measured as a tide; the Duchess perched upon a stone with one foot tucked beneath her, cleaning her daggers with the devotion of a woman who considered cleanliness a moral imperative that applied exclusively to weaponry; and the Executor standing, because the Executor did not sit, as though the act of resting were an admission of weakness the cursed blade might overhear.</p>
+
+<p><em>"You paint,"</em> the Raider said, apropos of nothing.</p>
+
+<p>The Executor did not answer immediately. When he spoke, his voice carried the flat precision of a man selecting each word the way a jeweller selects stones—carefully, and with the awareness that a poor choice would crack.</p>
+
+<p><em>"I do."</em></p>
+
+<p><em>"What do you paint?"</em></p>
+
+<p><em>"The tree. The golden tree. I have painted it four hundred and twelve times. Each one is wrong."</em></p>
+
+<p>The Duchess looked up from her daggers. Four hundred and twelve was not a number a madman would track. It was a number an <em>obsessive</em> would track, and obsessives—she knew this from a lifetime of cataloguing human weakness—were not mad at all. They were merely persons whose devotion to a single subject had outlasted the patience of everyone around them.</p>
+
+<p><em>"Why is it wrong?"</em> she asked, and was surprised to find she meant the question.</p>
+
+<p>The Executor tilted his head. The gesture was almost avian—the movement of a creature assessing whether something was food or threat. <em>"Because I am painting it from memory,"</em> he said, <em>"and memory is a faithless servant. It keeps the shape but loses the light."</em></p>
+
+<p>The Raider stared at him. <em>"That,"</em> he said, after a considerable pause, <em>"is the most intelligent thing anyone has said to me since I left the sea."</em></p>
+
+<p><em>"You sailed the sea,"</em> the Executor observed. <em>"What did you leave behind?"</em></p>
+
+<p>The Raider's expression changed. Not dramatically—a pirate does not display his weather to every passing vessel—but enough for the Duchess to notice, and she noticed everything. Something in his jaw tightened. Something behind his eyes retreated to a fortified position.</p>
+
+<p><em>"Naught worth repeating,"</em> he said.</p>
+
+<p>The Executor accepted this with a nod. He understood private griefs. He carried enough of his own—the painter whose death still haunted his second soul, the seppuku that awaited him at the end of his remembrance, the knowledge that he was two persons in one body and neither was whole.</p>
+
+<p>The Duchess sheathed her daggers. <em>"If we are sharing sorrows,"</em> she said, in a tone so dry it could have cured leather, <em>"I should mention that the Viscount was a thoroughly unpleasant man and I stole everything he owned. Twice. I mention this not for sympathy but so you both understand that I am, categorically, the most morally flexible person in this company, and you should plan accordingly."</em></p>
+
+<p>The Raider laughed. The Executor almost smiled. The Grace pulsed gently between them, and for a moment—just a moment—they were not three warriors bound by necessity. They were something closer. Something they would not name, because naming it would make it vulnerable, and they had all learned, in their separate ways, that vulnerability was the one luxury the Night did not permit.</p>
+
+<span class="pn">— 4 —</span>
+</div>
+
+<!-- ═══ IV — THE TWIN DEMONS ═══ -->
+<div class="page">
+<svg class="pa" style="bottom:30px;right:20px;opacity:0.035" width="260" height="180" viewBox="0 0 260 180" fill="#c8885a">
+<path d="M60 60 Q40 30,60 15 L75 8 Q85 20,80 40" opacity="0.2"/>
+<path d="M200 60 Q220 30,200 15 L185 8 Q175 20,180 40" opacity="0.2"/>
+<path d="M40 70 Q70 50,130 45 Q190 50,220 70 L215 120 Q130 150,45 120 Z" opacity="0.12"/>
+<path d="M90 130 Q85 150,90 165 M130 135 Q125 155,130 170 M170 130 Q165 150,170 165" stroke="#c8885a" stroke-width="0.8" fill="none" opacity="0.1"/>
+</svg>
+<div class="cn">Chapter IV</div>
+<div class="ct">The Twin Demons</div>
+<div class="cr"></div>
+
+<p class="fp">Night fell, and with it came two creatures torn from the annals of another age—beasts whose names belonged not to the Lands Between but to the ancient Ringed City histories: the <strong>Demon in Pain</strong> and the <strong>Demon from Below.</strong></p>
+
+<p>They emerged from the darkness in tandem—twin horrors of cinder and fury, massive bat-winged demons whose shared Chaos had birthed them as mirror images of destruction. The Demon in Pain was darker, jet-black beneath a neon blaze of orange fury. The Demon from Below glowed a softer, angrier amber. Both fought with claws that trailed fire, with charges that scorched the earth, with eruptions of toxic vapour that turned the arena into a roiling hell of flame and poison. Together, they were a night boss designed to overwhelm—two colossal creatures attacking simultaneously, their assault windows overlapping, their fury synchronised.</p>
+
+<p>The trio split the demons. The Raider took the Demon from Below—planted his feet, activated Retaliate, and met the amber beast blow for blow with the immovable stubbornness of a cliff face that had personally chosen this particular wave to refuse. The Duchess circled the Demon in Pain, her quickstep a blur of white cloth and glinting steel, exploiting its recovery windows with dagger strikes that found the soft tissue between chitinous plates.</p>
+
+<p>And the Executor—the Executor held the centre.</p>
+
+<p>This was his finest hour. The arena was ablaze. Cinder rained from above. The ground beneath his feet was molten and screaming. Both demons bore down upon the space where his companions fought, their sweeping claws and stomping limbs creating a furnace of overlapping violence—and the Executor <em>deflected.</em></p>
+
+<p>Not once. Not twice. Again and again. Standing in fire that should have killed him, the cursed blade catching claws the size of siege weapons, each deflection ringing through the inferno like a bell struck in a burning cathedral. The demons swung. He deflected. They pounded. He deflected. A claw descended upon the Raider's position—the Raider was down, crumpled in the ash—and the Executor <em>guard-countered the blow whilst hauling the pirate to his feet.</em></p>
+
+<p class="di">He does not know why he does this, the Executor thought, watching himself drag the Raider upright with one hand whilst the cursed blade caught a demonic strike with the other. Two souls in one body, and both of them agree: these persons are worth the fire.</p>
+
+<p>The Raider rose, Retaliated, and drove the Demon from Below backward. The Duchess, briefly unguarded, took a sweeping tail to the ribs—the Executor was there in three strides, pulling her from the rubble before the Demon in Pain could follow through. Then he fell—caught by a blast of toxic flame whilst attempting his beast transformation, the one moment his guard was down, the one instant the cursed blade was not singing.</p>
+
+<p>The Raider hauled him up. No words. No hesitation. Fall, rise, fight, repeat.</p>
+
+<p>The twin demons fell at sixteen minutes and forty-nine seconds, their shared Chaos dissipating into ember and silence. The Demon in Pain perished last, which meant the Demon Prince that awaited them on Night Two would wield fire-beams—a consequence of their kill order that the Executor had calculated and the others had not noticed.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — First Day: Night</div>
+<div class="be"><span class="bt">14:51</span><span class="lo lr">Rescued Daximus of Doom</span></div>
+<div class="be"><span class="bt">15:27</span><span class="lo lr">Rescued by Daximus of Doom</span></div>
+<div class="be"><span class="bt">16:49</span><span class="lo lv">Felled Demon from Below</span></div>
+</div>
+
+<p><em>"That was close,"</em> the Duchess said, nursing her ribs.</p>
+
+<p><em>"That was nothing,"</em> the Raider said.</p>
+
+<p>The Executor wiped ash from the cursed blade and observed, with the mild tone of a man remarking upon the weather: <em>"You should know that the order in which we slew them has determined which variant of the Prince we shall face upon the morrow. I killed the Demon in Pain last. The Prince will have a fire-beam. It is heavily telegraphed. You may stand beside it and strike freely during the attack."</em></p>
+
+<p>The Raider and the Duchess stared at him.</p>
+
+<p><em>"How,"</em> the Duchess said, slowly, <em>"do you know that?"</em></p>
+
+<p><em>"I read."</em></p>
+
+<p>The silence that followed was the particular silence of two persons realising, simultaneously and with considerable alarm, that the madman with the parasitic sword was the most well-read member of their company.</p>
+
+<span class="pn">— 5 —</span>
+</div>
+
+<!-- ═══ V — THE CASTLE ═══ -->
+<div class="page">
+<svg class="pa" style="top:30px;left:25px;opacity:0.025" width="180" height="220" viewBox="0 0 180 220" fill="#c8885a">
+<path d="M30 60 Q50 30,90 25 Q130 30,150 60 L155 130 Q90 150,25 130 Z" opacity="0.15"/>
+<circle cx="80" cy="55" r="4" opacity="0.2"/><circle cx="100" cy="55" r="4" opacity="0.2"/>
+<path d="M60 80 L120 80" stroke="#c8885a" stroke-width="1" opacity="0.1"/>
+<path d="M70 85 L75 95 M85 85 L88 97 M100 85 L102 97 M115 85 L112 95" stroke="#c8885a" stroke-width="1" opacity="0.1"/>
+</svg>
+<div class="cn">Chapter V</div>
+<div class="ct">The Castle and the Red Lion</div>
+<div class="cr"></div>
+
+<p class="fp">The second day dawned, and they entered the castle through its basement.</p>
+
+<p>The <strong>Leonine Misbegotten</strong> waited within—and this was no ordinary beast. It was a <em>red variant</em>, wreathed in that particular crimson fury which transformed an already savage creature into a natural disaster with teeth. Red Leonines hit harder, moved faster, and punished hesitation with immediate and comprehensive death.</p>
+
+<p>The Executor was the first into the chamber.</p>
+
+<p>He was alone. The Raider and the Duchess were still navigating the upper passages—separated by a wrong turn that neither would later accept responsibility for. And the Executor, rather than waiting—because waiting implied a patience he did not possess and a caution the cursed blade would not tolerate—drew his weapon and engaged the Red Leonine in single combat.</p>
+
+<p>It was a duel worthy of his reputation. The beast lunged, crimson-wreathed and howling. The Executor deflected, countered, deflected again. Steel against claw, the ring echoing through the underground chamber. For a full minute he held it—one man against a red-blooded monster in a space too small for error.</p>
+
+<p>Then the beast caught him.</p>
+
+<p>A claw he hadn't seen—obscured by the Leonine's own fire aura—found the gap between plate and flesh. The Executor dropped. His vitality guttered. The beast reared above him, jaws agape, preparing the killing blow—</p>
+
+<p>And the Raider burst through the doorway like a cannonball discharged from a ship that had personal grievances.</p>
+
+<p>The greataxe connected mid-lunge, catching the Leonine across the skull with such force that the beast's trajectory reversed entirely. It slammed into the far wall. The Raider was already hauling the Executor upright before the dust settled, and the Executor—still bleeding, still half-dead—did not thank him. He merely rose, readied the cursed blade, and together they finished what he had started.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — Second Day: Noontide (selected)</div>
+<div class="be"><span class="bt">19:23</span><span class="lo lr">Rescued by Daximus of Doom</span></div>
+<div class="be"><span class="bt">19:36</span><span class="lo lv">Felled Leonine Misbegotten</span></div>
+<div class="be"><span class="bt">19:54</span><span class="lo">Acquired Rivers of Blood</span></div>
+</div>
+
+<p>From the beast's remains spilled <strong>Rivers of Blood</strong>—the legendary katana. The Executor picked it up, turned it in the light, and set it aside without comment. He had his blade. He needed no other.</p>
+
+<p>They trounced an Elder Lion in the courtyard—that grand, maned sentinel with a sword strapped to its forelimb—and pressed onward into the shifting earth.</p>
+
+<span class="pn">— 6 —</span>
+</div>
+
+<!-- ═══ VI — ROTTED WOOD, GIFTS ═══ -->
+<div class="page">
+<svg class="pa" style="bottom:30px;right:25px;opacity:0.025" width="200" height="200" viewBox="0 0 200 200" fill="#c8885a">
+<path d="M100 20 Q90 60,70 80 Q50 95,60 120 Q65 140,80 150 Q100 160,120 150 Q135 140,140 120 Q150 95,130 80 Q110 60,100 20 Z" opacity="0.1"/>
+<path d="M95 50 L90 80 M105 50 L110 80 M85 90 L80 110 M115 90 L120 110" stroke="#c8885a" stroke-width="0.6" fill="none" opacity="0.08"/>
+<circle cx="100" cy="100" r="15" stroke="#c8885a" stroke-width="0.5" fill="none" opacity="0.1"/>
+</svg>
+<div class="cn">Chapter VI</div>
+<div class="ct">The Rotted Wood and the Knife</div>
+<div class="cr"></div>
+
+<p class="fp">The <strong>Rotted Woods</strong> greeted them with the stench of decay and the ethereal glow of something sacred gone terribly wrong.</p>
+
+<p>The <strong>Ancestor Spirit</strong> materialised within the corrupted grove—that majestic, phantasmal stag whose very breath was legend. The creature's <em>magical spittle</em>—that notorious exhalation of spectral venom which had been known to obliterate entire battalions in a single, contemptuous breath—was, by scholarly consensus, one of the most lethal attacks in Limveld.</p>
+
+<p>It fell in moments.</p>
+
+<p>The trio hit it simultaneously—axe, blade, dagger—before the Spirit could complete its first incantation. The Ancestor Spirit, accustomed to protracted engagements against parties who treated its attacks with the reverence due a divine creature, had not anticipated meeting three persons who treated divine creatures with the same courtesy they extended to Demi-Human Queens.</p>
+
+<p class="di">That beast's magical spittle has slain more Nightfarers than every Nightlord combined, the Duchess thought, watching the phantasmal stag dissolve into motes of tarnished light. And we gave it less consideration than the Bloodfiend. She was not certain whether this reflected well upon them or very, very badly.</p>
+
+<p>But it was the Raider who truly proved his worth in the Rotted Woods. Whilst the Executor and the Duchess bickered over which direction to proceed—the Executor favouring caution, the Duchess favouring whatever the Executor was not favouring—the Raider simply <em>looked up.</em></p>
+
+<p>Eagle-eyed, that pirate. Born upon the crow's nest of a ship where spotting a distant sail could mean the difference between riches and ruin. He spotted the Dormant Power hidden deep within the wood—a glowing mote that the others would have walked past entirely, consumed as they were by the urgent business of disagreeing.</p>
+
+<p>He said nothing dramatic. He merely pointed. The Duchess muttered about blind fortune. The Executor inclined his head in acknowledgement, which from him constituted a standing ovation.</p>
+
+<div class="sb">◆ &nbsp; ◆ &nbsp; ◆</div>
+
+<p>It was in the space between battles that the Executor did something the scholars would later describe as <em>"uncharacteristic in the extreme."</em></p>
+
+<p>He had acquired a <strong>Black Knife</strong>—the legendary dagger of the Black Knife Assassins, the weapon that had once been wielded to slay a god. It was, by any measure, the finest dagger in existence.</p>
+
+<p>The Executor held it out to the Duchess, hilt-first, with the particular tenderness of a man unaccustomed to tenderness, performing it for the first time with the caution of someone handling an unfamiliar explosive.</p>
+
+<p>The Duchess took it. She did not say thank you—they did not traffic in gratitude, this trio—but she turned the blade in the firelight, and her eyes, for one unguarded instant, softened.</p>
+
+<p class="di">He notices, the Duchess thought, turning the Black Knife in her palm. The vicious, frothing, battle-drunk madman with two souls and a parasitic sword—he notices that I prefer daggers. He notices, and he remembers, and he gives without asking for return. How dare he be this thoughtful. How dare he ruin my assessment of him.</p>
+
+<p>Emboldened, the Executor later offered her the <strong>Eclipse Shotel</strong>—a curved sword of considerable renown, wreathed in the power of the eclipsed sun.</p>
+
+<p>The Duchess examined it. She turned it over. She held it at arm's length as though it had insulted her lineage.</p>
+
+<p><em>"Distasteful,"</em> she pronounced, and handed it back.</p>
+
+<p>The Raider laughed so hard he had to sit down. The Executor, for the first time in anyone's memory, looked <em>genuinely baffled.</em> This, the Duchess decided, was the finest moment of the expedition thus far.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — Second Day: Noontide (selected)</div>
+<div class="be"><span class="bt">21:32</span><span class="lo lv">Felled Ancestor Spirit</span></div>
+<div class="be"><span class="bt">21:38</span><span class="lo">Acquired Black Knife</span></div>
+</div>
+
+<span class="pn">— 7 —</span>
+</div>
+
+<!-- ═══ INTERLUDE II — THE QUARREL ═══ -->
+<div class="page">
+<svg class="pa" style="top:40px;right:30px;opacity:0.02" width="160" height="160" viewBox="0 0 160 160" fill="none" stroke="#c8885a">
+<path d="M40 80 L120 80" stroke-width="2" opacity="0.15"/>
+<path d="M80 40 L80 120" stroke-width="2" opacity="0.15"/>
+<path d="M30 80 Q30 30,80 30 Q130 30,130 80 Q130 130,80 130 Q30 130,30 80" stroke-width="0.6" opacity="0.1"/>
+<path d="M55 55 L65 65 M95 55 L105 65 M55 105 L65 95 M95 105 L105 95" stroke-width="1" opacity="0.1"/>
+</svg>
+<div class="in">Interlude</div>
+<div class="it">The Fracture</div>
+<div class="cr"></div>
+
+<p class="fp">The quarrel began, as the worst quarrels do, over something trivial.</p>
+
+<p>The <strong>Black Blade Kindred</strong> had been gruelling—a twin-bladed gargoyle of ancient manufacture that fought with fluid malice and refused to stay staggered. The Raider was downed during the assault, resurrected by the Executor at the twenty-sixth minute. The <strong>Bell Bearing Hunter</strong> followed—that tall, silent telekinetic swordsman whose blade moved independently of its master—and the Raider went down <em>again.</em></p>
+
+<p>When the Executor hauled him up for the second time in as many fights, the Raider's pride—that vast, sea-forged, pirate's pride that had carried him across oceans and into the Lands Between—cracked.</p>
+
+<p><em>"I do not require your aid,"</em> he said, shaking the Executor's hand from his shoulder.</p>
+
+<p><em>"You were dead,"</em> the Executor replied, with the diplomatic warmth of a coroner's report.</p>
+
+<p><em>"I was <strong>resting.</strong>"</em></p>
+
+<p>The Duchess, who had killed the Bell Bearing Hunter from behind whilst this exchange occurred, sheathed her daggers and said: <em>"He was dead. You saved him. He is embarrassed. Can we move on?"</em></p>
+
+<p>They could not move on. The Raider's humiliation had found a target, and the target was the Executor's manner—that infuriating, clinical, wordless efficiency with which he resurrected his companions, as though pulling them from the brink of oblivion were no more significant than collecting a flask charge.</p>
+
+<p><em>"You save us like we are <strong>objects,</strong>"</em> the Raider spat. <em>"Dropped and retrieved. You do not pause. You do not ask if we are well. You simply haul and resume, as though our lives were inventory."</em></p>
+
+<p>The Executor was silent for a long moment. When he spoke, his voice was different—lower, stripped of the flat precision, carrying something raw that neither of his companions had heard before.</p>
+
+<p><em>"I save you quickly,"</em> he said, <em>"because I have learned what happens when I do not. I once failed to reach someone in time. A painter. She died whilst I debated whether it was my place to intervene."</em></p>
+
+<p>The arena went quiet. The <strong>Magma Wyrm</strong> was somewhere in the distance, roaring its geological opinions, but none of them heard it.</p>
+
+<p><em>"I will not debate again,"</em> the Executor said. <em>"I will haul. I will resume. And if that offends your pride, Pirate, then your pride can wait until after the expedition, when you may nurse it at your leisure in the Roundtable Hold, alive, because I did not stop to ask if you were comfortable."</em></p>
+
+<p>The Raider stared at him. The Duchess stared at him. The cursed blade, resting across the Executor's shoulders, hummed a single note that sounded almost like an endorsement.</p>
+
+<p>The Raider opened his mouth. Closed it. Opened it again.</p>
+
+<p><em>"...Fair enough,"</em> he said.</p>
+
+<p>They killed the Magma Wyrm in silence. The Duchess was downed during the fight—the Executor resurrected her at twenty-eight minutes and sixteen seconds, mid-combat, mid-magma, with the same wordless efficiency that was no longer cold, now that they understood what it cost him. From the Wyrm's remains emerged <strong>Sacred Raptor Talons.</strong> Nobody wanted them. They took them anyway.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — Second Day: Noontide (cont.)</div>
+<div class="be"><span class="bt">23:35</span><span class="lo lv">Felled Black Blade Kindred</span></div>
+<div class="be"><span class="bt">23:40</span><span class="lo">Acquired Eclipse Shotel</span></div>
+<div class="be"><span class="bt">26:00</span><span class="lo lr">Rescued Daximus of Doom</span></div>
+<div class="be"><span class="bt">26:34</span><span class="lo lv">Felled Bell Bearing Hunter</span></div>
+<div class="be"><span class="bt">28:16</span><span class="lo lr">Rescued Punishette</span></div>
+<div class="be"><span class="bt">28:39</span><span class="lo lv">Felled Magma Wyrm</span></div>
+<div class="be"><span class="bt">28:50</span><span class="lo">Acquired Sacred Raptor Talons</span></div>
+</div>
+
+<span class="pn">— 8 —</span>
+</div>
+
+<!-- ═══ VII — THE SURVIVING PRINCE ═══ -->
+<div class="page">
+<svg class="pa" style="top:30px;right:20px;opacity:0.03" width="240" height="200" viewBox="0 0 240 200" fill="#c8885a">
+<path d="M60 80 Q40 50,60 30 Q70 40,65 55" opacity="0.15"/>
+<path d="M180 80 Q200 50,180 30 Q170 40,175 55" opacity="0.15"/>
+<path d="M40 90 Q60 70,120 65 Q180 70,200 90 L195 140 Q120 170,45 140 Z" opacity="0.1"/>
+<path d="M80 50 Q120 20,160 50" stroke="#c8885a" stroke-width="0.8" fill="none" opacity="0.12" stroke-dasharray="3,3"/>
+</svg>
+<div class="cn">Chapter VII</div>
+<div class="ct">The Surviving Prince</div>
+<div class="cr"></div>
+
+<p class="fp">Night fell for the second time, and the <strong>Demon Prince</strong> awaited them—the ascension of the twin demons they had slain the night before. When the Demon in Pain and the Demon from Below fall, the last to die rises as the Prince, inheriting the power of the other, and the resulting creature is not merely a foe but a <em>statement.</em></p>
+
+<p>The Executor had been correct about the fire-beam. The Prince—born of the Demon in Pain, the one they had slain last—reared back, channelled blazing energy, and unleashed a sweeping beam of devastation that carved the arena in half. The Executor, who had <em>read about this,</em> was already behind the beast, striking freely during the extended animation.</p>
+
+<p>The Raider and the Duchess, who had <em>not</em> read about this, were considerably less prepared.</p>
+
+<p>The fight was chaos. The Demon Prince flew, rained fire from above, and slammed the earth with blows that left craters. The Raider went down. The Duchess went down eight seconds later. The Executor hauled both of them up in rapid succession—the same wordless efficiency, but now the others understood it differently. Every haul was the painter's answer to the question the Raider had posed in the quarrel: <em>I will not debate again.</em></p>
+
+<p>Then the Executor fell—caught during a recovery frame, pinned beneath a claw. The <em>Duchess</em> was there. She pulled him up at thirty-three minutes and eleven seconds, her quickstep carrying her through fire to reach him. He fell again twenty-four seconds later—another pin, another claw—and she was there again, wordless, efficient, returning the favour with the same clinical care he had shown all expedition.</p>
+
+<p class="di">So this is what it feels like, the Duchess thought, dragging the Glass Samurai from the rubble for the second time, to save someone quickly. To not stop. To not ask. To haul and resume. She understood now. It was not coldness. It was love expressed in the only language the Night permitted: speed.</p>
+
+<p>The Demon Prince fell at thirty-five minutes and six seconds. The trio stood in the aftermath—breathing hard, flask counts depleted, each one bearing wounds that would have hospitalised a more sensible warrior.</p>
+
+<p>The Raider looked at the Executor. He was holding something. The <strong>Magma Wyrm's Scalesword</strong>—a colossal curved blade of molten stone.</p>
+
+<p><em>"Take it,"</em> the Raider said, holding it out. <em>"You have nothing worth swinging."</em></p>
+
+<p>This was pity. It was also kindness. The Executor took the Scalesword and held it with the same care the Duchess had shown the Black Knife.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — Second Day: Night</div>
+<div class="be"><span class="bt">31:56</span><span class="lo lr">Rescued Daximus of Doom</span></div>
+<div class="be"><span class="bt">32:04</span><span class="lo lr">Rescued Punishette</span></div>
+<div class="be"><span class="bt">33:11</span><span class="lo lr">Rescued by Punishette</span></div>
+<div class="be"><span class="bt">33:35</span><span class="lo lr">Rescued by Punishette</span></div>
+<div class="be"><span class="bt">35:06</span><span class="lo lv">Felled Demon Prince</span></div>
+<div class="be"><span class="bt">35:09</span><span class="lo">Added a charge to flask</span></div>
+</div>
+
+<span class="pn">— 9 —</span>
+</div>
+
+<!-- ═══ VIII — SEVEN WHITE WINGS ═══ -->
+<div class="page">
+<svg class="pa" style="bottom:25px;right:20px;opacity:0.03" width="280" height="200" viewBox="0 0 280 200" fill="#c8885a">
+<g opacity="0.15"><ellipse cx="40" cy="100" rx="8" ry="10"/><path d="M30 90 Q25 80,35 78 M50 90 Q55 80,45 78"/></g>
+<g opacity="0.2"><ellipse cx="80" cy="80" rx="8" ry="10"/><path d="M70 70 Q65 60,75 58 M90 70 Q95 60,85 58"/></g>
+<g opacity="0.25"><ellipse cx="120" cy="65" rx="8" ry="10"/><path d="M110 55 Q105 45,115 43 M130 55 Q135 45,125 43"/></g>
+<g opacity="0.35"><ellipse cx="160" cy="55" rx="10" ry="12"/><path d="M148 43 Q140 30,155 28 M172 43 Q180 30,165 28"/></g>
+<g opacity="0.25"><ellipse cx="200" cy="65" rx="8" ry="10"/><path d="M190 55 Q185 45,195 43 M210 55 Q215 45,205 43"/></g>
+<g opacity="0.2"><ellipse cx="230" cy="80" rx="8" ry="10"/><path d="M220 70 Q215 60,225 58 M240 70 Q245 60,235 58"/></g>
+<g opacity="0.15"><ellipse cx="255" cy="100" rx="8" ry="10"/><path d="M245 90 Q240 80,250 78 M265 90 Q270 80,260 78"/></g>
+<path d="M60 140 L65 180 M100 135 L105 178 M140 130 L145 175 M180 135 L185 178 M220 140 L225 180" stroke="#c8885a" stroke-width="1" opacity="0.1"/>
+</svg>
+<div class="cn">Chapter VIII</div>
+<div class="ct">Seven White Wings</div>
+<div class="cr"></div>
+
+<p class="fp">The Final Day arrived, and with it came the <strong>Weapon-Bequeathed Harmonia.</strong></p>
+
+<p>Seven valkyries. Seven pallid maidens clad in white armour resembling flowers in bloom, their faces serene as sleeping children, their weapons raised overhead like the statue of a guardian deity in a tale that had ended very badly for everyone involved. For Harmonia had once been a village girl who fled into the forest when marauders besieged her settlement, and prayed to a stone idol, and received power so terrible that by the time it was spent, the village was steeped in red and settled in silence.</p>
+
+<p>Now she was seven. Seven instruments of divine retribution wielding spears, halberds, and hammers in a crescent of holy armaments and terrible intent.</p>
+
+<p><strong>Phase One</strong> was controlled violence. The trio split the valkyries—the Raider drawing the cluster of hammer-bearers, his enormous frame absorbing blows that would have shattered lesser warriors; the Duchess weaving between spear-thrusts with her preternatural quickstep, the Black Knife finding gaps between white-flowered plate; the Executor deflecting, countering, his cursed blade ringing against holy steel. One by one the valkyries fell—staggered, broken, dissolved.</p>
+
+<p>And then they rose.</p>
+
+<p><strong>Phase Two.</strong> Every valkyrie returned, lifted by their own weapons as though strung upon invisible threads—puppets recalled to service by a will that transcended death. One among them gained a crimson ribbon, marking it as the <em>leader</em>, and the nature of the fight transformed entirely.</p>
+
+<p>The leader was faster. Stronger. It marked a target—a red circle blazing upon the Executor's body, designating him as the focus of the next coordinated assault. All seven valkyries launched themselves in tandem, trailing explosions, diving in formation like birds of prey designed by a particularly wrathful god. The ground erupted. Spears rained from the heavens. The leader brought down its weapon in a final, devastating slam that could—and did—flatten the Executor where he stood.</p>
+
+<p>The Duchess resurrected him at forty-two minutes and thirty seconds.</p>
+
+<p>The mark shifted. The valkyries dove again. The explosions cascaded. The Executor fell again—overwhelmed by the sheer volume of coordinated aggression, the Phase Two assault too much for even his deflection to manage when seven weapons swung simultaneously.</p>
+
+<p>The Duchess brought him back. Forty-four minutes and one second.</p>
+
+<p>Again. Forty-six minutes and fifty-two seconds.</p>
+
+<p>Three times the Virtuous Thief pulled the Glass Samurai from oblivion, never once pausing her own assault, never once complaining. She rezed him the way he had given her the Black Knife—without comment, without hesitation, as though this were simply what companions did.</p>
+
+<p>But it was the <strong>Raider</strong> who won this fight.</p>
+
+<p>Daximus of Doom—Black Claw, pirate, barbarian, the man who had sailed to the Lands Between for glory and found it in the company of a madman and a thief—became the thing he had always been beneath the bravado: a <em>power-beast of rage.</em></p>
+
+<p>He waded into the valkyries. His colossal weapon—shrouded in mystery, its true nature known only to the pirate and to whatever forge had birthed it—swung in great, devastating arcs that sent white-winged bodies tumbling. His poise held against strikes that would have felled the Executor twice over. When the crimson-ribboned leader swooped—spear rain cascading from the heavens, explosions rippling across the arena—the Raider planted his feet, activated Retaliate, and <em>caught the charge.</em></p>
+
+<p>The leader staggered. The Raider followed through. His weapon descended with the inevitability of a continent deciding to relocate. The valkyrie crumpled. The health bar—that enormous, seven-sectioned bar—collapsed.</p>
+
+<div class="bl">
+<div class="bh">❧ Expedition Record — Final Day</div>
+<div class="be"><span class="bt">37:53</span><span class="lo">Acquired Magma Wyrm's Scalesword</span></div>
+<div class="be"><span class="bt">42:30</span><span class="lo lr">Rescued by Punishette</span></div>
+<div class="be"><span class="bt">44:01</span><span class="lo lr">Rescued by Punishette</span></div>
+<div class="be"><span class="bt">46:52</span><span class="lo lr">Rescued by Punishette</span></div>
+<div class="be"><span class="bt">47:34</span><span class="lo lv">Felled Weapon-Bequeathed Harmonia</span></div>
+</div>
+
+<p class="cl"><strong>Balance Disrupted.</strong></p>
+
+<p>Forty-seven minutes. Thirty-four seconds. Seven valkyries of heaven, brought low by a pirate, a thief, and a madman. White feathers drifted through the air like snow upon a field that smelled of ozone and defiance.</p>
+
+<p>The Raider stood at the centre of the ruin, breathing hard, his colossal weapon still raised. The Duchess stood behind him, the Black Knife gleaming at her belt. The Executor lay on the ground—not dead this time, merely exhausted, his cursed blade resting across his chest, its hum a low, satisfied note.</p>
+
+<p><em>"You may thank me now,"</em> the Raider said.</p>
+
+<p><em>"Nobody asked,"</em> the Executor replied, from the floor.</p>
+
+<p>The Duchess looked at both of them. She cleaned her daggers. And then she did something that neither of them had ever witnessed from her, something so unprecedented that the Raider would later claim he had hallucinated it and the Executor would deny it had occurred.</p>
+
+<p>She smiled.</p>
+
+<span class="pn">— 10 —</span>
+</div>
+
+<!-- ═══ EPILOGUE ═══ -->
+<div class="page">
+<svg class="pa" style="bottom:50px;left:50%;transform:translateX(-50%);opacity:0.025" width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="#c8885a">
+<path d="M60 180 L140 40" stroke-width="2.5"/>
+<path d="M40 60 L160 160" stroke-width="3.5"/>
+<path d="M155 148 Q175 140,170 165 Q165 180,150 170" fill="#c8885a" opacity="0.15"/>
+<path d="M100 20 L100 185" stroke-width="1.5"/>
+<path d="M97 20 L100 10 L103 20" fill="#c8885a" opacity="0.2"/>
+<circle cx="100" cy="110" r="35" stroke-width="0.6" opacity="0.2"/>
+</svg>
+<div class="cn">Epilogue</div>
+<div class="ct">The Painting Beneath the Tree</div>
+<div class="cr"></div>
+
+<p class="fp">The scholars would spend weeks attempting to explain how they had survived.</p>
+
+<p>The data was irreconcilable. A condemned duelist with glass armour and a parasitic sword. A thief-priestess whose defensive strategy was "be elsewhere." A pirate whose tactical doctrine could be summarised as "stand firm and hit harder." They had no synergy. No coherent strategy. No agreed-upon plan for any encounter they had faced. They had argued about directions, rejected each other's gifts, quarrelled over pride, and fallen down so many times that the battle log resembled a drinking game more than a combat record.</p>
+
+<p>And yet. The Oracle Envoys lay scattered. The twin Demons were ash. The Demon Prince was cinder. The Black Blade Kindred was rubble. And the Weapon-Bequeathed Harmonia—seven white-winged servants of the heavens whose sacred duty was to restore the balance of the world—had been <em>unbalanced</em> by three persons who could not agree on which way was north.</p>
+
+<p>The answer was not in the arithmetic. It was in the quarrel—in the Executor's confession about the painter, in the Raider's wounded pride, in the Duchess's whispered thank-you that she thought no one had heard. It was in the Black Knife, given without asking for return. In the Scalesword, offered out of pity that was really kindness. In the three resurrections on the Final Day—the Duchess pulling the Executor from oblivion with the same speed he had taught her, because love in the language of the Night is measured in how quickly you refuse to let someone stay dead.</p>
+
+<div class="sb">◆ &nbsp; ◆ &nbsp; ◆</div>
+
+<p>When the trio returned to the Shrouded Roundtable Hold, the Executor retired to his corner and resumed painting—as was his custom, this condemned soul who bore two faces upon one frame. He painted the Erdtree, as he always did. The gold. The light. The memory of what had been.</p>
+
+<p>But this time, if one looked closely—and the Duchess did look closely, for thieves notice everything—there were two additional figures in the painting. Small. Almost hidden in the brushwork. One vast and immovable as a cliff face. One slight and swift as a shadow.</p>
+
+<p>They stood beneath the tree. And for the first time in four hundred and thirteen attempts, the painting was not wrong.</p>
+
+<p>The Duchess said nothing. She turned away. She adjusted the Black Knife at her belt—the gift she had never thanked him for, the blade she would carry into every expedition henceforth.</p>
+
+<p>The Raider, who had been watching from the dining hall with the particular attentiveness of a man pretending not to pay attention, raised his flagon in the Executor's direction. The Executor did not look up from his painting. But the cursed blade, resting across his knees, hummed a note that was—for the first time in anyone's memory—not just satisfied.</p>
+
+<p>It was warm.</p>
+
+<p>The scholars, upon discovering the painting months later, appended a new page to their ever-expanding treatise. It read:</p>
+
+<p class="nd" style="text-align:center;color:#7a6548;font-size:15px;font-style:italic;margin:24px 0;">"Addendum: the sword hums in a different key.<br>The painting now contains three figures.<br>We recommend further inquiry.<br>We further recommend not separating these three.<br>We suspect they would not permit it regardless."</p>
+
+<div class="sb">◆ &nbsp; ◆ &nbsp; ◆</div>
+
+<p class="nd" style="text-align:center;color:#5a4530;font-size:14px;margin-top:24px;">
+Total expedition time: 47 minutes, 34 seconds.<br>
+Deaths: Uncountable. Resurrections: Uncountable.<br>
+Nightlord deaths: 0 (technically. They kept rising.)<br>
+Party coherence: Nonexistent.<br>
+Party bond: <strong>Unbreakable.</strong>
+</p>
+
+<span class="pn">— 11 —</span>
+</div>
+
+<!-- ═══ COLOPHON ═══ -->
+<div class="page colophon">
+<svg style="margin:24px auto;opacity:0.15;display:block" width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="15" stroke="#c8885a" stroke-width="0.5"/><circle cx="20" cy="20" r="8" stroke="#c8885a" stroke-width="0.4"/><circle cx="20" cy="20" r="2.5" fill="#c8885a" opacity="0.3"/></svg>
+<div class="colt">
+This chronicle was transcribed from the expedition records<br>
+of the Shrouded Roundtable Hold,<br>
+filed jointly under three names that ought not have appeared together.<br><br>
+The Executor neither requested nor sanctioned this account.<br>
+The Duchess considered it beneath comment.<br>
+The Raider demanded his name appear first.<br><br>
+It does not.<br><br>
+<em>— Finis —</em>
+</div>
+</div>
+
+</div>
+</body>
+</html>

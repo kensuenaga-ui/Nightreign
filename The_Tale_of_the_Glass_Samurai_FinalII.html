@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tale of the Glass Samurai</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 10px rgba(120,160,190,0.3),0 0 30px rgba(120,160,190,0.1)}50%{text-shadow:0 0 20px rgba(120,160,190,0.5),0 0 50px rgba(120,160,190,0.2)}}
+@keyframes burnEdge{0%,100%{box-shadow:inset 0 0 60px rgba(5,10,18,0.9),inset 0 0 120px rgba(3,8,15,0.5)}50%{box-shadow:inset 0 0 70px rgba(8,14,22,0.95),inset 0 0 130px rgba(5,10,18,0.6)}}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#070a0e;color:#b0bcc8;min-height:100vh;overflow-x:hidden}
+.bg-texture{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(30,50,70,0.12) 0%,transparent 50%),radial-gradient(ellipse at 80% 30%,rgba(25,45,65,0.08) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(40,55,70,0.08) 0%,transparent 40%);pointer-events:none;z-index:0}
+.manuscript{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:20px 16px 80px}
+
+.page{position:relative;background:linear-gradient(168deg,#101820 0%,#0c1218 30%,#0f1720 60%,#0a1016 100%);border:1px solid rgba(120,160,190,0.1);border-radius:2px;padding:64px 56px;margin-bottom:40px;animation:fadeIn 1s ease both,burnEdge 8s ease-in-out infinite;box-shadow:0 4px 30px rgba(0,0,0,0.6),0 0 1px rgba(120,160,190,0.15);overflow:hidden}
+.page::before{content:'';position:absolute;top:12px;left:12px;right:12px;bottom:12px;border:1px solid rgba(120,160,190,0.05);pointer-events:none;z-index:1}
+.page-art{position:absolute;pointer-events:none;z-index:0}
+
+.title-page{text-align:center;padding:80px 56px 96px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh}
+.title-ornament{width:240px;height:1px;background:linear-gradient(90deg,transparent,rgba(120,160,190,0.4),transparent);margin:24px auto}
+.title-ornament.thick{height:2px;background:linear-gradient(90deg,transparent 5%,rgba(120,160,190,0.2) 20%,rgba(140,175,200,0.5) 50%,rgba(120,160,190,0.2) 80%,transparent 95%);width:300px;margin:32px auto}
+.title-main{font-family:'Cinzel Decorative',serif;font-size:42px;font-weight:700;color:#8ab0c8;letter-spacing:0.08em;line-height:1.2;animation:glowPulse 4s ease-in-out infinite;position:relative;z-index:2}
+.title-sub{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;font-style:italic;color:#5a7585;letter-spacing:0.15em;text-transform:uppercase;margin-top:8px;position:relative;z-index:2}
+.title-author{font-family:'Cormorant Garamond',serif;font-size:15px;color:#4a6575;font-style:italic;letter-spacing:0.06em;margin-top:8px;position:relative;z-index:2}
+.title-epigraph{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#5a7080;max-width:420px;line-height:1.7;margin-top:40px;position:relative;z-index:2}
+
+.chapter-num{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:#3a5a6a;text-align:center;margin-bottom:6px;position:relative;z-index:2}
+.chapter-title{font-family:'Cinzel Decorative',serif;font-size:24px;font-weight:700;color:#8ab0c8;text-align:center;margin-bottom:8px;letter-spacing:0.04em;position:relative;z-index:2}
+.chapter-rule{width:160px;height:1px;background:linear-gradient(90deg,transparent,rgba(120,160,190,0.35),transparent);margin:0 auto 36px;position:relative;z-index:2}
+
+.page p{font-family:'Cormorant Garamond',serif;font-size:18.5px;line-height:1.85;color:#a0b4c2;text-align:justify;margin-bottom:18px;text-indent:2em;hyphens:auto;position:relative;z-index:2}
+.page p:first-of-type{text-indent:0}
+.page p.first-para::first-letter{font-family:'Cinzel Decorative',serif;font-size:58px;float:left;line-height:0.8;padding-right:8px;padding-top:6px;color:#8ab0c8;text-shadow:0 0 12px rgba(120,160,190,0.2)}
+.no-drop{text-indent:0!important}
+.no-drop::first-letter{font-family:'Cormorant Garamond',serif!important;font-size:18.5px!important;float:none!important;padding:0!important;color:#a0b4c2!important;text-shadow:none!important}
+
+em{color:#b8d0e0;font-style:italic}
+strong{color:#8ab0c8;font-weight:600}
+.scene-break{text-align:center;margin:32px 0;color:#3a5a6a;font-size:14px;letter-spacing:0.5em;opacity:0.6;position:relative;z-index:2}
+.center-line{text-align:center;text-indent:0!important;color:#8ab0c8;font-size:17px;letter-spacing:0.04em}
+
+.battle-log{background:rgba(120,160,190,0.03);border-left:2px solid rgba(120,160,190,0.15);padding:16px 20px;margin:28px 0;font-family:'Cinzel',serif;font-size:12.5px;color:#5a7a8a;letter-spacing:0.06em;line-height:2;position:relative;z-index:2}
+.battle-log .log-header{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#3a5a6a;margin-bottom:8px;border-bottom:1px solid rgba(120,160,190,0.08);padding-bottom:6px}
+.battle-log .log-entry{display:flex;gap:16px}
+.battle-log .log-time{color:#3a5a6a;min-width:48px}
+.log-death{color:#7a4a4a}
+.log-victory{color:#508a70}
+.log-event{color:#6a8a98}
+
+.page-num{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:11px;color:#2a4050;letter-spacing:0.2em;z-index:2}
+
+.colophon{text-align:center;padding:48px 56px;min-height:auto}
+.colophon-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:#3a5560;letter-spacing:0.04em;line-height:1.8;position:relative;z-index:2}
+
+@media(max-width:700px){.page{padding:40px 28px}.title-page{padding:56px 28px 64px;min-height:60vh}.title-main{font-size:28px}.page p{font-size:17px}.page p.first-para::first-letter{font-size:44px}}
+@media print{
+body{background:#070a0e!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+.bg-texture{display:none}
+.page{background:linear-gradient(168deg,#101820 0%,#0c1218 30%,#0f1720 60%,#0a1016 100%)!important;box-shadow:none!important;animation:none!important;break-inside:avoid;page-break-inside:avoid;margin-bottom:0!important}
+.page p{color:#a0b4c2!important}
+.title-main,.chapter-title,strong{color:#8ab0c8!important}
+.title-page{min-height:auto!important;page-break-after:always}
+.manuscript{padding:0!important}
+}
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="manuscript">
+
+<!-- ═══ TITLE PAGE ═══ -->
+<div class="page title-page">
+<svg class="page-art" style="bottom:40px;right:40px;opacity:0.055" width="320" height="520" viewBox="0 0 320 520" fill="#8ab0c8" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="160" cy="52" rx="24" ry="28" transform="rotate(-8 160 52)"/>
+<path d="M140 28 Q130 8,118 15 M145 25 Q138 5,125 2 M155 24 Q158 2,170 0 M165 26 Q175 5,185 8 M170 30 Q185 15,190 20" stroke="#8ab0c8" stroke-width="2.5" fill="none"/>
+<path d="M152 78 L148 100 M168 78 L172 100"/>
+<path d="M120 100 L108 180 L112 280 L160 300 L208 280 L212 180 L200 100 Z" fill-opacity="0.8"/>
+<path d="M120 100 L80 110 L75 130 L90 140 L120 130 Z"/><path d="M200 100 L240 110 L245 130 L230 140 L200 130 Z"/>
+<path d="M140 120 L155 180 L145 240 M170 130 L160 200 L175 260 M130 150 L180 160" stroke="#070a0e" stroke-width="1.2" fill="none" opacity="0.4"/>
+<path d="M108 130 L85 200 L78 280 L82 310" stroke="#8ab0c8" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M212 130 L235 200 L240 270" stroke="#8ab0c8" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M238 265 L245 340 L248 420 L250 460" stroke="#8ab0c8" stroke-width="4" fill="none"/>
+<path d="M243 340 L253 340 M241 380 L255 380" stroke="#8ab0c8" stroke-width="1.5" fill="none" opacity="0.5"/>
+<circle cx="250" cy="475" r="2.5" opacity="0.5"/><circle cx="249" cy="490" r="1.8" opacity="0.3"/><circle cx="251" cy="502" r="1.2" opacity="0.15"/>
+<path d="M140 295 L130 380 L125 460 L120 500" stroke="#8ab0c8" stroke-width="12" fill="none" stroke-linecap="round"/>
+<path d="M180 295 L190 380 L195 460 L200 500" stroke="#8ab0c8" stroke-width="12" fill="none" stroke-linecap="round"/>
+<circle cx="167" cy="48" r="3" fill="#070a0e"/><circle cx="167" cy="48" r="1.8" fill="#8ab0c8" opacity="0.9"/>
+<path d="M130 40 Q125 35,128 28 M190 38 Q198 30,195 22 M135 55 Q120 58,118 50" stroke="#8ab0c8" stroke-width="0.8" fill="none" opacity="0.3"/>
+</svg>
+<div class="title-ornament"></div>
+<div class="title-sub">A Chronicle of Depth &amp; Deflection</div>
+<div class="title-main">The Tale of the<br>Glass Samurai</div>
+<div class="title-ornament thick"></div>
+<div class="title-author">Being the True and Mostly Faithful Account<br>of an Executor Who Ought Not Have Survived</div>
+<div class="title-epigraph">"He bore no shield, wore no helm, and supped poison from his own relics. The scholars named him mad. The Nightlord named him nothing, for the dead keep no counsel."<br><br>— Unsigned entry, Roundtable Annals</div>
+<svg style="margin-top:36px;opacity:0.25;position:relative;z-index:2" width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="20" stroke="#8ab0c8" stroke-width="0.6"/><circle cx="30" cy="30" r="14" stroke="#8ab0c8" stroke-width="0.4"/><path d="M30 10 L30 50 M10 30 L50 30" stroke="#8ab0c8" stroke-width="0.4"/></svg>
+</div>
+
+<!-- ═══ I — THE MADMAN'S ARSENAL ═══ -->
+<div class="page">
+<svg class="page-art" style="top:30px;right:30px;opacity:0.04" width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="#8ab0c8"><circle cx="100" cy="100" r="70" stroke-width="0.5"/><circle cx="100" cy="100" r="50" stroke-width="0.4"/><circle cx="100" cy="100" r="30" stroke-width="0.3"/><circle cx="100" cy="30" r="8" fill="#8ab0c8" opacity="0.3"/><circle cx="170" cy="100" r="6" fill="#8ab0c8" opacity="0.25"/><circle cx="55" cy="145" r="7" fill="#8ab0c8" opacity="0.2"/></svg>
+<div class="chapter-num">Chapter I</div>
+<div class="chapter-title">The Madman's Arsenal</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">There are warriors who march to battle with forethought. There are warriors who march to battle with prayer. And then there was the Executor, who marched to battle with a manifesto of contradictions strapped to his soul and a grin that suggested he had read the ancient texts in the wrong order and preferred them that way.</p>
+
+<p>He was, by all scholarly reckoning, a walking catastrophe. His armour—fused to his body by some primordial smithcraft no forgemaster would claim—bore the quiet shimmer of glass. Not figurative glass. True, proper, <em>this-shall-shatter-if-the-wind-so-much-as-glances-at-it</em> glass. The Roundtable scholars had examined his relic configuration and produced a twelve-page treatise concluding, in the most cautious academic phrasing available, that he was going to perish.</p>
+
+<p>The trouble began—as trouble ever does—with ambition. The Executor had bound himself to six relics. Three were common, if peculiar: one that filled his veins with <strong>flame</strong> at the mere commencement of an expedition, one that sharpened every blow by some invisible calculus, and a third whose purpose even he had forgotten, its inscription worn to a single mark. Between those ordinary stones sat two relics of singular manufacture—twin works known to the initiated as the <strong>Will of the Balancers</strong>—which honed both the melee stroke and the weapon art alike, and whispered of a strange nullification to those whose guard decayed.</p>
+
+<p>The remaining three were <strong>Deep Relics</strong>, drawn from the abyssal markets, and each was branded with a curse in crimson lettering that would make a prudent man weep. <em>Diminished Faith and Might.</em> Very well. <em>Guard withers upon drinking of the Flask.</em> Meaning every draught of healing thinned his armour like parchment left in rain. <em>Blood betrays its vessel upon taking harm.</em> <em>The Scarlet Rot gnaws when vitality falters.</em> <em>Frost gathers in the bones upon each wound.</em> As though the cosmos had examined his preparations and whispered: <em>more.</em></p>
+
+<p>But buried within this chorus of self-destruction was a mechanism so elegant that no scholar, in all their pages of analysis, had perceived it. Every curse that stripped his defence fed a single enchantment upon the Balancer relics—unassuming as a dagger concealed within a bouquet:</p>
+
+<p class="center-line"><strong>Attacks are occasionally nullified when guard is weakened.</strong></p>
+
+<p>The more his armour cracked, the more it refused to shatter. Every flask that diminished him roused the nullification. Every curse that gnawed at his constitution fed the very ward that kept him standing. It was the logical equivalent of erecting a house of parchment within a gale and having the gale hold it together.</p>
+
+<p>And then there was the sword.</p>
+
+<p>The Cursed Blade—and it must be noted, he bore this wretched instrument everywhere the way a man bears a keepsake from a departed father, except the keepsake did not <em>drink his lifeblood</em>—required no mine, no forge, no smithing. It was his starting armament, bound to a relic, ready from the moment the expedition commenced. Whilst other Nightfarers spent precious minutes hammering ore in caverns, supplicating the heavens for a worthy drop, the Executor simply walked forth. The sword was always ready, for it was always hungry, and hunger requires no preparation.</p>
+
+<p>The scholars, upon finally comprehending his full array, appended a thirteenth page to their treatise. It contained a single word, underscored thrice: <em>Why?</em></p>
+
+<p>The Executor, had he been asked, would have answered with rare honesty. He had assembled this configuration as a jest. A passing fancy. A brief sojourn to the training grounds to observe the damage figures perform amusing feats before returning to his proper, balanced, sensible preparations.</p>
+
+<p>He did not return.</p>
+
+<span class="page-num">— 1 —</span>
+</div>
+
+<!-- ═══ II — ANKLES OF THE COLOSSUS ═══ -->
+<div class="page">
+<svg class="page-art" style="bottom:40px;left:30px;opacity:0.035" width="250" height="200" viewBox="0 0 250 200" fill="#8ab0c8"><rect x="20" y="140" width="40" height="55" rx="3" transform="rotate(-15 40 167)"/><rect x="80" y="150" width="35" height="45" rx="2" transform="rotate(8 97 172)"/><rect x="140" y="130" width="50" height="65" rx="4" transform="rotate(-5 165 162)"/><circle cx="50" cy="120" r="15"/><path d="M30 100 L70 100 L60 80 L40 80 Z" opacity="0.6"/></svg>
+<div class="chapter-num">Chapter II</div>
+<div class="chapter-title">Ankles of the Colossus</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">He descended alone into the Deep of Night, Depth Two, where the air tasted of iron and the darkness possessed weight. No companions. No reprieve. Merely a man, a cursed sword, and the unshakeable conviction that the arithmetic would prove favourable.</p>
+
+<p>The Guardian Golem stood at the clearing's edge like a monument to everything the Executor was not: immense, stable, constructed with structural integrity. Its stone limbs groaned as it turned to face the intruder, each stride sending tremors through the earth.</p>
+
+<p>The Executor regarded it. He regarded the enormous stone legs. He regarded the ankles.</p>
+
+<p>A smile crossed his face—the particular smile of a man who has identified a weakness so fundamental, so <em>embarrassingly architectural</em>, that the only reasonable response is violence applied at precisely the correct height.</p>
+
+<p>He went low. The cursed blade bit into stone where it met the earth, again and again, a rhythm so swift and exact that sparks flew like a forge in full temper. The Golem swung overhead. The Executor did not look up. He had no need. He was beneath the operational reach of the creature's arms, crouched like a man polishing boots whilst the house blazed above him. Each strike fed the invisible calculus of his relics—melee potency compounding upon physical might compounding upon weapon art fury—and the ankles, those proud, weight-bearing ankles, began to fracture.</p>
+
+<p>And then the art gauge filled.</p>
+
+<p>Where he had stood—small, mortal, frothing with the quiet madness of a man hacking a colossus at knee-height—there now erupted a <strong>Crucible Beast</strong>. Wings of amber radiance. Horns of primordial wrath. A creature torn from the earth's memory of what violence meant before civilisation taught it restraint. The Golem found itself face-to-face with something whose horns exceeded the span of its torso.</p>
+
+<p>The impact was not a battle. It was a demolition. Stone exploded outward in a halo of ruin. Limbs that had walked for centuries scattered across the clearing like dice cast by a particularly wrathful god.</p>
+
+<p>Three minutes and eighteen seconds. The expedition clock had scarcely begun its count.</p>
+
+<div class="battle-log">
+<div class="log-header">❧ Expedition Record — First Day: Noontide</div>
+<div class="log-entry"><span class="log-time">03:18</span><span class="log-event log-victory">Felled Guardian Golem</span></div>
+<div class="log-entry"><span class="log-time">05:57</span><span class="log-event log-death">Slain by foe</span></div>
+<div class="log-entry"><span class="log-time">08:45</span><span class="log-event">Added a charge to flask</span></div>
+<div class="log-entry"><span class="log-time">10:02</span><span class="log-event log-death">Slain by foe</span></div>
+</div>
+
+<p>He fell twice before the tenth minute—cut down by nameless things in the fog. Later, when questioned regarding these early deaths, the Executor waved a dismissive hand. <em>"Calibration,"</em> he offered, as though perishing were a tuning process and not, in point of fact, perishing.</p>
+
+<span class="page-num">— 2 —</span>
+</div>
+
+<!-- ═══ III — THE GIANTS' FORTIFICATION ═══ -->
+<div class="page">
+<svg class="page-art" style="top:35px;right:20px;opacity:0.04" width="220" height="240" viewBox="0 0 220 240" fill="none" stroke="#8ab0c8">
+<rect x="40" y="80" width="140" height="150" rx="4" stroke-width="1.5"/>
+<rect x="55" y="70" width="110" height="20" rx="2" stroke-width="1"/>
+<path d="M90 80 L90 230 M130 80 L130 230" stroke-width="0.5" opacity="0.3"/>
+<!-- troll -->
+<circle cx="170" cy="50" r="18" stroke-width="1.2"/><path d="M158 38 Q155 25,160 20 M182 38 Q185 25,180 20" stroke-width="1.5"/>
+<!-- pot arc -->
+<path d="M170 60 Q130 10,80 50" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.4"/>
+<circle cx="80" cy="50" r="6" fill="#8ab0c8" opacity="0.2"/>
+</svg>
+<div class="chapter-num">Chapter III</div>
+<div class="chapter-title">The Giants' Fortification</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">Between the golem and the night stood the Castle—that looming bulk of stone and misery that squatted upon the centre of Limveld like a toad upon a throne it had not earned. Every Nightfarer knew the Castle. Most approached it with caution, a plan, and at minimum two companions to share the suffering.</p>
+
+<p>On this day, the Castle had Trolls.</p>
+
+<p>Four of them. One upon each rampart, each the height of a minor tower, each possessed of a talent so specific and so infuriating that it warranted its own entry in the Roundtable bestiary: they threw pots. Enormous, enchanted, incandescent vessels of alchemical fury, hurled with the precision of a court bowler who had devoted his entire existence to the singular art of striking a man between the eyes from two hundred paces.</p>
+
+<p>The scholarly consensus was: <em>do not engage the Trolls alone.</em> The scholarly consensus was, by this point in the expedition, a document the Executor had never read.</p>
+
+<p>He approached from the northern stair, where the first Troll stood apart from its brethren's line of sight. This was—by the Executor's own admission—the lone moment of tactical prudence in an otherwise strategically deranged expedition. The Troll spotted him. A pot sailed through the air, trailing fire like a comet with poor aim. The Executor sidestepped, closed the distance, and introduced the cursed blade to the Troll's ankles with the familiarity of a man who had, not thirty minutes prior, perfected this very technique upon a stone golem.</p>
+
+<p>The first Troll fell. A Dormant Power bloomed from its remains. The Executor collected it and turned toward the second.</p>
+
+<p>The second Troll was not alone. Exile soldiers crowded its feet like worshippers at the base of an exceedingly violent idol. Worse, the third Troll across the ramparts had taken notice. Two giants now lobbed their alchemical ordinance in overlapping arcs, and the flames they left upon the stone did not merely burn—they <em>lingered</em>, like grudges held by persons with nothing better to occupy their time.</p>
+
+<p>The Executor fought through it. Deflect a soldier. Dodge a pot. Strike the ankle. Dodge another pot. Drink a flask—feel the armour thin from the curse—feel the nullification rise in response. The loop. The mad, beautiful, self-devouring loop. The second Troll buckled and fell.</p>
+
+<p>And then the rain came.</p>
+
+<p>Not rain of water. Rain of <em>night.</em> The tide was closing, the azure fire sweeping inward across the map, and the remaining Trolls upon their perches were now behind the advancing wall of cerulean flame. The Executor regarded the encroaching destruction, regarded the two remaining giants still hurling pots from within the burning periphery, and made the only sensible decision available to a man who had long since abandoned sensibility.</p>
+
+<p>He left them. Two Trolls slain, two forsaken to the tide. There was, after all, a war still to fight, and the night was not going to wait for a man to finish his quarrel with masonry-dwelling pot enthusiasts.</p>
+
+<span class="page-num">— 3 —</span>
+</div>
+
+<!-- ═══ IV — THE HORSEMEN WHO CHARGED ═══ -->
+<div class="page">
+<svg class="page-art" style="top:35px;right:25px;opacity:0.04" width="220" height="300" viewBox="0 0 220 300" fill="none" stroke="#8ab0c8">
+<path d="M30 20 L100 280" stroke-width="2.5"/><path d="M25 20 L35 20 L30 8 Z" fill="#8ab0c8" opacity="0.4"/>
+<path d="M160 40 L170 180" stroke-width="2"/>
+<path d="M170 185 L165 200 Q168 210,175 210 Q182 210,175 200 Z" fill="#8ab0c8" opacity="0.2"/>
+<circle cx="160" cy="225" r="14" stroke-width="1.2"/><circle cx="175" cy="210" r="14" stroke-width="1.2"/><circle cx="180" cy="235" r="14" stroke-width="1.2"/>
+<path d="M148 218 L142 212 M192 228 L198 222 M174 247 L174 255 M150 232 L143 238 M188 244 L195 250" stroke-width="1.2"/>
+</svg>
+<div class="chapter-num">Chapter IV</div>
+<div class="chapter-title">The Horsemen Who Charged</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">Night fell with the certainty of a headsman's axe, and with it came the cavalries.</p>
+
+<p>They arrived in tandem—two riders clad in pitch-black armour thinly painted with dried blood, mounted upon funeral steeds whose hooves made no honest sound upon the earth. They were knights of the Fell Omen's old retinue, once deliverers of death to great warriors and champions, now condemned to ride the dim roads of the Deep for all eternity. They wore no heraldry. They bore no banner. Their black hair streamed behind them like the memory of a funeral that had never quite ended.</p>
+
+<p>The first bore a <strong>glaive</strong>—a jet-black halberd with a blade as weighty as a bludgeon, capable of sweeping attacks that covered half the field. The second carried a <strong>flail</strong>—three spiked heads of iron chained to a haft, swung with the lazy menace of someone who had never once lost a duel and saw no reason to begin losing now.</p>
+
+<p>Together, they were a Night Boss fashioned for parties. Coordinated trios would divide the duo—one rider per pair, controlled positioning, the whole tedious choreography of survival.</p>
+
+<p>The Executor was alone. He had no choreography. He had a cursed sword and a hypothesis that had served him well against a golem several hours prior: <em>that which charges may be deflected.</em></p>
+
+<p>The glaive-rider lowered its weapon and surged forth. The earth screamed beneath hooves that had borne the dead. The Executor planted his feet, raised the cursed blade flat before him, and—at the precise instant the glaive kissed the edge of his guard—<em>deflected.</em></p>
+
+<p>The sound was remarkable. A crystalline <em>ring</em> that echoed across the field like a bell recast in the same breath it shattered. The glaive snapped aside. The funeral steed buckled. And the rider—that ancient, blood-painted knight who had charged through uncountable nights—was thrown from its mount like a drunkard ejected from a tavern for unpaid debts.</p>
+
+<p>It landed hard. Black armour clanged against earth. And before it could rise—before it could recall that it was supposed to be immortal and terrifying—the Executor was upon it. The cursed blade found the seam between plate and purpose, drove through the rider's torso where it lay splayed upon the ground, and the critical strike that followed produced a figure so vast it flickered twice, as though the world itself were verifying the arithmetic.</p>
+
+<p>The first rider dissolved into nothing. The entire exchange had lasted seconds. Not many of them.</p>
+
+<p>The flail-bearer had witnessed all of this. It was dismounted by the same method—the deflection, the ring, the fall. But this one rose.</p>
+
+<p>What followed was a proper duel. One-on-one. A man with a cursed sword and a spectre of the Fell Omen's guard, both afoot, both at close quarters, the triple flail whistling through the dark in great spiralling arcs. The Executor stepped inside the reach. The cursed blade answered. The knight swung again. The Executor deflected. The knight staggered. The blade answered once more. It was, in its fashion, almost courteous—the sort of contest bards would set to verse, had the bards not all been devoured by Tricephalos during the previous expedition.</p>
+
+<p>It lasted less than a minute.</p>
+
+<div class="battle-log">
+<div class="log-header">❧ Expedition Record — First Day: Night</div>
+<div class="log-entry"><span class="log-time">15:32</span><span class="log-event log-victory">Felled Night's Cavalries</span></div>
+</div>
+
+<p>The Executor stood in the silence that followed and thought: <em>they both charged.</em> He filed this observation away with the care of a man cataloguing a natural law. It would be useful later. It would, in truth, be useful forever.</p>
+
+<span class="page-num">— 4 —</span>
+</div>
+
+<!-- ═══ V — THE HUNT OF THREE WOLVES ═══ -->
+<div class="page">
+<svg class="page-art" style="bottom:30px;right:20px;opacity:0.04" width="280" height="180" viewBox="0 0 280 180" fill="#8ab0c8">
+<path d="M30 80 Q20 60,30 50 L45 45 Q50 50,50 60 L55 55 Q60 48,65 55 L70 60 Q80 60,75 80 L65 90 Q50 95,40 90 Z" opacity="0.25"/>
+<path d="M110 75 Q95 50,105 40 L120 32 Q128 40,130 50 L138 42 Q148 32,155 45 L162 55 Q175 58,168 78 L155 92 Q135 100,120 92 Z" opacity="0.4"/>
+<path d="M195 70 Q180 40,190 25 L210 15 Q220 28,222 42 L232 30 Q245 18,255 35 L265 50 Q280 55,272 78 L258 95 Q248 105,240 100" opacity="0.6"/>
+<path d="M240 100 L255 115 L265 110 L258 95" opacity="0.45"/>
+<path d="M60 45 Q55 30,60 20 M150 30 Q148 15,155 8 M250 20 Q255 5,248 -5" stroke="#8ab0c8" stroke-width="0.8" fill="none" opacity="0.2"/>
+</svg>
+<div class="chapter-num">Chapter V</div>
+<div class="chapter-title">The Hunt of Three Wolves</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">The second day dawned with the taste of ash and a proclamation that no solitary warrior ever wishes to behold:</p>
+
+<p class="center-line"><strong>Fire-summoning beasts have appeared.</strong></p>
+
+<p>The Tricephalos raid. Three Sundered Tricephalos—great snarling wolves torn from the body of the Nightlord Gladius itself—scattered across the map in three separate dominions, each ringed in crimson upon the world chart like wounds upon a body. Between them, spirit wolves spawned ceaselessly, and a scorching affliction gnawed at vitality like a slow tithe upon the audacity of remaining alive.</p>
+
+<p>Most companies divide this labour. One warrior per wolf. Coordination, communication, signals upon the map. Orderly. Efficient. <em>Fashioned for three.</em></p>
+
+<p>The Executor was one.</p>
+
+<p>He found the first wolf at the sixteenth minute. The cursed blade sang its hungry song. The beast, unprepared for the sheer <em>discourtesy</em> of a man who did not pause to assess the situation, fell in a tempest of deflections and counters. Upon dying, it spawned three lesser fire wolves. They gave chase. The Executor did not cease running.</p>
+
+<p>The second wolf was stronger—the raid's cruel arithmetic ensured that each subsequent beast absorbed the fury of its predecessor. The fire wolves from the first slaying had followed, joining the second wolf's retinue. The scorching tithe intensified. The arena became a furnace.</p>
+
+<p>The third wolf was a war unto itself. Every creature that had perished before now served as fuel for this final beast. It stood flanked by packs of spectral fire wolves, every one of them howling, every one of them ablaze, every one of them personally invested in ending the Executor's improbable career. The Sundered Tricephalos pounced. The Executor deflected it. The ring was louder now—louder than it had been for the cavalries, louder than it had been for the golem. It was the sound of a man who had deflected so many things in one expedition that the act had ceased being a technique and become a <em>temperament.</em></p>
+
+<p>The wolf perished at twenty-eight minutes and fifteen seconds. The flames extinguished. The fire wolves dissolved like ill dreams at dawn.</p>
+
+<div class="battle-log">
+<div class="log-header">❧ Expedition Record — Second Day: Noontide</div>
+<div class="log-entry"><span class="log-time">16:09</span><span class="log-event">Formidable great enemy located</span></div>
+<div class="log-entry"><span class="log-time">20:37</span><span class="log-event">Fire-summoning beasts appeared</span></div>
+<div class="log-entry"><span class="log-time">22:20</span><span class="log-event log-victory">Fire-summoning beast felled</span></div>
+<div class="log-entry"><span class="log-time">23:25</span><span class="log-event log-death">Slain by Sundered Tricephalos</span></div>
+<div class="log-entry"><span class="log-time">24:36</span><span class="log-event log-victory">Fire-summoning beast felled</span></div>
+<div class="log-entry"><span class="log-time">26:18</span><span class="log-event log-death">Slain by foe</span></div>
+<div class="log-entry"><span class="log-time">27:45</span><span class="log-event log-death">Slain by environment</span></div>
+<div class="log-entry"><span class="log-time">28:15</span><span class="log-event log-victory">All fire-summoning beasts felled</span></div>
+</div>
+
+<p>He had perished thrice during the hunt. Once to the second Tricephalos. Once to a nameless creature in the chaos. Once to the <em>environment</em>—a fall from a ledge, of all things, the most ignoble death available to a man who had just bested a trio of fire-born god-beasts. He chose never to speak of the fall. Not then. Not ever.</p>
+
+<p><em>Beast's Hunt acquired. Successive strikes restore vigour. Vigour recovery hastened.</em></p>
+
+<p>A boon fashioned for companies. Claimed by one man. Whilst aflame.</p>
+
+<span class="page-num">— 5 —</span>
+</div>
+
+<!-- ═══ VI — FOUR SECONDS AND A HIPPO ═══ -->
+<div class="page">
+<svg class="page-art" style="top:40px;left:25px;opacity:0.035" width="200" height="220" viewBox="0 0 200 220" fill="#8ab0c8">
+<path d="M60 30 L60 90 Q60 110,80 115 L100 120 L120 115 Q140 110,140 90 L140 30 Q100 10,60 30 Z" opacity="0.4"/>
+<path d="M70 55 L90 55 L85 70 L75 70 Z" opacity="0.25"/>
+<path d="M110 55 L130 55 L125 70 L115 70 Z" opacity="0.25"/>
+<path d="M80 25 Q75 5,85 0" stroke="#8ab0c8" stroke-width="3" fill="none" opacity="0.35"/>
+<path d="M30 150 Q50 130,100 135 Q150 130,170 150 L165 180 Q100 200,35 180 Z" opacity="0.25"/>
+<path d="M50 155 L55 170 M80 152 L82 173 M110 152 L108 173 M140 155 L135 170" stroke="#070a0e" stroke-width="1.5" opacity="0.15"/>
+</svg>
+<div class="chapter-num">Chapter VI</div>
+<div class="chapter-title">Four Seconds and a Hippo</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">Night fell for the second time, and with it came a dual summons: the Crucible Knight, and the Golden Hippopotamus.</p>
+
+<p>This was a contest fashioned as a crescendo. The Crucible Knight arrived first—that ancient armoured pilgrim of horn and tail, whose slow, deliberate strokes bore the weight of theological certainty. At half vitality, it would roar, holy light would burst from its frame, and the Golden Hippopotamus would lumber forth to join the fray. Two foes. Simultaneously. In an arena constructed for coordinated trios.</p>
+
+<p>The Executor met the Crucible Knight at the thirty-first minute and thirty-eighth second. The knight raised its colossal blade. The Executor deflected. And again. Each parry charged the Suncatcher, each charge pushing the blade's accumulated fury closer to critical mass.</p>
+
+<p>The opening arrived. The knight committed to a heavy overhead—slow, proclaimed, dripping with intent—and the Executor stepped within the arc, drove the cursed blade upward, and unleashed the critical strike.</p>
+
+<p>Twenty-five hundred. The Crucible Knight—which had entered this contest with the serene assurance of a being that has existed since before geometry was conceived—simply ceased to be.</p>
+
+<p>The Golden Hippopotamus had barely crossed the threshold. It arrived at a gallop, jaws agape, prepared to contribute to what was meant to be a devastating assault, and instead found itself alone in a chamber with a man who ought not to have been producing figures that large. The hippo charged—for of course it charged; all things charged—and the Executor deflected it as well, because deflecting that which charged was no longer a stratagem. It was a <em>vocation.</em></p>
+
+<div class="battle-log">
+<div class="log-header">❧ Expedition Record — Second Day: Night</div>
+<div class="log-entry"><span class="log-time">31:38</span><span class="log-event log-victory">Felled Crucible Knight</span></div>
+<div class="log-entry"><span class="log-time">31:42</span><span class="log-event">Added a charge to flask</span></div>
+</div>
+
+<p>Thirty-one minutes and thirty-eight seconds to thirty-one minutes and forty-two seconds. The entire dual encounter—Crucible Knight and Golden Hippopotamus, a trial meant to test the coordination of a full company—resolved in four heartbeats. The flask charge materialised atop the hippo's cooling remains like a receipt for a transaction the Executor had not anticipated completing this swiftly.</p>
+
+<p>The relics—those mad, contradictory, self-devouring relics—were compounding upon one another like coin accruing interest in a treasury managed by a particularly zealous steward. Physical upon melee upon weapon art upon the sheer effrontery of a man who had transmuted his own curses into armour. And each Balancer nullification that flickered across his body was a reminder that the arithmetic was not merely functioning; it was <em>boasting.</em></p>
+
+<span class="page-num">— 6 —</span>
+</div>
+
+<!-- ═══ VII — THE GAPING JAW ═══ -->
+<div class="page">
+<svg class="page-art" style="bottom:30px;right:20px;opacity:0.04" width="260" height="200" viewBox="0 0 260 200" fill="none" stroke="#8ab0c8">
+<path d="M30 80 Q50 40,130 30 Q210 40,230 80" stroke-width="2"/>
+<path d="M50 75 L55 55 L60 75 M75 68 L82 42 L89 68 M105 63 L115 35 L125 63 M145 63 L155 35 L165 63 M180 68 L187 42 L194 68 M210 75 L215 55 L220 75" stroke-width="1.5" fill="#8ab0c8" opacity="0.25"/>
+<path d="M40 90 Q50 130,130 140 Q210 130,220 90" stroke-width="2"/>
+<path d="M60 93 L65 110 L70 93 M90 96 L98 118 L106 96 M125 98 L133 125 L141 98 M160 96 L168 118 L176 96 M195 93 L200 110 L205 93" stroke-width="1.5" fill="#8ab0c8" opacity="0.25"/>
+<path d="M130 140 L128 165 M133 140 L135 160" stroke-width="0.8" opacity="0.15"/>
+</svg>
+<div class="chapter-num">Chapter VII</div>
+<div class="chapter-title">The Gaping Jaw</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">The Final Day arrived as Final Days must: with too much silence, too little vitality, and the distinct awareness that something colossal was breathing just beyond the veil of sight.</p>
+
+<p>Adel, Baron of Night—the Gaping Jaw—awaited him at the terminus of all things. A Nightlord. A monstrous black drake with a crooked frame capable of harbouring lightning, its defining feature not a weapon, nor wings, but a <em>maw</em>. A sideways jaw, vast and gnarled, lined with grinding teeth fashioned to devour anything and everything it encountered. Once regal and unrivalled atop its perch, it had been consumed by the Night's Tide—starved of prey until hunger became madness, and madness became appetite without limit.</p>
+
+<p>The arena was wide and barren. The Executor stood at its edge, cursed blade drawn, his glass armour shimmering with all the resilience of a chandelier in an earthquake. His flask count ran low. His resurrections were spent.</p>
+
+<p>Adel charged.</p>
+
+<p>The Executor had awaited this. Every foe in this expedition had instructed him in the same lesson: the wolf that lunged, the golem that stomped, the Trolls that hurled, the cavalries that galloped, the Tricephalos that pounced, the Crucible Knight that swung, the hippo that rushed. <em>All things charge. All things are deflected.</em> He had elevated this observation into a universal law, tested it against every adversary the Deep could offer, and found it wanting for nothing.</p>
+
+<p>The deflection was clean. Adel's charge crashed against the cursed blade with the sound of a continent splitting. The guard counter followed. The Suncatcher blazed. Figures floated upward into the dark like lanterns released at a funeral—except the funeral was the Baron's.</p>
+
+<p>And then Adel seized him.</p>
+
+<p>The sideways jaws closed. The Executor vanished within the maw of the Nightlord, and for a terrible, airless moment, the world reduced itself to darkness and the sound of grinding teeth against glass armour. The grab—Adel's signature, the assault that scholars devote entire chapters to avoiding—had connected. The Baron chewed. Damage erupted in crimson. Vitality plummeted. Blood loss built with savage swiftness.</p>
+
+<p>The Executor survived. By what margin, he did not care to calculate. He was expelled, shattered and furious, and before the jaws could close again the cursed blade found its mark. A critical strike. Through the Nightlord's gaping throat. Twenty-five hundred. The Baron staggered backward, roaring, violet lightning crackling across its crooked frame.</p>
+
+<p>Another critical. Same wound. The cursed blade buried itself in the Baron's jaw and <em>twisted.</em></p>
+
+<p>But Adel did not fall. It swung. It lunged. It snapped. Lightning exploded across the arena in great violet fissures. The Executor's flask count reached zero. His resurrection tally read <em>empty.</em> His vitality was a sliver—a single blow from oblivion, a whisper from the afterlife, a rounding error from the death tally.</p>
+
+<p>He possessed nothing more.</p>
+
+<p>Save the Suncatcher.</p>
+
+<p>The cursed blade hummed. Deflections accumulated in its edge like a storm gathering behind glass—all the charges, all the counters, all the madness of a thirty-six-minute solitary expedition compressed into a single point of pale golden light at the tip of a sword that was never intended for this purpose.</p>
+
+<p>The Executor charged.</p>
+
+<p>Not a dodge. Not a retreat. Not the measured, calculated advance of a warrior managing his reserves. A <em>charge.</em> Across the arena. Directly at the Gaping Jaw. One blow from death, zero flasks, zero resurrections, running at a Nightlord with nothing but a cursed sword and the Suncatcher blazing like a comet forged from poor decisions.</p>
+
+<p>Adel opened its maw.</p>
+
+<p>The Suncatcher connected first.</p>
+
+<p>The light was blinding. Adel, Baron of Night, the Gaping Jaw, Nightlord of the Deep, collapsed mid-lunge, its maw still agape, its teeth still reaching, its vitality emptied by a man wrought of glass and the specific variety of madness that refuses the prudent course even when the prudent course is the only course that could possibly succeed.</p>
+
+<div class="battle-log">
+<div class="log-header">❧ Expedition Record — Final Day</div>
+<div class="log-entry"><span class="log-time">36:32</span><span class="log-event log-victory">Felled Adel, Baron of Night</span></div>
+</div>
+
+<p>Thirty-six minutes. Thirty-two seconds. Five deaths across the whole of the expedition. None upon the final day.</p>
+
+<p>The arena fell silent. The darkness receded. The expedition's completion blazed in golden script across the heavens, and the Executor—battered, bloodied, cursed six ways unto damnation, his armour cracked in more places than it was whole—rose to his full height.</p>
+
+<p>He struck a pose.</p>
+
+<p>Not a victory salute. Not a humble bow. A <em>pose.</em> Shoulders thrown back, chin raised, one arm extended at an angle so precise it could only have been rehearsed before a looking glass in a prior life. Those who recognised the stance—and there were none present to recognise it, for he was alone, but the cosmos recognised it—would have named it the posture of a man channelling something ancient, something theatrical, something profoundly Eastern and deeply concerned with the art of standing dramatically whilst the world collapses around you.</p>
+
+<p>The vision began to darken. The firmament swelled with distant music. And the Glass Samurai held the pose—held it through the fade, held it through the silence, held it through eternity—as though the pose were the true victory, and the Nightlord merely the occasion for it.</p>
+
+<span class="page-num">— 7 —</span>
+</div>
+
+<!-- ═══ EPILOGUE ═══ -->
+<div class="page">
+<svg class="page-art" style="bottom:50px;left:50%;transform:translateX(-50%);opacity:0.035" width="80" height="300" viewBox="0 0 80 300" fill="#8ab0c8">
+<path d="M40 10 L40 200" stroke="#8ab0c8" stroke-width="3" fill="none"/>
+<path d="M35 10 L40 0 L45 10" fill="#8ab0c8" opacity="0.5"/>
+<path d="M20 200 L60 200" stroke="#8ab0c8" stroke-width="4"/>
+<path d="M37 200 L37 240 M43 200 L43 240" stroke="#8ab0c8" stroke-width="2"/>
+<circle cx="40" cy="248" r="6" stroke="#8ab0c8" stroke-width="1.5" fill="none"/>
+<path d="M10 250 Q25 245,40 250 Q55 255,70 250" stroke="#8ab0c8" stroke-width="1" fill="none" opacity="0.35"/>
+<circle cx="40" cy="265" r="2" opacity="0.2"/><circle cx="38" cy="278" r="1.5" opacity="0.12"/>
+</svg>
+<div class="chapter-num">Epilogue</div>
+<div class="chapter-title">The Jest That Bit Back</div>
+<div class="chapter-rule"></div>
+
+<p class="first-para">The most perilous detail of this chronicle—the one the Roundtable scholars shall debate for generations, the one that shall keep them awake long past the hour when sensible folk cease quarrelling over relic synergies—is that the Glass Samurai was never intended to function.</p>
+
+<p>He had assembled the configuration as a jest. <em>Let me merely observe the damage figures in the training grounds,</em> he had told himself, in the manner of a man who tells himself he shall have but a single drink. The curses were too numerous, the penalties too severe, the absence of healing relics a gap so wide one might drive a Tricephalos through it.</p>
+
+<p>And the configuration had responded by conquering Depth Two on its maiden voyage.</p>
+
+<p>The terrible truth—the one that made the other Nightfarers regard their own meticulously-balanced, exhaustively-optimised relic sets with sudden suspicion—was this: <em>the configuration was not yet complete.</em> The deep relics could be mightier. The curses, better chosen. Frost, bleed, madness, slumber—the afflictions that fed the Executor's ancient passive like kindling to a furnace—had scarcely been explored. The Glass Samurai, in his present form, was a rough draught.</p>
+
+<p>A rough draught that had slain a Nightlord whilst posing.</p>
+
+<div class="scene-break">◆ &nbsp; ◆ &nbsp; ◆</div>
+
+<p>There is one final matter. A detail that appears in no battle record, no scholarly treatise, no testimony offered by the Executor himself. It is this:</p>
+
+<p>The cursed blade had been silent when he first bore it. A relic among relics, bound to a slot, granted without ceremony. But somewhere during the expedition—perhaps during the golem's demolition, perhaps when the cavalries fell, perhaps in the breath between the second Tricephalos and the third—it had begun to <em>hum.</em></p>
+
+<p>A low sound. Nigh imperceptible. The sort of sound a blade makes when it is not merely being wielded, but <em>gratified.</em></p>
+
+<p>The Executor had noticed. He had elected not to mention it. He had elected not to mention, either, that the cursed blade felt lighter now than when the expedition commenced—that the hunger which had always defined it, that slow draining of his vitality, had shifted in character from parasitic to <em>symbiotic.</em> As though the blade had found, after centuries of being borne by men who feared it, a host who comprehended what it truly desired.</p>
+
+<p><em>Not to be carried. To be unleashed.</em></p>
+
+<p>The scholars' treatise would eventually be expanded to fourteen pages, the final addition a footnote so small that only the most attentive readers would catch it:</p>
+
+<p class="no-drop" style="text-align:center;color:#5a7a8a;font-size:15px;font-style:italic;margin:24px 0;">"Addendum: we can no longer ascertain, with certainty,<br>whether the Executor wields the sword,<br>or whether the sword wields the Executor.<br>We recommend further inquiry.<br>We do not recommend proximity."</p>
+
+<p>The Executor was last observed departing the Shrouded Roundtable Hold at an hour when all other Nightfarers had retired to rest. He walked without haste. The cursed blade lay across his shoulders. His glass armour caught the firelight and fractured it into hues that ought not to have existed in a place this dark.</p>
+
+<p>He was humming the same note as the sword.</p>
+
+<p>He did not look back.</p>
+
+<div class="scene-break">◆ &nbsp; ◆ &nbsp; ◆</div>
+
+<p class="no-drop" style="text-align:center;color:#4a6a78;font-size:14px;margin-top:24px;">
+Total expedition time: 36 minutes, 32 seconds.<br>
+Deaths: 5. Final lord deaths: 0.<br>
+Intent: Jest. Outcome: Legend.<br>
+Status: <strong>Unfinished.</strong>
+</p>
+
+<span class="page-num">— 8 —</span>
+</div>
+
+<!-- ═══ COLOPHON ═══ -->
+<div class="page colophon">
+<svg style="margin:24px auto;opacity:0.2;display:block" width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="15" stroke="#8ab0c8" stroke-width="0.5"/><circle cx="20" cy="20" r="8" stroke="#8ab0c8" stroke-width="0.4"/><circle cx="20" cy="20" r="2.5" fill="#8ab0c8" opacity="0.3"/></svg>
+<div class="colophon-text">
+This chronicle was transcribed from the battle records<br>
+of the Shrouded Roundtable Hold,<br>
+by order of no one in particular.<br><br>
+The Executor neither requested nor sanctioned this account.<br>
+He was too occupied listening to his sword.<br><br>
+The scholars have since bolted their chambers.<br><br>
+<em>— Finis —</em>
+</div>
+</div>
+
+</div>
+</body>
+</html>
