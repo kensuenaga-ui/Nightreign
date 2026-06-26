@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nightreign — Starting Armament Relic Compatibility</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+  :root {
+    --bg:         #0c0e12;
+    --bg-panel:   #10121a;
+    --bg-row:     #121520;
+    --bg-rowalt:  #0e1018;
+    --border:     #252a38;
+    --border-dim: #1a1e2a;
+
+    --gold:       #c8a84b;
+    --gold-dim:   #6a5820;
+    --gold-glow:  rgba(200,168,75,0.10);
+
+    --yes:        #4e9e68;
+    --yes-bg:     rgba(78,158,104,0.12);
+    --yes-dim:    #2e5e3e;
+
+    --no:         #1e2030;
+    --no-text:    #2d3248;
+
+    --silver:     #9aaabb;
+    --silver-dim: #404860;
+
+    --text:       #c0c8d8;
+    --text-dim:   #5a6278;
+    --text-head:  #e0d8c0;
+    --text-sub:   #8892a8;
+
+    --cat-skill:  #5a8ab8;
+    --cat-imbue:  #8a68b8;
+    --cat-spell:  #b88840;
+
+    --font-d: 'Cinzel', serif;
+    --font-b: 'Crimson Pro', serif;
+    --font-m: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* ── Page header ── */
+  .pg-head {
+    background: linear-gradient(180deg,#080a0f 0%,#0c0e12 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.75rem 2rem 2.25rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pg-head::before {
+    content:'';
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(200,168,75,0.07) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .pg-head .eye {
+    font-family:var(--font-m);font-size:0.6rem;
+    letter-spacing:0.22em;color:var(--gold-dim);
+    text-transform:uppercase;margin-bottom:0.6rem;
+  }
+  .pg-head h1 {
+    font-family:var(--font-d);font-size:clamp(1.4rem,3.5vw,2.2rem);
+    font-weight:900;color:var(--gold);letter-spacing:0.04em;
+    text-shadow:0 0 40px rgba(200,168,75,0.2);
+    margin-bottom:0.35rem;
+  }
+  .pg-head .sub {
+    font-style:italic;font-size:0.95rem;color:var(--silver);
+    font-weight:300;max-width:580px;margin:0 auto;
+  }
+  .pg-divider {
+    width:100px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+    margin:1rem auto 0;
+  }
+
+  /* ── Nav pills ── */
+  .section-nav {
+    display:flex;gap:0.5rem;flex-wrap:wrap;
+    padding:1rem 1.5rem;
+    background:#0a0c10;
+    border-bottom:1px solid var(--border-dim);
+  }
+  .nav-pill {
+    font-family:var(--font-m);font-size:0.58rem;
+    letter-spacing:0.15em;text-transform:uppercase;
+    padding:0.3rem 0.8rem;border-radius:2px;
+    text-decoration:none;transition:opacity 0.15s;
+    border:1px solid;
+  }
+  .nav-pill:hover {opacity:0.7;}
+  .np-skill { color:var(--cat-skill);border-color:rgba(90,138,184,0.3);background:rgba(90,138,184,0.08);}
+  .np-imbue { color:var(--cat-imbue);border-color:rgba(138,104,184,0.3);background:rgba(138,104,184,0.08);}
+  .np-spell { color:var(--cat-spell);border-color:rgba(184,136,64,0.3);background:rgba(184,136,64,0.08);}
+
+  /* ── Content ── */
+  .content { max-width:1440px;margin:0 auto;padding:2rem 1.25rem 4rem; }
+
+  /* ── Section header ── */
+  .sec-head {
+    display:flex;align-items:center;gap:0.9rem;
+    margin:2.5rem 0 0.6rem;
+    padding-top:0.5rem;
+  }
+  .sec-head:first-child { margin-top:0; }
+  .sec-tag {
+    font-family:var(--font-m);font-size:0.58rem;
+    letter-spacing:0.18em;text-transform:uppercase;
+    padding:0.18rem 0.55rem;border-radius:2px;flex-shrink:0;
+  }
+  .st-skill { color:var(--cat-skill);background:rgba(90,138,184,0.10);border:1px solid rgba(90,138,184,0.25);}
+  .st-imbue { color:var(--cat-imbue);background:rgba(138,104,184,0.10);border:1px solid rgba(138,104,184,0.25);}
+  .st-spell { color:var(--cat-spell);background:rgba(184,136,64,0.10);border:1px solid rgba(184,136,64,0.25);}
+  .sec-title {
+    font-family:var(--font-d);font-size:0.85rem;font-weight:600;
+    color:var(--text-head);letter-spacing:0.07em;text-transform:uppercase;
+  }
+  .sec-rule { flex:1;height:1px;background:var(--border-dim); }
+  .sec-count {
+    font-family:var(--font-m);font-size:0.55rem;
+    color:var(--text-dim);letter-spacing:0.1em;
+  }
+  .sec-desc {
+    font-style:italic;font-size:0.88rem;
+    color:var(--text-dim);margin-bottom:0.9rem;
+  }
+
+  /* ── Table ── */
+  .tw { overflow-x:auto;border:1px solid var(--border);border-radius:3px;margin-bottom:0.35rem; }
+  table { width:100%;border-collapse:collapse;font-size:0.82rem; }
+
+  thead th {
+    background:#09090e;
+    font-family:var(--font-m);font-size:0.58rem;
+    letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--silver-dim);padding:0.6rem 0.5rem;
+    border-bottom:1px solid var(--border);
+    white-space:nowrap;text-align:center;
+    position:sticky;top:0;
+  }
+  thead th:first-child {
+    text-align:left;min-width:195px;
+    position:sticky;left:0;z-index:3;background:#09090e;
+  }
+
+  tbody tr:nth-child(odd)  { background:var(--bg-row); }
+  tbody tr:nth-child(even) { background:var(--bg-rowalt); }
+  tbody tr:hover { background:rgba(200,168,75,0.03); }
+
+  tbody td {
+    padding:0.45rem 0.5rem;
+    border-bottom:1px solid var(--border-dim);
+    vertical-align:middle;text-align:center;
+  }
+  tbody td:first-child {
+    text-align:left;
+    font-family:var(--font-b);font-weight:600;
+    color:var(--text-head);font-size:0.85rem;
+    position:sticky;left:0;z-index:1;
+  }
+  tbody tr:nth-child(odd)  td:first-child { background:var(--bg-row); }
+  tbody tr:nth-child(even) td:first-child { background:var(--bg-rowalt); }
+  tbody tr:hover           td:first-child { background:rgba(200,168,75,0.03); }
+
+  .eff-sub {
+    display:block;font-family:var(--font-m);font-size:0.54rem;
+    color:var(--text-dim);font-weight:300;letter-spacing:0.04em;margin-top:0.08rem;
+  }
+  .eff-note {
+    display:block;font-style:italic;font-size:0.75rem;
+    color:rgba(200,168,75,0.5);font-weight:300;margin-top:0.06rem;
+  }
+
+  /* ── Cells ── */
+  .cy  { color:var(--yes);font-size:1.05rem;font-weight:700; }
+  .cn  { color:var(--no-text);font-size:0.9rem; }
+  .cw  { /* weapon-type restriction — amber */
+    color:#a07830;font-size:0.68rem;font-weight:600;
+    line-height:1.15;cursor:help;
+    text-decoration:underline dotted 1px;
+    text-underline-offset:2px;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;
+    padding:0.7rem 1rem;
+    background:var(--bg-panel);border:1px solid var(--border-dim);
+    border-radius:3px;margin-bottom:2rem;
+    align-items:center;
+  }
+  .leg-lbl {
+    font-family:var(--font-m);font-size:0.55rem;
+    letter-spacing:0.18em;color:var(--text-dim);
+    text-transform:uppercase;
+  }
+  .leg-item { display:flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:var(--text-sub); }
+  .leg-pip {
+    display:inline-flex;align-items:center;justify-content:center;
+    width:18px;height:18px;border-radius:2px;font-size:0.68rem;font-weight:700;
+  }
+  .lp-y  { background:var(--yes-bg);color:var(--yes);border:1px solid var(--yes-dim); }
+  .lp-n  { background:#0e1018;color:var(--no-text);border:1px solid #1e2030; }
+  .lp-w  { background:rgba(160,120,48,0.12);color:#a07830;border:1px solid rgba(160,120,48,0.3); }
+
+  /* ── Char type strip ── */
+  .char-strip {
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+    gap:0.4rem;margin-bottom:1.5rem;
+  }
+  @media(max-width:900px){ .char-strip{grid-template-columns:repeat(5,1fr);} }
+  .char-card {
+    background:var(--bg-panel);border:1px solid var(--border-dim);
+    border-radius:3px;padding:0.45rem 0.5rem;text-align:center;
+  }
+  .cc-name {
+    font-family:var(--font-d);font-size:0.62rem;letter-spacing:0.05em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:0.2rem;
+  }
+  .cc-type {
+    font-family:var(--font-m);font-size:0.54rem;
+    color:var(--text-dim);letter-spacing:0.04em;line-height:1.3;
+  }
+  .cc-dlc {
+    font-size:0.5rem;color:var(--text-dim);
+    letter-spacing:0.1em;vertical-align:middle;
+  }
+
+  /* ── Footnotes ── */
+  .footnotes {
+    margin-top:2.5rem;padding-top:1.5rem;
+    border-top:1px solid var(--border-dim);
+  }
+  .footnotes h3 {
+    font-family:var(--font-m);font-size:0.58rem;
+    letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:0.7rem;
+  }
+  .footnotes ul { list-style:none;display:flex;flex-direction:column;gap:0.35rem; }
+  .footnotes li {
+    font-size:0.82rem;color:var(--text-dim);
+    padding-left:1rem;position:relative;
+  }
+  .footnotes li::before { content:'—';position:absolute;left:0;color:var(--gold-dim); }
+  .footnotes li strong { color:var(--text-sub); }
+</style>
+</head>
+<body>
+
+<header class="pg-head">
+  <p class="eye">Nightreign · NTRN:REF · Build Planning</p>
+  <h1>Starting Armament Relic Compatibility</h1>
+  <p class="sub">Which characters can use each Skill, Imbue, and Spell relic effect from Day 1, based on starting weapon type.</p>
+  <div class="pg-divider"></div>
+</header>
+
+<nav class="section-nav">
+  <a href="#skill" class="nav-pill np-skill">↓ Skills (20)</a>
+  <a href="#imbue" class="nav-pill np-imbue">↓ Imbues (7)</a>
+  <a href="#spell" class="nav-pill np-spell">↓ Spells (10)</a>
+</nav>
+
+<main class="content">
+
+  <!-- Character Reference Strip -->
+  <div class="char-strip">
+    <div class="char-card"><div class="cc-name">Wylder</div><div class="cc-type">Greatsword<br>Stamp/Upward Cut</div></div>
+    <div class="char-card"><div class="cc-name">Guardian</div><div class="cc-type">Halberd<br>Charge Forth</div></div>
+    <div class="char-card"><div class="cc-name">Ironeye</div><div class="cc-type">Bow<br>Barrage</div></div>
+    <div class="char-card"><div class="cc-name">Duchess</div><div class="cc-type">Dagger ×2<br>Quickstep</div></div>
+    <div class="char-card"><div class="cc-name">Raider</div><div class="cc-type">Colossal Axe<br>War Cry</div></div>
+    <div class="char-card"><div class="cc-name">Revenant</div><div class="cc-type">Fist + Seal<br>Rejection / Heal</div></div>
+    <div class="char-card"><div class="cc-name">Recluse</div><div class="cc-type">Staff<br>Pebble / Arc</div></div>
+    <div class="char-card"><div class="cc-name">Executor</div><div class="cc-type">Katana<br>Suncatcher</div></div>
+    <div class="char-card"><div class="cc-name">Scholar <span class="cc-dlc">DLC</span></div><div class="cc-type">Thrusting Sword<br>Repeating Thrust</div></div>
+    <div class="char-card"><div class="cc-name">Undertaker <span class="cc-dlc">DLC</span></div><div class="cc-type">Hammer<br>Prayerful Strike</div></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span class="leg-lbl">Key</span>
+    <div class="leg-item"><span class="leg-pip lp-y">✓</span> Compatible at start</div>
+    <div class="leg-item"><span class="leg-pip lp-n">—</span> Incompatible (weapon type)</div>
+    <div class="leg-item"><span class="leg-pip lp-w">⚠</span> Partial / weapon-class restriction applies</div>
+  </div>
+
+  <!-- ════════════════════════════════
+       SECTION 1 — SKILL (20 effects)
+  ════════════════════════════════ -->
+  <div id="skill" class="sec-head">
+    <span class="sec-tag st-skill">Skill</span>
+    <span class="sec-title">Starting Armaments (Skill)</span>
+    <div class="sec-rule"></div>
+    <span class="sec-count">20 effects</span>
+  </div>
+  <p class="sec-desc">Changes the Ash of War on a compatible starting weapon. Bows, staves, and seals cannot receive these — only melee weapons with swappable skills.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Skill</th>
+          <th>Wylder<br><span style="font-weight:300;color:#2d3560">Greatsword</span></th>
+          <th>Guardian<br><span style="font-weight:300;color:#2d3560">Halberd</span></th>
+          <th>Ironeye<br><span style="font-weight:300;color:#2d3560">Bow</span></th>
+          <th>Duchess<br><span style="font-weight:300;color:#2d3560">Dagger</span></th>
+          <th>Raider<br><span style="font-weight:300;color:#2d3560">Colossal</span></th>
+          <th>Revenant<br><span style="font-weight:300;color:#2d3560">Fist</span></th>
+          <th>Recluse<br><span style="font-weight:300;color:#2d3560">Staff</span></th>
+          <th>Executor<br><span style="font-weight:300;color:#2d3560">Katana</span></th>
+          <th>Scholar<br><span style="font-weight:300;color:#2d3560">Thrust.Sw.</span></th>
+          <th>Undertaker<br><span style="font-weight:300;color:#2d3560">Hammer</span></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ALL melee (bow ✗, staff ✗) -->
+        <tr>
+          <td>Endure<span class="eff-sub">All melee weapons</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Quickstep<span class="eff-sub">All melee weapons — incl. fists, claws, colossal</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Storm Stomp<span class="eff-sub">All melee weapons — incl. fists, claws, colossal</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Determination<span class="eff-sub">All melee weapons — incl. fists, claws, colossal</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>White Shadow's Lure<span class="eff-sub">All melee weapons — incl. fists, claws, colossal</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Hoarfrost Stomp<span class="eff-sub">All melee weapons — incl. fists, claws, colossal</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+
+        <!-- Broad melee — incl. fists/claws, NOT bow/staff -->
+        <tr>
+          <td>Flaming Strike<span class="eff-sub">Most melee — incl. fists, claws, axes, halberds, hammers</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Thunderbolt<span class="eff-sub">All melee — incl. fists, claws, colossal</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+
+        <!-- Melee exc. fists/claws/whips -->
+        <tr>
+          <td>Poisonous Mist<span class="eff-sub">Melee exc. fists, claws, whips</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn" title="Fists and claws explicitly excluded">—</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Chilling Mist<span class="eff-sub">Melee exc. fists, claws, whips</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn" title="Fists and claws explicitly excluded">—</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Sacred Blade<span class="eff-sub">Melee exc. fists, claws, whips</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn" title="Fists and claws explicitly excluded">—</td>
+          <td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+
+        <!-- Swords + thrusting polearms — exc. daggers (small) and colossal -->
+        <tr>
+          <td>Seppuku<span class="eff-sub">Swords + thrusting polearms — exc. daggers (small) and colossal</span></td>
+          <td class="cy" title="Greatsword — medium/large sword ✓">✓</td>
+          <td class="cy" title="Halberd is a thrusting polearm ✓">✓</td>
+          <td class="cn">—</td>
+          <td class="cn" title="Dagger = small weapon — explicitly excluded">—</td>
+          <td class="cn" title="Colossal Axe — explicitly excluded">—</td>
+          <td class="cn" title="Fist — not a sword or thrusting polearm">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Katana ✓">✓</td>
+          <td class="cy" title="Thrusting Sword ✓">✓</td>
+          <td class="cn" title="Hammer — not a sword or thrusting polearm">—</td>
+        </tr>
+
+        <!-- Small + medium swords only (Poison Moth Flight, Blood Blade) -->
+        <tr>
+          <td>Poison Moth Flight<span class="eff-sub">Small + medium swords only — daggers, straight swords, curved swords, katanas, thrusting swords</span></td>
+          <td class="cn" title="Greatsword is a large sword — excluded">—</td>
+          <td class="cn" title="Halberd is not a sword">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Dagger = small sword ✓">✓</td>
+          <td class="cn" title="Greataxe is not a sword">—</td>
+          <td class="cn" title="Fist is not a sword">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Katana ✓">✓</td>
+          <td class="cy" title="Thrusting Sword ✓">✓</td>
+          <td class="cn" title="Hammer is not a sword">—</td>
+        </tr>
+        <tr>
+          <td>Blood Blade<span class="eff-sub">Small + medium swords only — daggers, straight swords, curved swords, katanas, thrusting swords</span></td>
+          <td class="cn" title="Greatsword is a large sword — excluded">—</td>
+          <td class="cn" title="Halberd is not a sword">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Dagger = small sword ✓">✓</td>
+          <td class="cn" title="Greataxe is not a sword">—</td>
+          <td class="cn" title="Fist is not a sword">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Katana ✓">✓</td>
+          <td class="cy" title="Thrusting Sword ✓">✓</td>
+          <td class="cn" title="Hammer is not a sword">—</td>
+        </tr>
+
+        <!-- Melee exc. small armaments (daggers) and whips — Gravitas -->
+        <tr>
+          <td>Gravitas<span class="eff-sub">Melee exc. small armaments (daggers, fists/claws) and whips</span></td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cn" title="Dagger = small armament — excluded">—</td>
+          <td class="cy">✓</td>
+          <td class="cn" title="Fists/claws confirmed excluded — community-verified">—</td>
+          <td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+
+        <!-- Glintblade Phalanx — swords + thrusting polearms, not colossal, not fists/hammers/axes -->
+        <tr>
+          <td>Glintblade Phalanx<span class="eff-sub">Swords + thrusting polearms — exc. colossal, fists, axes, hammers</span></td>
+          <td class="cy">✓</td>
+          <td class="cy" title="Halberd is a thrusting polearm ✓">✓</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Dagger ✓">✓</td>
+          <td class="cn" title="Greataxe not in compatible list">—</td>
+          <td class="cn" title="Fist not compatible">—</td>
+          <td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn" title="Hammer not in compatible list">—</td>
+        </tr>
+
+        <!-- Prayerful Strike — axes and hammers ONLY -->
+        <tr>
+          <td>Prayerful Strike<span class="eff-sub">Axes and hammers only — greataxes, hammers, great hammers, colossal weapons</span></td>
+          <td class="cn" title="Greatsword — not an axe or hammer">—</td>
+          <td class="cn" title="Halberd — not an axe or hammer">—</td>
+          <td class="cn">—</td>
+          <td class="cn" title="Dagger — not an axe or hammer">—</td>
+          <td class="cy" title="Greataxe ✓">✓</td>
+          <td class="cn" title="Fist — not an axe or hammer">—</td>
+          <td class="cn">—</td>
+          <td class="cn" title="Katana — not an axe or hammer">—</td>
+          <td class="cn" title="Thrusting Sword — not an axe or hammer">—</td>
+          <td class="cy" title="Hammer ✓">✓</td>
+        </tr>
+
+        <!-- Lightning Slash — swords, axes, hammers. Confirmed: NO halberds, NO fists -->
+        <tr>
+          <td>Lightning Slash<span class="eff-sub">Swords, axes, hammers — exc. halberds, fists, claws</span></td>
+          <td class="cy" title="Greatsword ✓">✓</td>
+          <td class="cn" title="Halberd confirmed incompatible — explicitly noted on Fextralife">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Dagger = small sword ✓">✓</td>
+          <td class="cy" title="Greataxe ✓">✓</td>
+          <td class="cn" title="Fist — not sword/axe/hammer">—</td>
+          <td class="cn">—</td>
+          <td class="cy" title="Katana ✓">✓</td>
+          <td class="cy" title="Thrusting Sword ✓">✓</td>
+          <td class="cy" title="Hammer ✓">✓</td>
+        </tr>
+
+        <!-- Eruption — large/colossal swords, greataxes, great hammers (NOT regular hammers, NOT halberds) -->
+        <tr>
+          <td>Eruption<span class="eff-sub">Large/colossal swords, greataxes, great hammers — NOT regular hammers or halberds</span></td>
+          <td class="cy" title="Greatsword = large sword ✓">✓</td>
+          <td class="cn" title="Halberd not compatible">—</td>
+          <td class="cn">—</td>
+          <td class="cn" title="Dagger not compatible">—</td>
+          <td class="cy" title="Greataxe ✓">✓</td>
+          <td class="cn" title="Fist not compatible">—</td>
+          <td class="cn">—</td>
+          <td class="cn" title="Katana is not a large sword">—</td>
+          <td class="cn" title="Thrusting Sword not compatible">—</td>
+          <td class="cn" title="Regular Hammer ✗ — Eruption requires Great Hammers, not standard Hammers">—</td>
+        </tr>
+
+        <!-- Rain of Arrows — bow only -->
+        <tr>
+          <td>Rain of Arrows<span class="eff-sub">Bow only</span><span class="eff-note">Ironeye-exclusive in practice</span></td>
+          <td class="cn">—</td><td class="cn">—</td>
+          <td class="cy" title="Bow only ✓">✓</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════
+       SECTION 2 — IMBUE (7 effects)
+  ════════════════════════════════ -->
+  <div id="imbue" class="sec-head">
+    <span class="sec-tag st-imbue">Imbue</span>
+    <span class="sec-title">Starting Armaments (Imbue)</span>
+    <div class="sec-rule"></div>
+    <span class="sec-count">7 effects</span>
+  </div>
+  <p class="sec-desc">Converts or adds damage type / status buildup to the starting weapon. Applies to melee weapons only — bows and staves cannot be imbued. Revenant's Cursed Claws (Fist) can receive elemental damage imbues but <em>not</em> all status types; marked where restricted.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Imbue</th>
+          <th>Wylder<br><span style="font-weight:300;color:#2d3560">Greatsword</span></th>
+          <th>Guardian<br><span style="font-weight:300;color:#2d3560">Halberd</span></th>
+          <th>Ironeye<br><span style="font-weight:300;color:#2d3560">Bow</span></th>
+          <th>Duchess<br><span style="font-weight:300;color:#2d3560">Dagger</span></th>
+          <th>Raider<br><span style="font-weight:300;color:#2d3560">Colossal</span></th>
+          <th>Revenant<br><span style="font-weight:300;color:#2d3560">Fist</span></th>
+          <th>Recluse<br><span style="font-weight:300;color:#2d3560">Staff</span></th>
+          <th>Executor<br><span style="font-weight:300;color:#2d3560">Katana</span></th>
+          <th>Scholar<br><span style="font-weight:300;color:#2d3560">Thrust.Sw.</span></th>
+          <th>Undertaker<br><span style="font-weight:300;color:#2d3560">Hammer</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Starting armament deals magic damage</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Starting armament deals fire damage</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Starting armament deals lightning damage</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Starting armament deals holy damage</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Starting armament inflicts poison</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Starting armament inflicts blood loss</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+        <tr>
+          <td>Starting armament inflicts frost</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cn">—</td>
+          <td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════
+       SECTION 3 — SPELL (10 effects)
+  ════════════════════════════════ -->
+  <div id="spell" class="sec-head">
+    <span class="sec-tag st-spell">Spell</span>
+    <span class="sec-title">Starting Armaments (Spell)</span>
+    <div class="sec-rule"></div>
+    <span class="sec-count">10 effects</span>
+  </div>
+  <p class="sec-desc">Changes a spell slot on a compatible starting catalyst. Sorceries require a Glintstone Staff; incantations require a Sacred Seal. No other weapon type is affected. Recluse starts with a staff. Revenant starts with a seal. No other character starts with either.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Spell Changed</th>
+          <th>Wylder</th>
+          <th>Guardian</th>
+          <th>Ironeye</th>
+          <th>Duchess</th>
+          <th>Raider</th>
+          <th>Revenant<br><span style="font-weight:300;color:#2d3560">Finger Seal</span></th>
+          <th>Recluse<br><span style="font-weight:300;color:#2d3560">Staff</span></th>
+          <th>Executor</th>
+          <th>Scholar</th>
+          <th>Undertaker</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Sorceries — Staff only → Recluse only -->
+        <tr>
+          <td>→ Magic Glintblade (sorcery)<span class="eff-sub">Staff required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cn" title="Finger Seal cannot cast sorceries">—</td>
+          <td class="cy">✓</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Carian Greatsword (sorcery)<span class="eff-sub">Staff required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cn">—</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Night Shard (sorcery)<span class="eff-sub">Staff required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cn">—</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Magma Shot (sorcery)<span class="eff-sub">Staff required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cn">—</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Briars of Punishment (sorcery)<span class="eff-sub">Staff required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cn">—</td><td class="cy">✓</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+
+        <!-- Incantations — Seal only → Revenant only at start -->
+        <tr>
+          <td>→ Wrath of Gold (incantation)<span class="eff-sub">Sacred Seal required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cy">✓</td>
+          <td class="cn" title="Staff cannot cast incantations">—</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Lightning Spear (incantation)<span class="eff-sub">Sacred Seal required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cy">✓</td>
+          <td class="cn">—</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ O, Flame! (incantation)<span class="eff-sub">Sacred Seal required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cy">✓</td>
+          <td class="cn">—</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Beast Claw (incantation)<span class="eff-sub">Sacred Seal required</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cy">✓</td>
+          <td class="cn">—</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+        <tr>
+          <td>→ Dragonfire (incantation)<span class="eff-sub">Sacred Seal required — Image 3 cut off here</span></td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+          <td class="cy">✓</td>
+          <td class="cn">—</td>
+          <td class="cn">—</td><td class="cn">—</td><td class="cn">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Starting Weapon Viability -->
+  <div class="sec-head" style="margin-top:2.5rem;">
+    <span class="sec-tag st-skill" style="background:rgba(200,168,75,0.08);color:var(--gold);border-color:rgba(200,168,75,0.25);">Build Note</span>
+    <span class="sec-title">Starting Weapon End-Run Viability</span>
+    <div class="sec-rule"></div>
+  </div>
+  <p class="sec-desc">Most starting weapons fall off in damage by mid-to-late run. Only four characters have strong reasons to keep theirs through the Nightlord fight.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:110px;">Character</th>
+          <th style="text-align:left;">Keep starting weapon?</th>
+          <th style="text-align:left;min-width:340px;">Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--yes);font-weight:700;">Executor</td>
+          <td style="color:var(--yes);text-align:left;">Yes — core build</td>
+          <td style="text-align:left;color:var(--text);">Executor's Blade has guaranteed innate bleed buildup, which no random katana drop can be assumed to have. The weapon's type also enables the full Arcane-scaling bleed build from Day 1 without relying on RNG drops. Relic investment in the starting weapon is standard practice.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--yes);font-weight:700;">Ironeye</td>
+          <td style="color:var(--yes);text-align:left;">Yes — no alternative category</td>
+          <td style="text-align:left;color:var(--text);">Ironeye's entire relic kit is built around bows. Finding a better bow in-run is possible (Serpent Bow, Black Bow), but keeping the starting bow upgraded is universally endorsed as viable for the full run, especially with imbue and skill relics that target it specifically.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--yes);font-weight:700;">Duchess</td>
+          <td style="color:var(--yes);text-align:left;">Yes — relic synergy + powerstance</td>
+          <td style="text-align:left;color:var(--text);">Duchess's dagger relic effects are tuned specifically to her starting weapon type. The powerstance dagger playstyle is central to her damage loop (Restage doubles recently-dealt damage), and her relic effects targeting dagger attacks mean upgrading the starting weapon is often more valuable than swapping to a different weapon class.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--yes);font-weight:700;">Revenant</td>
+          <td style="color:var(--yes);text-align:left;">Contested — situationally yes</td>
+          <td style="text-align:left;color:var(--text);">Community is split. The Cursed Claws have Physical + Magic split damage and utility (long reach for teammate revival). With imbue relics and Holy damage conversion they remain viable. However, many experienced players consider them subpar by Day 2 and prefer replacing with a Faith-scaling weapon (Halo Scythe, Coded Sword) when available. The Finger Seal is always kept.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--no-text);font-weight:600;">Wylder</td>
+          <td style="color:var(--no-text);text-align:left;">No — replace when found</td>
+          <td style="text-align:left;color:var(--text-dim);">Generic greatsword with no unique properties. Better greatswords (Blasphemous Blade, Golden Order Greatsword, Marais Executioner's Sword) are far superior when found. Starting weapon is Day 1 only.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--no-text);font-weight:600;">Guardian</td>
+          <td style="color:var(--no-text);text-align:left;">No — replace when found</td>
+          <td style="text-align:left;color:var(--text-dim);">Standard halberd. Guardian's value is in his shield/guard kit, not weapon damage. Better options (Bolt of Gransax, Commander's Standard) found in-run.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--no-text);font-weight:600;">Raider</td>
+          <td style="color:var(--no-text);text-align:left;">No — replace quickly</td>
+          <td style="text-align:left;color:var(--text-dim);">Generic colossal axe. Raider benefits most from Colossal Weapons or Greataxes with status effects or unique skills. Starting weapon is functional but has no unique advantages to lock in.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--no-text);font-weight:600;">Recluse</td>
+          <td style="color:var(--no-text);text-align:left;">Staff — keep and upgrade</td>
+          <td style="text-align:left;color:var(--text-dim);">Not applicable in the same sense — Recluse keeps her staff for spells, not melee damage. Finding a higher-tier staff upgrades her output. Starting staff is Day 1 utility only.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--no-text);font-weight:600;">Scholar</td>
+          <td style="color:var(--no-text);text-align:left;">No — replace when found</td>
+          <td style="text-align:left;color:var(--text-dim);">Standard thrusting sword. Scholar's damage ceiling is with Arcane-scaling status thrusting swords or heavy thrusting swords found in-run. Starting weapon is functional early, drops off later.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--no-text);font-weight:600;">Undertaker</td>
+          <td style="color:var(--no-text);text-align:left;">No — replace when found</td>
+          <td style="text-align:left;color:var(--text-dim);">Standard hammer. Undertaker benefits most from Faith-scaling hammers or weapons with strong unique skills (Marika's Hammer). Starting weapon is Day 1 only.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footnotes -->
+  <div class="footnotes">
+    <h3>Notes &amp; Caveats</h3>
+    <ul>
+      <li><strong>Revenant (Fist/Claw):</strong> Explicitly excluded from Chilling Mist, Poisonous Mist, Sacred Blade (fists/claws excepted). Also excluded from Seppuku, Blood Blade, Poison Moth Flight, Lightning Slash, Eruption, Glintblade Phalanx (not swords/axes/hammers). Compatible with: Endure, Quickstep, Storm Stomp, Determination, White Shadow's Lure, Flaming Strike, Thunderbolt, Hoarfrost Stomp.</li>
+      <li><strong>Duchess (Dagger):</strong> Excluded from Seppuku (small weapons) and Gravitas (small armaments). All other skill effects compatible.</li>
+      <li><strong>Raider (Greataxe):</strong> Excluded from Glintblade Phalanx, Seppuku, Blood Blade, Poison Moth Flight. Gains Prayerful Strike ✓ and Eruption ✓.</li>
+      <li><strong>Guardian (Halberd):</strong> Excluded from Lightning Slash (confirmed on Fextralife), Eruption, Prayerful Strike, Blood Blade, Poison Moth Flight. Gains Seppuku ✓ (thrusting polearm).</li>
+      <li><strong>Undertaker (Hammer):</strong> Excluded from Eruption — Eruption requires Great Hammers, not regular Hammers. Gains Prayerful Strike ✓ and Lightning Slash ✓.</li>
+      <li><strong>Wylder (Greatsword):</strong> Excluded from Blood Blade and Poison Moth Flight (large sword, both require small/medium swords). Gains Seppuku ✓ and Eruption ✓.</li>
+      <li><strong>Ironeye:</strong> Zero compatible skill effects except Rain of Arrows. Incompatible with all imbues and all spells. Rain of Arrows is his entire relic category.</li>
+      <li><strong>Recluse:</strong> Incompatible with all skill and imbue effects — no melee weapon at start. Owns the sorcery spell column alone.</li>
+      <li><strong>Prayerful Strike (Undertaker):</strong> Undertaker's starting weapon already has Prayerful Strike — this relic would only apply to a second equipped weapon, making it functionally redundant on Undertaker unless she picks up a second compatible weapon in-run.</li>
+      <li><strong>Spell table:</strong> Image 3 was cut off after Dragonfire. Additional incantation entries may exist — the table reflects the 10 visible effects only. All additional entries would follow the same pattern: Revenant ✓, all others ✗.</li>
+      <li><strong>Scholar and Undertaker</strong> are DLC-exclusive (Forsaken Hollows).</li>
+    </ul>
+  </div>
+
+</main>
+</body>
+</html>
