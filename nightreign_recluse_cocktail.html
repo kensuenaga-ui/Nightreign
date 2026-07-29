@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nightreign — Recluse Magic Cocktail Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #07050f;
+  --bg2:      #0d0a1a;
+  --bg3:      #13101f;
+  --bg4:      #181428;
+  --border:   #2a2248;
+  --border2:  #1a1630;
+  --violet:   #8858d8;
+  --violet2:  #a070f0;
+  --violet3:  #5030a0;
+  --vdim:     rgba(136,88,216,0.12);
+  --vglow:    rgba(136,88,216,0.25);
+  --text:     #c0b8dc;
+  --textdim:  #58506a;
+  --texthead: #e8e0f8;
+  --textsub:  #8880a8;
+  --M:        #4880f0;
+  --Mbg:      rgba(72,128,240,0.15);
+  --Mdim:     #1840a0;
+  --F:        #e85a28;
+  --Fbg:      rgba(232,90,40,0.15);
+  --Fdim:     #902810;
+  --L:        #dfc030;
+  --Lbg:      rgba(223,192,48,0.15);
+  --Ldim:     #907808;
+  --H:        #c8a840;
+  --Hbg:      rgba(200,168,64,0.15);
+  --Hdim:     #805808;
+  --tierS:    #e8c028;
+  --tierA:    #4a9e6a;
+  --tierB:    #4880f0;
+  --tierC:    #7a7890;
+  --tierD:    #883840;
+  --font-d:   'Cinzel', serif;
+  --font-b:   'Crimson Pro', serif;
+  --font-m:   'JetBrains Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* ── HEADER ── */
+.page-header{
+  display:grid;grid-template-columns:1fr auto;gap:2rem;
+  padding:2.5rem 2rem 2rem;
+  background:linear-gradient(135deg,#05030d 0%,#0a0718 60%,#0d0520 100%);
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;min-height:260px;align-items:center;
+}
+.page-header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 80% at 80% 50%,rgba(136,88,216,0.10) 0%,transparent 70%);
+  pointer-events:none;
+}
+.header-text .eyebrow{
+  font-family:var(--font-m);font-size:0.58rem;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--violet3);margin-bottom:0.6rem;
+}
+.header-text h1{
+  font-family:var(--font-d);font-size:clamp(1.6rem,4vw,2.8rem);
+  font-weight:900;color:var(--violet2);letter-spacing:0.03em;
+  text-shadow:0 0 40px rgba(160,112,240,0.3);line-height:1.1;margin-bottom:0.3rem;
+}
+.header-text .sub{
+  font-style:italic;font-size:1rem;color:var(--textsub);
+  font-weight:300;max-width:480px;
+}
+.header-divider{
+  width:80px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--violet3),transparent);
+  margin:0.9rem 0;
+}
+
+/* ── FLASK ── */
+.flask-wrap{display:flex;flex-direction:column;align-items:center;gap:0;position:relative;z-index:1}
+.flask-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);
+  width:140px;height:200px;border-radius:50%;
+  background:radial-gradient(ellipse,var(--vglow) 0%,transparent 70%);
+  pointer-events:none;transition:opacity 0.4s;opacity:0.5;}
+#flaskSvg{filter:drop-shadow(0 0 8px rgba(136,88,216,0.3));transition:filter 0.4s;}
+#flaskSvg.brewing{filter:drop-shadow(0 0 20px var(--brew-glow,rgba(136,88,216,0.8)));}
+.flask-slots{display:flex;align-items:center;gap:0.5rem;margin-top:0.6rem}
+.slot-dot{
+  width:22px;height:22px;border-radius:50%;
+  border:1.5px solid var(--border);background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;font-family:var(--font-m);transition:all 0.3s;
+}
+.slot-dot.filled{border-color:var(--slot-color,#888);}
+.flask-btn-row{display:flex;gap:0.5rem;margin-top:0.8rem;flex-wrap:wrap;justify-content:center}
+.elem-btn{
+  font-family:var(--font-m);font-size:0.6rem;letter-spacing:0.1em;
+  padding:0.3rem 0.65rem;border-radius:2px;cursor:pointer;
+  border:1px solid;transition:all 0.15s;text-transform:uppercase;
+}
+.elem-btn[data-el="M"]{color:var(--M);border-color:var(--Mdim);background:var(--Mbg)}
+.elem-btn[data-el="F"]{color:var(--F);border-color:var(--Fdim);background:var(--Fbg)}
+.elem-btn[data-el="L"]{color:var(--L);border-color:var(--Ldim);background:var(--Lbg)}
+.elem-btn[data-el="H"]{color:var(--H);border-color:var(--Hdim);background:var(--Hbg)}
+.elem-btn:hover{opacity:0.75;transform:translateY(-1px)}
+.elem-btn:active{transform:translateY(0)}
+#clearBtn{
+  font-family:var(--font-m);font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--textdim);border:1px solid var(--border2);background:transparent;
+  padding:0.25rem 0.6rem;border-radius:2px;cursor:pointer;margin-top:0.4rem;
+  transition:color 0.2s,border-color 0.2s;
+}
+#clearBtn:hover{color:var(--textsub);border-color:var(--border)}
+
+.flask-result{
+  margin-top:0.6rem;text-align:center;min-height:52px;
+  display:flex;flex-direction:column;align-items:center;gap:0.2rem;
+}
+.flask-result .res-name{
+  font-family:var(--font-d);font-size:0.78rem;font-weight:600;
+  color:var(--texthead);letter-spacing:0.05em;
+  opacity:0;transform:translateY(6px);
+  transition:opacity 0.4s ease,transform 0.4s ease;
+}
+.flask-result .res-name.visible{opacity:1;transform:translateY(0)}
+.flask-result .res-link{
+  font-family:var(--font-m);font-size:0.55rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--violet2);text-decoration:none;
+  opacity:0;transition:opacity 0.4s 0.2s ease;cursor:pointer;
+}
+.flask-result .res-link.visible{opacity:1}
+.flask-result .res-link:hover{text-decoration:underline}
+
+/* ── NAV ── */
+.pg-nav{
+  display:flex;gap:0.4rem;flex-wrap:wrap;
+  padding:0.75rem 1.5rem;background:#060410;
+  border-bottom:1px solid var(--border2);
+}
+.nav-pill{
+  font-family:var(--font-m);font-size:0.57rem;letter-spacing:0.13em;
+  text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:2px;
+  text-decoration:none;color:var(--violet2);
+  border:1px solid var(--violet3);background:var(--vdim);
+  transition:opacity 0.15s;
+}
+.nav-pill:hover{opacity:0.7}
+.nav-pill.el-M{color:var(--M);border-color:var(--Mdim);background:var(--Mbg)}
+.nav-pill.el-F{color:var(--F);border-color:var(--Fdim);background:var(--Fbg)}
+.nav-pill.el-L{color:var(--L);border-color:var(--Ldim);background:var(--Lbg)}
+.nav-pill.el-H{color:var(--H);border-color:var(--Hdim);background:var(--Hbg)}
+
+/* ── CONTENT ── */
+.content{max-width:1300px;margin:0 auto;padding:2rem 1.5rem 5rem}
+
+/* ── SECTION HEADERS ── */
+.sec-head{display:flex;align-items:center;gap:0.8rem;margin:3rem 0 0.6rem}
+.sec-head:first-child{margin-top:0}
+.sec-tag{
+  font-family:var(--font-m);font-size:0.57rem;letter-spacing:0.16em;
+  text-transform:uppercase;padding:0.17rem 0.5rem;border-radius:2px;
+  border:1px solid var(--violet3);color:var(--violet2);
+  background:var(--vdim);flex-shrink:0;
+}
+.sec-title{
+  font-family:var(--font-d);font-size:0.85rem;font-weight:600;
+  color:var(--texthead);letter-spacing:0.06em;text-transform:uppercase;
+}
+.sec-rule{flex:1;height:1px;background:var(--border2)}
+.sec-sub{font-style:italic;font-size:0.9rem;color:var(--textdim);margin-bottom:1rem}
+
+/* ── HOW IT WORKS ── */
+.how-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:0.6rem;margin-bottom:0.5rem;
+}
+.how-card{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:3px;padding:0.75rem 1rem;
+}
+.how-card .hc-label{
+  font-family:var(--font-m);font-size:0.55rem;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--violet);margin-bottom:0.25rem;
+}
+.how-card .hc-text{font-size:0.88rem;color:var(--text);line-height:1.45}
+
+/* ── MNEMONIC ── */
+.mnemonic-strip{
+  display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;
+  padding:0.7rem 1rem;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;
+}
+.mnem-label{font-family:var(--font-m);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--textdim);margin-right:0.5rem;align-self:center;}
+.mnem-item{
+  font-family:var(--font-m);font-size:0.65rem;letter-spacing:0.06em;
+  padding:0.2rem 0.6rem;border-radius:2px;border:1px solid;
+}
+.mnem-item.M{color:var(--M);border-color:var(--Mdim);background:var(--Mbg)}
+.mnem-item.F{color:var(--F);border-color:var(--Fdim);background:var(--Fbg)}
+.mnem-item.L{color:var(--L);border-color:var(--Ldim);background:var(--Lbg)}
+.mnem-item.H{color:var(--H);border-color:var(--Hdim);background:var(--Hbg)}
+
+/* ── DIAGRAM ── */
+.diagram-wrap{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:4px;overflow:hidden;position:relative;
+  margin-bottom:0.5rem;
+}
+#diagram{display:block;width:100%;max-width:820px;margin:0 auto;cursor:pointer}
+.diag-node{cursor:pointer;transition:all 0.2s}
+.diag-node circle{transition:all 0.2s}
+.diag-node:hover circle{filter:brightness(1.3)}
+.diag-node.selected circle{stroke-width:3!important}
+
+/* ── DETAIL PANEL (inline, below diagram) ── */
+#detailPanel{
+  background:var(--bg4);border-top:1px solid var(--border);
+  padding:1.25rem 1.5rem;display:none;
+}
+#detailPanel.visible{display:block}
+.dp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:700px){.dp-grid{grid-template-columns:1fr}}
+.dp-label{font-family:var(--font-m);font-size:0.55rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--textdim);margin-bottom:0.2rem}
+.dp-val{font-size:0.9rem;color:var(--text);line-height:1.4}
+.dp-header{
+  display:flex;align-items:center;gap:0.8rem;
+  margin-bottom:0.9rem;padding-bottom:0.7rem;border-bottom:1px solid var(--border2);
+}
+.dp-name{font-family:var(--font-d);font-size:1rem;font-weight:600;color:var(--texthead);letter-spacing:0.04em}
+.dp-close{
+  margin-left:auto;font-family:var(--font-m);font-size:0.6rem;
+  letter-spacing:0.1em;color:var(--textdim);cursor:pointer;
+  border:1px solid var(--border2);background:transparent;
+  padding:0.2rem 0.5rem;border-radius:2px;transition:color 0.15s;
+}
+.dp-close:hover{color:var(--textsub)}
+
+/* ── CARDS ── */
+.cards-group{
+  display:grid;gap:0.65rem;margin-bottom:0.5rem;
+}
+.cards-group.pure{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.cards-group.dual{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.cards-group.triple{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+
+.cocktail-card{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:3px;overflow:hidden;scroll-margin-top:1rem;
+}
+.cocktail-card.triple{border-color:var(--violet3)}
+.card-header{
+  display:flex;align-items:center;gap:0.7rem;
+  padding:0.65rem 0.9rem;background:var(--bg4);
+  border-bottom:1px solid var(--border2);
+}
+.card-els{display:flex;gap:0.3rem;flex-shrink:0}
+.el-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:1.5px solid;display:inline-block;flex-shrink:0;
+}
+.el-dot.M{background:var(--Mbg);border-color:var(--M)}
+.el-dot.F{background:var(--Fbg);border-color:var(--F)}
+.el-dot.L{background:var(--Lbg);border-color:var(--L)}
+.el-dot.H{background:var(--Hbg);border-color:var(--H)}
+.card-name{
+  font-family:var(--font-d);font-size:0.8rem;font-weight:600;
+  color:var(--texthead);letter-spacing:0.04em;flex:1;
+}
+.tier-badge{
+  font-family:var(--font-m);font-size:0.58rem;font-weight:500;
+  padding:0.12rem 0.4rem;border-radius:2px;letter-spacing:0.05em;
+  border:1px solid;flex-shrink:0;
+}
+.tier-S{color:var(--tierS);border-color:var(--tierS);background:rgba(232,192,40,0.12)}
+.tier-A{color:var(--tierA);border-color:var(--tierA);background:rgba(74,158,106,0.12)}
+.tier-B{color:var(--tierB);border-color:var(--tierB);background:rgba(72,128,240,0.12)}
+.tier-C{color:var(--tierC);border-color:var(--tierC);background:rgba(122,120,144,0.12)}
+.tier-D{color:var(--tierD);border-color:var(--tierD);background:rgba(136,56,64,0.12)}
+
+.card-body{padding:0.75rem 0.9rem}
+.card-effect{
+  font-size:0.9rem;color:var(--text);margin-bottom:0.65rem;
+  font-style:italic;line-height:1.4;
+  padding-left:0.5rem;border-left:2px solid var(--border);
+}
+.card-meta{display:flex;flex-direction:column;gap:0.38rem}
+.meta-row{display:flex;gap:0.6rem;align-items:flex-start;font-size:0.84rem}
+.meta-key{
+  font-family:var(--font-m);font-size:0.56rem;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--textdim);flex-shrink:0;
+  width:72px;padding-top:0.06rem;
+}
+.meta-val{color:var(--text);line-height:1.4;flex:1}
+.meta-val strong{color:var(--texthead)}
+.dmg-badge{
+  display:inline-block;font-family:var(--font-m);font-size:0.56rem;
+  letter-spacing:0.08em;padding:0.08rem 0.35rem;border-radius:1px;
+  margin-right:0.3rem;border:1px solid;
+}
+.dmg-M{color:var(--M);border-color:var(--Mdim);background:var(--Mbg)}
+.dmg-F{color:var(--F);border-color:var(--Fdim);background:var(--Fbg)}
+.dmg-L{color:var(--L);border-color:var(--Ldim);background:var(--Lbg)}
+.dmg-H{color:var(--H);border-color:var(--Hdim);background:var(--Hbg)}
+.dmg-none{color:var(--violet2);border-color:var(--violet3);background:var(--vdim)}
+.dmg-mixed{color:#d09060;border-color:#805030;background:rgba(208,144,96,0.1)}
+.card-footer{
+  padding:0.5rem 0.9rem 0.7rem;
+  border-top:1px solid var(--border2);
+  font-size:0.78rem;color:var(--textdim);
+  font-family:var(--font-m);letter-spacing:0.03em;
+}
+.card-footer .dmg-num{color:var(--textsub)}
+.card-footer .dagger{color:var(--violet3);margin-right:0.2rem}
+
+/* ── STRATEGY ── */
+.strat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.6rem}
+.strat-card{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:3px;padding:0.8rem 1rem;
+}
+.strat-card .stc-label{
+  font-family:var(--font-m);font-size:0.57rem;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--violet2);margin-bottom:0.3rem;
+}
+.strat-card .stc-text{font-size:0.87rem;color:var(--text);line-height:1.45}
+.strat-card.highlight{border-color:var(--violet3)}
+.dmg-priority-list{display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem}
+.dp-row{display:flex;align-items:center;gap:0.6rem;font-size:0.83rem}
+.dp-rank{
+  font-family:var(--font-m);font-size:0.6rem;color:var(--textdim);
+  width:1.5rem;text-align:right;flex-shrink:0;
+}
+.dp-name-small{color:var(--texthead);font-weight:600}
+.dp-cond{color:var(--textdim);font-size:0.78rem;font-style:italic}
+
+/* ── FOOTNOTE ── */
+.footnote{
+  margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border2);
+  font-family:var(--font-m);font-size:0.6rem;color:var(--textdim);
+  letter-spacing:0.05em;
+}
+.footnote .dagger{color:var(--violet3)}
+
+/* ── DIAGRAM LEGEND ── */
+.diag-legend{
+  display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+  padding:0.6rem 1rem;background:var(--bg4);
+  border-top:1px solid var(--border2);font-size:0.8rem;
+}
+.legend-group{display:flex;align-items:center;gap:0.5rem}
+.leg-circle{
+  width:14px;height:14px;border-radius:50%;border:1.5px solid;flex-shrink:0;
+}
+.leg-M{background:var(--Mbg);border-color:var(--M)}
+.leg-F{background:var(--Fbg);border-color:var(--F)}
+.leg-L{background:var(--Lbg);border-color:var(--L)}
+.leg-H{background:var(--Hbg);border-color:var(--H)}
+.leg-label{font-family:var(--font-m);font-size:0.57rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--textsub)}
+.diag-legend .hint{margin-left:auto;font-family:var(--font-m);font-size:0.56rem;color:var(--textdim);letter-spacing:0.08em}
+
+@media(max-width:600px){
+  .page-header{grid-template-columns:1fr;gap:1.5rem}
+  .flask-wrap{flex-direction:row;flex-wrap:wrap;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="page-header">
+  <div class="header-text">
+    <p class="eyebrow">Nightreign · NTRN:REF · Recluse</p>
+    <h1>Magic Cocktail</h1>
+    <p class="sub">All 14 combinations — interactive brew system, full effect details, damage data, and strategic notes.</p>
+    <div class="header-divider"></div>
+    <p style="font-family:var(--font-m);font-size:0.58rem;color:var(--textdim);letter-spacing:0.08em">
+      Mix elements in the flask → or click any node in the diagram below
+    </p>
+  </div>
+
+  <!-- FLASK -->
+  <div class="flask-wrap">
+    <div class="flask-glow" id="flaskGlow"></div>
+    <svg id="flaskSvg" viewBox="0 0 120 210" width="120" height="210" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="flaskClip">
+          <path d="M54,58 C54,68 22,80 22,96 L22,176 Q22,194 60,194 Q98,194 98,176 L98,96 C98,80 66,68 66,58 Z"/>
+        </clipPath>
+        <radialGradient id="glassHi" cx="30%" cy="30%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="flaskBlur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3"/>
+        </filter>
+      </defs>
+
+      <!-- Glow behind liquid (inside clip, low opacity) -->
+      <ellipse id="flaskBgGlow" cx="60" cy="145" rx="38" ry="55"
+        fill="rgba(136,88,216,0.08)" clip-path="url(#flaskClip)"
+        filter="url(#flaskBlur)"/>
+
+      <!-- Liquid layers (inside clip) -->
+      <!-- Each layer: y starts at 194 (bottom), height=0. JS animates to fill upward -->
+      <rect id="liq0" clip-path="url(#flaskClip)" x="22" y="194" width="76" height="0" rx="0" opacity="0.85"/>
+      <rect id="liq1" clip-path="url(#flaskClip)" x="22" y="194" width="76" height="0" rx="0" opacity="0.80"/>
+      <rect id="liq2" clip-path="url(#flaskClip)" x="22" y="194" width="76" height="0" rx="0" opacity="0.75"/>
+
+      <!-- Flask glass outline -->
+      <path d="M54,8 L54,58 C54,68 22,80 22,96 L22,176 Q22,194 60,194 Q98,194 98,176 L98,96 C98,80 66,68 66,58 L66,8 Z"
+        fill="none" stroke="rgba(160,140,220,0.35)" stroke-width="1.5"/>
+
+      <!-- Glass highlight left -->
+      <path d="M29,105 C28,90 38,72 54,62" stroke="rgba(200,180,255,0.18)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <!-- Glass highlight right inner -->
+      <path d="M50,63 L50,58" stroke="rgba(200,180,255,0.15)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+      <!-- Glass body fill (very subtle) -->
+      <path d="M54,8 L54,58 C54,68 22,80 22,96 L22,176 Q22,194 60,194 Q98,194 98,176 L98,96 C98,80 66,68 66,58 L66,8 Z"
+        fill="url(#glassHi)"/>
+
+      <!-- Cork -->
+      <rect x="48" y="0" width="24" height="12" rx="3" fill="#5a3c18" stroke="#3a2408" stroke-width="1"/>
+      <rect x="50" y="2" width="20" height="2" rx="1" fill="#7a5828" opacity="0.5"/>
+      <rect x="50" y="5" width="20" height="2" rx="1" fill="#7a5828" opacity="0.3"/>
+
+      <!-- Measurement marks on glass -->
+      <g stroke="rgba(160,140,220,0.2)" stroke-width="0.6">
+        <line x1="22" y1="136" x2="26" y2="136"/>
+        <line x1="22" y1="116" x2="26" y2="116"/>
+        <line x1="22" y1="96" x2="28" y2="96"/>
+        <line x1="22" y1="156" x2="26" y2="156"/>
+      </g>
+
+      <!-- Bubble container (JS adds bubbles here) -->
+      <g id="bubbles"/>
+
+      <!-- Swirl overlay (for brew animation) -->
+      <g id="swirl" opacity="0">
+        <animateTransform id="swirlAnim" attributeName="transform" type="rotate"
+          from="0 60 145" to="360 60 145" dur="1.2s" repeatCount="2" begin="indefinite"/>
+        <path d="M36,160 Q60,140 84,160 Q60,180 36,160" fill="none"
+          stroke="rgba(255,255,255,0.2)" stroke-width="1.5" opacity="0.6"/>
+        <path d="M36,140 Q60,120 84,140 Q60,160 36,140" fill="none"
+          stroke="rgba(255,255,255,0.15)" stroke-width="1" opacity="0.5"/>
+      </g>
+    </svg>
+
+    <!-- Flask result display -->
+    <div class="flask-result">
+      <div class="res-name" id="resName"></div>
+      <a class="res-link" id="resLink" href="#">View Details ↓</a>
+    </div>
+
+    <!-- Element slot indicators -->
+    <div class="flask-slots">
+      <div class="slot-dot" id="sdot0">·</div>
+      <div class="slot-dot" id="sdot1">·</div>
+      <div class="slot-dot" id="sdot2">·</div>
+    </div>
+
+    <!-- Element picker -->
+    <div class="flask-btn-row">
+      <button class="elem-btn" data-el="M">✦ Magic</button>
+      <button class="elem-btn" data-el="F">🔥 Fire</button>
+      <button class="elem-btn" data-el="L">⚡ Lightning</button>
+      <button class="elem-btn" data-el="H">✧ Holy</button>
+    </div>
+    <button id="clearBtn">Clear Flask</button>
+  </div>
+</header>
+
+<nav class="pg-nav">
+  <a href="javascript:void(0)" class="nav-pill" data-target="how">How It Works</a>
+  <a href="javascript:void(0)" class="nav-pill" data-target="diagram-sec">Diagram</a>
+  <a href="javascript:void(0)" class="nav-pill el-M" data-target="pure-sec">Pure (4)</a>
+  <a href="javascript:void(0)" class="nav-pill el-F" data-target="dual-sec">Dual (6)</a>
+  <a href="javascript:void(0)" class="nav-pill el-L" data-target="triple-sec">Triple (4)</a>
+  <a href="javascript:void(0)" class="nav-pill" data-target="strategy-sec">Strategy</a>
+</nav>
+
+<main class="content">
+
+<!-- ── HOW IT WORKS ── -->
+<div id="how" class="sec-head" style="margin-top:0">
+  <span class="sec-tag">System</span>
+  <span class="sec-title">How Magic Cocktail Works</span>
+  <div class="sec-rule"></div>
+</div>
+<div class="how-grid">
+  <div class="how-card">
+    <div class="hc-label">Residue Collection</div>
+    <div class="hc-text">Recluse's passive (Elemental Defense) absorbs affinity from elemental damage dealt to anything with a health bar. Each absorption stores one charge: Magic, Fire, Lightning, or Holy. Each collection also restores <strong>20 FP flat</strong> regardless of stats.</div>
+  </div>
+  <div class="how-card">
+    <div class="hc-label">Cocktail Trigger</div>
+    <div class="hc-text">Collect 3 residues, then cast with Triangle + L2. The spell cast is determined by the combination of the 3 most recently collected residues. The <strong>order of collection does not matter</strong> — only which elements were collected.</div>
+  </div>
+  <div class="how-card">
+    <div class="hc-label">Quantity Rule</div>
+    <div class="hc-text">For 2+1 combinations, it does not matter which element has 2 and which has 1. <strong>2×Magic + 1×Fire = 1×Magic + 2×Fire</strong> — both produce the same spell. Only the element types present matter.</div>
+  </div>
+  <div class="how-card">
+    <div class="hc-label">Relic Scaling</div>
+    <div class="hc-text">All cocktails count as <strong>Sorceries</strong>. "Improved Sorceries" on deep relics boosts all cocktail damage. "Improved Affinity Attack Power" also boosts all. Specific boosts (e.g. Fire Attack Power Up) only affect cocktails dealing that element type.</div>
+  </div>
+  <div class="how-card">
+    <div class="hc-label">Multiplayer</div>
+    <div class="hc-text">Residues are <strong>shared</strong> between all Recluse players in a run — if one collects a residue, it cannot be collected by the other. Residues can also be collected from teammates and from near-death allies.</div>
+  </div>
+  <div class="how-card">
+    <div class="hc-label">Spell Tiers</div>
+    <div class="hc-text"><strong>Triple combos</strong> (all 3 elements different) are consistently the most powerful. <strong>Dual combos</strong> (2+1) are the workhorses — easy to engineer and reliable. <strong>Pure combos</strong> (3×same) are mostly early-game or niche.</div>
+  </div>
+</div>
+
+<!-- Mnemonic -->
+<div class="mnemonic-strip">
+  <span class="mnem-label">Quick key</span>
+  <span class="mnem-item M">Magic = Lingering</span>
+  <span class="mnem-item F">Fire = Area of Effect</span>
+  <span class="mnem-item L">Lightning = Melee / Dash</span>
+  <span class="mnem-item H">Holy = Support</span>
+  <span style="font-family:var(--font-m);font-size:0.6rem;color:var(--textdim);align-self:center;margin-left:0.5rem">Mix elements by their roles to predict the output intuitively.</span>
+</div>
+
+<!-- ── DIAGRAM ── -->
+<div id="diagram-sec" class="sec-head">
+  <span class="sec-tag">Reference</span>
+  <span class="sec-title">Combination Diagram</span>
+  <div class="sec-rule"></div>
+</div>
+<p class="sec-sub">Click any node to load full details and fill the flask. Hover to reveal element connections.</p>
+
+<div class="diagram-wrap">
+  <svg id="diagram" viewBox="0 0 820 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="nodeGlow" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="nodePulse" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Edges drawn by JS -->
+    <g id="edges"/>
+
+    <!-- Nodes drawn by JS -->
+    <g id="nodes"/>
+  </svg>
+
+  <!-- Detail panel (inside diagram wrap) -->
+  <div id="detailPanel">
+    <div class="dp-header">
+      <div class="card-els" id="dpEls"></div>
+      <div class="dp-name" id="dpName"></div>
+      <div class="tier-badge" id="dpTier"></div>
+      <button class="dp-close" id="dpClose">✕ Close</button>
+    </div>
+    <div class="dp-grid">
+      <div>
+        <div class="dp-label">Effect</div>
+        <div class="dp-val" id="dpEffect"></div>
+      </div>
+      <div>
+        <div class="dp-label">Mechanics</div>
+        <div class="dp-val" id="dpMech"></div>
+      </div>
+      <div>
+        <div class="dp-label">Team Use</div>
+        <div class="dp-val" id="dpTeam"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diag-legend">
+    <div class="legend-group"><div class="leg-circle leg-M"></div><span class="leg-label">Magic</span></div>
+    <div class="legend-group"><div class="leg-circle leg-F"></div><span class="leg-label">Fire</span></div>
+    <div class="legend-group"><div class="leg-circle leg-L"></div><span class="leg-label">Lightning</span></div>
+    <div class="legend-group"><div class="leg-circle leg-H"></div><span class="leg-label">Holy</span></div>
+    <span class="hint">Outer ring = Pure · Mid ring = Dual · Centre = Triple</span>
+  </div>
+</div>
+
+<!-- ── PURE COCKTAILS ── -->
+<div id="pure-sec" class="sec-head">
+  <span class="sec-tag">Pure</span>
+  <span class="sec-title">Pure Cocktails — 3× Same Element</span>
+  <div class="sec-rule"></div>
+</div>
+<p class="sec-sub">Simplest to obtain, generally weakest in late game. Primarily utility or FP management tools.</p>
+<div class="cards-group pure">
+
+  <div class="cocktail-card" id="card-mmm">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot M"></span><span class="el-dot M"></span></div>
+      <span class="card-name">Pure Magic — Magic Wisp</span>
+      <span class="tier-badge tier-C">C</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Enwreathe an enemy in magic that deals damage for some time, encircling and attacking the target."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Tracking wisp attaches to a single enemy and pulses magic damage at intervals. First hit staggers most humanoid enemies. Wisp persists ~10s regardless of range.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-M">Magic</span> Moderate total across 4 hits</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">~10 seconds, 4 damage pulses</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Early-game FP regen tool. Wisp creates residue opportunities while active. Target death mid-wisp wastes remaining hits.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Low damage at endgame. Don't prioritise farming pure Magic if better combos are available.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~88 base + ~55 per pulse × 4 hits (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-fff">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot F"></span><span class="el-dot F"></span><span class="el-dot F"></span></div>
+      <span class="card-name">Pure Fire — Fire Whirlwind</span>
+      <span class="tier-badge tier-C">C</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Throw a whirlwind of flame. Flame spreads across a small area upon contact and burns for some time."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Short-range thrown AoE. Leaves a lingering fire area on impact covering roughly 3–4 player widths. Burn persists after the initial hit.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-F">Fire</span> Moderate — spread across duration</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Lingers ~4–5s</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Good in confined corridors. Boss-phase utility against slow enemies. Outclassed by Fire Wisp (M+F) for single targets.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Short cast range. Agile bosses leave the AoE immediately.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~210 fire total over duration (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-lll">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot L"></span><span class="el-dot L"></span><span class="el-dot L"></span></div>
+      <span class="card-name">Pure Lightning — Bloodhound's Step</span>
+      <span class="tier-badge tier-D">D</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Enwreathe oneself in lightning, bolstering dodging actions."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Replaces Recluse's dodge roll with Bloodhound's Step for 20 seconds. Also fires a brief AoE lightning pulse on cast. Bloodhound's Step has longer iframes but different timing from her normal dodge.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-L">Lightning</span> ~120 on cast AoE only</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">20 seconds</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Niche defensive option. The dodge buff actively disrupts muscle memory — you may roll-catch yourself by dodging too early. Most experienced Recluse players avoid intentionally farming this.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Disrupts normal roll timing. Lightning is hard to farm in early runs.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~120 lightning AoE on cast (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-hhh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot H"></span><span class="el-dot H"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Pure Holy — Divine Shield</span>
+      <span class="tier-badge tier-B">B</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Enwreathe oneself in holy light, bolstering poise and increasing all damage negation by 10%. Enemy attacks that cause minor stagger can instead be poised through."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">+10% damage negation from all sources. Poise buff allows poising through minor staggers. Longest pure buff at <strong>30 seconds</strong>. Worth pre-casting before high-damage boss phases.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-none">Self-buff</span> None — defensive only</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val"><strong>30 seconds</strong> — longest pure buff duration</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Strong before lethal boss combos. Holy residue is the hardest to farm — reserve for high-value moments. Best on Recluse solo since it only affects the caster.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Holy residue requires holy elemental damage on your team's kit, which is uncommon in early runs.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">No damage — defensive buff only</span></div>
+  </div>
+</div>
+
+<!-- ── DUAL COCKTAILS ── -->
+<div id="dual-sec" class="sec-head">
+  <span class="sec-tag">Dual</span>
+  <span class="sec-title">Dual Cocktails — 2+1 Element Mix</span>
+  <div class="sec-rule"></div>
+</div>
+<p class="sec-sub">The consistent backbone of Recluse's kit. Engineering specific dual combos is realistic in most runs.</p>
+<div class="cards-group dual">
+
+  <div class="cocktail-card" id="card-mf">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot F"></span></div>
+      <span class="card-name">Magic + Fire — Fire Wisp</span>
+      <span class="tier-badge tier-B">B</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Launch a wraith flame that pursues enemies."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Homing fire projectile that tracks a single target dealing fire damage over ~10 seconds, then detonates for additional fire burst. Pursues even at long range.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-F">Fire</span> Good — DoT + detonation</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Pursues ~10s, then explodes</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Set-and-forget target damage. Excellent for maintaining DPS while repositioning or collecting new residues. Magic+Fire is one of the easiest combos to farm on any boss.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Destroyed if target dies before detonation. Slow projectile vs. fast-moving bosses means occasional misses.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~390 fire total (DoT + detonation, level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-ml">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot L"></span></div>
+      <span class="card-name">Magic + Lightning — Carian Sword</span>
+      <span class="tier-badge tier-S">S</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Execute broad forward slash with magical blade. Hold to move with sword drawn."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Conjures a Carian blade and fires a Carian Slicer-style slash. <strong>Hold to walk with sword drawn</strong> and extend the timing/range. Fast cast. Staggers most humanoid enemies and medium enemies. Community name: Pocket Moonveil.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-L">Lightning</span> <strong>High</strong> — best raw damage for a dual combo</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Instant / holdable</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Best dual combo. Fast enough to use aggressively. Stagger utility is significant. Farm Magic+Lightning whenever a lightning weapon or Recluse's starting sorceries are active on the team.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Requires Lightning on the team — less reliable solo. No real downsides otherwise.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~552 lightning (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-mh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Magic + Holy — FP Veil</span>
+      <span class="tier-badge tier-A">A</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Cover nearby area with a magical veil, fully conserving FP for self and allies for a short time."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Grants <strong>infinite FP</strong> to Recluse and all nearby allies for <strong>8 seconds</strong>. Does not require maintaining position during the window — allies can move freely once the veil activates.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-none">Support</span> None — team buff only</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val"><strong>8 seconds</strong> — sufficient for a full heavy spell rotation</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Enables Recluse to dump expensive sorceries freely. Allows Revenant to spam seal incantations. Benefits Scholar, Undertaker with seals in-run. Cast at the start of a lethal boss phase for maximum spell output.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Holy residue is scarce. Cast endlag eats slightly into the window. Don't use when FP is naturally high.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">No damage output</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-fl">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot F"></span><span class="el-dot L"></span></div>
+      <span class="card-name">Fire + Lightning — Fire Blinkbolt</span>
+      <span class="tier-badge tier-C">C</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Become a fireball and barrel forward, raining lightning on nearby foes."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Recluse transforms into a fireball and dashes forward. Lightning strikes where she lands. Brief partial invulnerability during dash (inconsistently reported). Deposits Recluse inside melee range on landing.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-L">Lightning</span> Moderate — on landing only</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Instantaneous dash</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Repositioning tool with incidental damage. Fun and flashy. Best used as a gap closer into a cast position, not as a primary damage tool.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Landing inside melee range is dangerous. If interrupted mid-dash, cocktail is lost. Invulnerability during dash is unreliable.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~340 lightning on landing (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-fh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot F"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Fire + Holy — Warming Torch</span>
+      <span class="tier-badge tier-A">A</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Raise a torch for a limited time that raises max HP and reduces status ailment gauge buildup for nearby allies, and lowers max HP of nearby enemies."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val"><strong>+30% max HP</strong> to self and nearby allies. Reduces ally status buildup (−5 per 0.5s while in range). Lowers enemy max HP within range. <strong>Torch lasts 15s</strong> — allies do NOT need to stay near it. HP buff persists 60s from last moment in range (up to 75s total).</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-none">Support</span> None (debuffs enemy max HP)</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Torch: <strong>15s</strong> — HP buff: up to <strong>75s total</strong></span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Strongest sustained team support cocktail. Plant torch, fight freely — allies don't need to stand still. Stack with tanky characters (Guardian, Raider) for enormous effective HP. The 75-second total duration is exceptional value.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Requires Fire+Holy — nontrivial to farm. Does not restore HP, only raises the ceiling.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">No damage — +30% max HP for up to 75s</span></div>
+  </div>
+
+  <div class="cocktail-card" id="card-lh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot L"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Lightning + Holy — Auto-Parry Shield</span>
+      <span class="tier-badge tier-B">B</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Weave a layer of lightning that parries enemy attacks for a short time."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Acts as a <strong>100% physical damage reduction auto-parry for 15 seconds</strong>. Also deflects non-AoE spell projectiles. Cannot be guard-broken. Physical attacks that cannot normally be parried still deal 0 damage (absorbed as stamina cost instead).</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-none">Defensive</span> None</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val"><strong>15 seconds</strong> of auto-parry coverage</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Exceptional panic button during high-aggression boss phases when Recluse is targeted. Best used proactively before a known lethal combo rather than reactively. 15 seconds is a long window.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Rear attacks and grabs still connect. Lightning+Holy combination is difficult to control. Does not protect teammates.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">No damage — defensive shield only</span></div>
+  </div>
+</div>
+
+<!-- ── TRIPLE COCKTAILS ── -->
+<div id="triple-sec" class="sec-head">
+  <span class="sec-tag">Triple</span>
+  <span class="sec-title">Triple Cocktails — All 3 Elements Different</span>
+  <div class="sec-rule"></div>
+</div>
+<p class="sec-sub">The most powerful and complex cocktails. Requires team coordination to farm three different element types. Worth engineering for Nightlord encounters.</p>
+<div class="cards-group triple">
+
+  <div class="cocktail-card triple" id="card-mfl">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot F"></span><span class="el-dot L"></span></div>
+      <span class="card-name">Magic + Fire + Lightning — Gravity Orb</span>
+      <span class="tier-badge tier-S">S</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Conjure a frontward exploding gravity orb. Gravity orb pulls enemies inward, expands, and explodes, inflicting heavy damage."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Gravity orb launches forward, <strong>actively pulling enemies inward</strong>, then detonates for massive magic AoE. Community name: Hollow Purple. Gravity-type damage is primarily physical in bucket. <strong>Deals 60 revive damage in AoE</strong> — can revive 1-bar downed allies in a single cast. Terra Magica boosts this cocktail.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-M">Magic</span> <strong>Very High</strong> — best practical triple combo</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Instant detonation — no delay</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Best practical triple combo despite not being the highest raw damage. Pull mechanic guarantees enemies can't escape. Revive utility makes it a team-wide lifeline. No delayed timing — immediately reliable. Works with Terra Magica and sorcery relics.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Forward cast requires facing target. Long cast animation vulnerable to interruption. No AoE revive if the orb doesn't reach allies.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~870 magic (pull + detonation combined, level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card triple" id="card-mfh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot F"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Magic + Fire + Holy — Fire Breath</span>
+      <span class="tier-badge tier-S">S</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Spew a mixed affinity breath that inflicts fire damage upon enemies, and restores HP and FP of allies within contact."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Wide channeled breath attack. Simultaneous damage to enemies and <strong>HP + FP restoration to nearby allies</strong> during the channel. Can free-aim during cast. Breath travels in a <strong>slight upward arc</strong> — free-aim recommended for ground-level targets.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-F">Fire</span> <strong>Very High</strong> — second highest total damage</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Channeled ~2–3 seconds</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Unique dual-output: second-highest damage cocktail in the game AND simultaneously restores ally HP+FP. Exceptional in sustained fights — team heals while boss takes massive damage. Cosplay Medic from TF2.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Recluse fully vulnerable during channel. Interruption = partial damage. Arc trajectory struggles against elevated enemies.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~1,748 fire total at full channel duration (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card triple" id="card-mlh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot L"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Magic + Lightning + Holy — Ice Storm</span>
+      <span class="tier-badge tier-B">B</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Create a cold storm with a frostbite buildup area effect and retreat inside ice block, gaining invulnerability."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Recluse casts a frostbite AoE storm then <strong>encases herself in an ice block for 8 seconds of full invulnerability</strong>. Deals magic damage and builds frostbite in the surrounding area. Recluse is completely immobile inside the ice block — cannot move, heal, or cast.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-M">Magic</span> Low-moderate + frostbite buildup</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val"><strong>8 seconds invulnerable</strong> (fully immobile)</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Niche invulnerability window for surviving unavoidable boss AoEs. Excellent against Gladius (damage triples when he splits, and frostbite buildup can proc). Teammates attack freely while Recluse is protected. Must be timed precisely.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Recluse is a statue for 8 seconds. Cannot help allies, cannot reposition. Wrong timing = completely wasted window.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~400 magic + frostbite buildup (level 15, unmodified)</span></div>
+  </div>
+
+  <div class="cocktail-card triple" id="card-flh">
+    <div class="card-header">
+      <div class="card-els"><span class="el-dot F"></span><span class="el-dot L"></span><span class="el-dot H"></span></div>
+      <span class="card-name">Fire + Lightning + Holy — Lightning Rod</span>
+      <span class="tier-badge tier-A">A</span>
+    </div>
+    <div class="card-body">
+      <div class="card-effect">"Create a lightning rod and thrust forward into terrain. White lightning strikes the rod after a short delay."</div>
+      <div class="card-meta">
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Recluse thrusts a stake into the ground (initial hit: 467 lightning). After ~2–3 seconds, a <strong>massive white lightning strike detonates on the rod (1,637 lightning)</strong>. Total: 2,104 lightning — highest raw damage cocktail. Known targeting bug: misfires on downhill terrain.</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-L">Lightning</span> <strong>Highest raw</strong> — 2,104 total when setup lands</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">~3 second delay before detonation</span></div>
+        <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">S-tier against stationary or staggered targets. Team should hold aggro during the delay. Outstanding in phase transitions where the boss briefly pauses. Kills lightweight adds like Libra summons instantly.</span></div>
+        <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Enemy moving out of rod range during delay = 467 damage instead of 2,104. Cast interruption = total loss. Terrain bug on slopes. Requires all three non-magic elements on the team.</span></div>
+      </div>
+    </div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">467 (initial thrust) + 1,637 (detonation) = <strong>2,104 lightning total</strong> (level 15, unmodified) — highest raw damage of any cocktail</span></div>
+  </div>
+</div>
+
+<!-- ── STRATEGY ── -->
+<div id="strategy-sec" class="sec-head">
+  <span class="sec-tag">Strategy</span>
+  <span class="sec-title">Strategic Notes</span>
+  <div class="sec-rule"></div>
+</div>
+<div class="strat-grid">
+
+  <div class="strat-card highlight">
+    <div class="stc-label">Damage Priority Ranking</div>
+    <div class="dmg-priority-list">
+      <div class="dp-row"><span class="dp-rank">1</span><span class="dmg-badge dmg-L">L</span><span class="dp-name-small">Lightning Rod (F+L+H)</span><span class="dp-cond">— Requires stationary target</span></div>
+      <div class="dp-row"><span class="dp-rank">2</span><span class="dmg-badge dmg-F">F</span><span class="dp-name-small">Fire Breath (M+F+H)</span><span class="dp-cond">— Full channel duration</span></div>
+      <div class="dp-row"><span class="dp-rank">3</span><span class="dmg-badge dmg-M">M</span><span class="dp-name-small">Gravity Orb (M+F+L)</span><span class="dp-cond">— Best practical choice</span></div>
+      <div class="dp-row"><span class="dp-rank">4</span><span class="dmg-badge dmg-L">L</span><span class="dp-name-small">Carian Sword (M+L)</span><span class="dp-cond">— Best dual combo</span></div>
+      <div class="dp-row"><span class="dp-rank">5</span><span class="dmg-badge dmg-F">F</span><span class="dp-name-small">Fire Wisp (M+F)</span><span class="dp-cond">— Reliable, low effort</span></div>
+    </div>
+  </div>
+
+  <div class="strat-card">
+    <div class="stc-label">FP Loop Technique</div>
+    <div class="stc-text">Maintain a cocktail loop using Fire Wisp and Carian Sword. Cast Fire Wisp, absorb its residues as it hits (Fire + Magic), then build toward Carian Sword. The Fire Wisp generates residue opportunities while active, effectively self-funding. Use Glintstone Pebble as a low-cost residue extender.</div>
+  </div>
+
+  <div class="strat-card">
+    <div class="stc-label">Team Element Coordination</div>
+    <div class="stc-text">Coordinate with teammates on elemental weapon types before boss fights. A lightning weapon on Executor or Raider gives Recluse reliable Lightning access. Holy weapons are rare — plan for them or accept that Holy combos are situational. Elemental throwable pots are a valid supplementary source.</div>
+  </div>
+
+  <div class="strat-card">
+    <div class="stc-label">Terra Magica Interaction</div>
+    <div class="stc-text">Terra Magica boosts Pure Magic cocktail output but does NOT boost all cocktails. Only cocktails classified as general sorceries in the Sorcery bucket benefit — verify per combo. "Improved Sorceries" on deep relics reliably boosts everything. Specific elemental attack-up relics only boost their matching element type.</div>
+  </div>
+
+  <div class="strat-card">
+    <div class="stc-label">Pre-Loading for Boss Phases</div>
+    <div class="stc-text">Cocktails can be engineered in advance before a fight starts — farm the needed residues during Day 2 traversal, then carry them into the Nightlord gate. Ideal pre-load: Gravity Orb (M+F+L) stored for the opening burst, then farm freely during Phase 1 for a second cast in Phase 2.</div>
+  </div>
+
+  <div class="strat-card">
+    <div class="stc-label">Revive Mechanic (Gravity Orb)</div>
+    <div class="stc-text">Gravity Orb deals 60 revive damage in its AoE on detonation. This is enough to instantly revive 1-bar downed allies caught in the blast. In trio runs with multiple downed teammates, a well-placed Gravity Orb can simultaneously deal boss damage and perform a group revive — prioritise this in emergencies.</div>
+  </div>
+</div>
+
+<div class="footnote">
+  <span class="dagger">†</span> All damage figures are base values at character level 15 with no relics, affinity modifiers, stat boosts, Terra Magica, or debuffs active. In-run values will vary significantly based on build and relic investment. Figures sourced from Fextralife community testing; treat as indicative benchmarks, not precise absolutes.
+</div>
+
+</main>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════
+const EL = {
+  M: { label:'Magic',     color:'#4880f0', dim:'#1840a0', bg:'rgba(72,128,240,0.18)',  glyph:'✦' },
+  F: { label:'Fire',      color:'#e85a28', dim:'#902810', bg:'rgba(232,90,40,0.18)',   glyph:'🔥' },
+  L: { label:'Lightning', color:'#dfc030', dim:'#907808', bg:'rgba(223,192,48,0.18)',  glyph:'⚡' },
+  H: { label:'Holy',      color:'#c8a840', dim:'#805808', bg:'rgba(200,168,64,0.18)',  glyph:'✧' },
+};
+
+const TIER_COLOR = { S:'#e8c028', A:'#4a9e6a', B:'#4880f0', C:'#7a7890', D:'#883840' };
+
+const COCKTAILS = {
+  mmm: { els:['M','M','M'], type:'pure',   name:'Pure Magic',       short:'Magic Wisp',      tier:'C',
+    effect:'Enwreathe an enemy in magic that deals damage at short intervals, encircling and attacking the target.',
+    mech:'Tracking wisp — 4 hits over 10s. First hit staggers most humanoids. Wisp persists regardless of range.',
+    team:'Early FP regen tool. Creates residue opportunities while active.', color:'#4880f0' },
+  fff: { els:['F','F','F'], type:'pure',   name:'Pure Fire',        short:'Fire Whirl',      tier:'C',
+    effect:'Throw a whirlwind of flame. Flame spreads across a small area and burns for some time.',
+    mech:'Short-range AoE throw, lingers ~4–5s. Covers ~3–4 player widths.',
+    team:'Crowd control in confined spaces. Outclassed by Fire Wisp for single targets.', color:'#e85a28' },
+  lll: { els:['L','L','L'], type:'pure',   name:'Pure Lightning',   short:"BH's Step",       tier:'D',
+    effect:'Enwreathe oneself in lightning, bolstering dodging actions. AoE lightning on cast.',
+    mech:'Grants Bloodhound\'s Step dodge for 20s. Brief AoE lightning on activation.',
+    team:'Niche. Disrupts normal roll timing — can cause self-roll-catch. Avoid unless intentional.', color:'#dfc030' },
+  hhh: { els:['H','H','H'], type:'pure',   name:'Pure Holy',        short:'Divine Shield',   tier:'B',
+    effect:'Enwreathe oneself in holy light, bolstering poise and increasing all damage negation by 10%.',
+    mech:'+10% damage negation from all sources. Poise buff lets you poise through minor staggers. 30-second duration — longest pure buff.',
+    team:'Best pure combo. Pre-cast before heavy boss phases. Holy is hard to farm.', color:'#c8a840' },
+  mf:  { els:['M','F'],     type:'dual',   name:'Fire Wisp',        short:'Fire Wisp',       tier:'B',
+    effect:'Launch a wraith flame that pursues enemies, dealing fire damage before detonating.',
+    mech:'Homing fire projectile tracks single target ~10s, then detonates. Set and forget.',
+    team:'Reliable. Easy Magic+Fire elements on most bosses. Free damage while repositioning.', color:'#c06820' },
+  ml:  { els:['M','L'],     type:'dual',   name:'Carian Sword',     short:'Carian Sword',    tier:'S',
+    effect:'Execute a broad forward slash with a magical blade. Hold to move with sword drawn.',
+    mech:'Carian Slicer-style slash. Hold to extend timing and range. Fast cast. Staggers most enemies. Community: Pocket Moonveil.',
+    team:'Best dual combo — high damage, fast cast, stagger utility. Farm whenever lightning is available.', color:'#6070e8' },
+  mh:  { els:['M','H'],     type:'dual',   name:'FP Veil',          short:'FP Veil',         tier:'A',
+    effect:'Cover nearby area with a magical veil, fully conserving FP for self and allies for 8 seconds.',
+    mech:'Infinite FP for all nearby allies for 8 seconds. Cast at start of heavy phase for full spell rotation.',
+    team:'Enables allied spell dumps. Benefits Revenant, Scholar, Undertaker with seals.', color:'#80a8f0' },
+  fl:  { els:['F','L'],     type:'dual',   name:'Fire Blinkbolt',   short:'Blinkbolt',       tier:'C',
+    effect:'Become a fireball and barrel forward, raining lightning on nearby foes.',
+    mech:'Dash forward as fireball. Lightning on landing. Invulnerability during dash unconfirmed. Deposits Recluse in melee range.',
+    team:'Repositioning tool with incidental damage. High fun factor, situational practical use.', color:'#e88020' },
+  fh:  { els:['F','H'],     type:'dual',   name:'Warming Torch',    short:'Warming Torch',   tier:'A',
+    effect:'Raise a torch that raises max HP by 30% for allies and reduces status buildup. Lowers enemy max HP.',
+    mech:'+30% max HP, −5 status buildup per 0.5s in range. Torch: 15s. HP buff: up to 75s total. Allies need not stay near torch.',
+    team:'Strongest sustained support cocktail. Plant and fight freely. Stack with tanky teammates.', color:'#c88028' },
+  lh:  { els:['L','H'],     type:'dual',   name:'Auto-Parry',       short:'Auto-Parry',      tier:'B',
+    effect:'Weave a layer of lightning that auto-parries enemy attacks for 15 seconds.',
+    mech:'100% physical damage reduction, auto-parry for 15s. Deflects non-AoE projectiles. Cannot be guard-broken. Rear attacks and grabs still connect.',
+    team:'Panic button or pre-emptive shield before a lethal boss combo.', color:'#b8d030' },
+  mfl: { els:['M','F','L'], type:'triple', name:'Gravity Orb',      short:'Gravity Orb',     tier:'S',
+    effect:'Conjure a frontward exploding gravity orb that pulls enemies inward, expands, and detonates.',
+    mech:'Pulls enemies inward → massive magic AoE explosion. 60 revive damage — can instantly revive 1-bar downed allies. Works with Terra Magica. Community: Hollow Purple.',
+    team:'Best practical triple. Pull guarantees enemies can\'t escape. Damage + ally revive in one cast.', color:'#9040e0' },
+  mfh: { els:['M','F','H'], type:'triple', name:'Fire Breath',      short:'Fire Breath',     tier:'S',
+    effect:'Spew a mixed affinity breath that inflicts fire damage on enemies and restores HP and FP of nearby allies.',
+    mech:'Wide channeled breath ~2–3s. Simultaneously damages enemies and heals+FP restores allies in range. Free-aim during cast. Arc upward — use free-aim for ground targets.',
+    team:'Second-highest damage + simultaneous team heal. Exceptional in sustained fights.', color:'#e04080' },
+  mlh: { els:['M','L','H'], type:'triple', name:'Ice Storm',        short:'Ice Storm',       tier:'B',
+    effect:'Create a cold storm with frostbite AoE and retreat inside an ice block, gaining invulnerability.',
+    mech:'Frostbite AoE + 8 seconds full invulnerability inside ice block. Recluse fully immobile during invulnerability. Damage triples on Gladius when he splits.',
+    team:'Niche invulnerability window for unavoidable AoEs. Must be timed precisely.', color:'#40a0e0' },
+  flh: { els:['F','L','H'], type:'triple', name:'Lightning Rod',    short:'Lightning Rod',   tier:'A',
+    effect:'Thrust a lightning rod into terrain. White lightning strikes after a short delay.',
+    mech:'Initial thrust: 467 lightning. Detonation ~2–3s later: 1,637 lightning. Total: 2,104 — highest raw damage. Targeting bug on downhill terrain.',
+    team:'S-tier vs. stationary targets. Team holds aggro during delay. Kills lightweight adds instantly.', color:'#e0c020' },
+};
+
+// Diagram node positions [x, y] in 820×600 viewBox
+const NODE_POS = {
+  mmm:[410, 48],   fff:[72,296],   lll:[748,296],  hhh:[410,548],
+  mf: [218,168],   ml: [602,168],  mh: [330,278],  fl: [490,314],  fh:[218,426],  lh:[602,426],
+  mfl:[410,172],   mfh:[262,328],  mlh:[558,328],  flh:[410,432],
+};
+
+// Edges: [fromId, toId, primaryEl]
+const EDGES = [
+  // Pure→Dual
+  ['mmm','mf','M'],['mmm','ml','M'],['mmm','mh','M'],
+  ['fff','mf','F'],['fff','fl','F'],['fff','fh','F'],
+  ['lll','ml','L'],['lll','fl','L'],['lll','lh','L'],
+  ['hhh','mh','H'],['hhh','fh','H'],['hhh','lh','H'],
+  // Dual→Triple
+  ['mf','mfl','M'],['mf','mfh','F'],
+  ['ml','mfl','L'],['ml','mlh','M'],
+  ['mh','mfh','M'],['mh','mlh','H'],
+  ['fl','mfl','F'],['fl','flh','L'],
+  ['fh','mfh','H'],['fh','flh','F'],
+  ['lh','mlh','L'],['lh','flh','H'],
+];
+
+// Node radius by type
+function nodeR(id){
+  const t = COCKTAILS[id].type;
+  return t==='pure'?26 : t==='triple'?22 : 18;
+}
+
+// Primary color for a node (first unique element)
+function nodeColor(id){
+  return COCKTAILS[id].color || EL[COCKTAILS[id].els[0]].color;
+}
+
+// ══════════════════════════════════════════
+//  DIAGRAM BUILD
+// ══════════════════════════════════════════
+const svgNS = 'http://www.w3.org/2000/svg';
+const diag = document.getElementById('diagram');
+const edgesG = document.getElementById('edges');
+const nodesG = document.getElementById('nodes');
+
+// Draw edges
+const edgeEls = {};
+EDGES.forEach(([a,b,el]) => {
+  const key = a+'-'+b;
+  const [ax,ay] = NODE_POS[a];
+  const [bx,by] = NODE_POS[b];
+  const line = document.createElementNS(svgNS,'line');
+  line.setAttribute('x1',ax); line.setAttribute('y1',ay);
+  line.setAttribute('x2',bx); line.setAttribute('y2',by);
+  line.setAttribute('stroke', EL[el]?.color || '#8858d8');
+  line.setAttribute('stroke-width','1.2');
+  line.setAttribute('opacity','0.08');
+  line.setAttribute('stroke-linecap','round');
+  line.style.transition='opacity 0.2s';
+  edgesG.appendChild(line);
+  if(!edgeEls[a]) edgeEls[a]=[];
+  if(!edgeEls[b]) edgeEls[b]=[];
+  edgeEls[a].push({line,other:b,el});
+  edgeEls[b].push({line,other:a,el});
+});
+
+// Draw nodes
+const nodeGroupEls = {};
+Object.entries(COCKTAILS).forEach(([id, data]) => {
+  const [cx,cy] = NODE_POS[id];
+  const r = nodeR(id);
+  const col = nodeColor(id);
+  const g = document.createElementNS(svgNS,'g');
+  g.setAttribute('class','diag-node');
+  g.setAttribute('data-id',id);
+  g.style.cursor='pointer';
+
+  // Glow behind (hidden by default, shown on hover/select)
+  const glow = document.createElementNS(svgNS,'circle');
+  glow.setAttribute('cx',cx); glow.setAttribute('cy',cy);
+  glow.setAttribute('r',r+10);
+  glow.setAttribute('fill',col); glow.setAttribute('opacity','0');
+  glow.setAttribute('filter','url(#nodeGlow)');
+  glow.style.transition='opacity 0.2s';
+  g.appendChild(glow);
+
+  // Main circle
+  const circ = document.createElementNS(svgNS,'circle');
+  circ.setAttribute('cx',cx); circ.setAttribute('cy',cy); circ.setAttribute('r',r);
+  circ.setAttribute('fill', hexWithAlpha(col,0.15));
+  circ.setAttribute('stroke', col);
+  circ.setAttribute('stroke-width', data.type==='triple'?'2':'1.5');
+  circ.style.transition='all 0.2s';
+  g.appendChild(circ);
+
+  // Tier badge (small arc text)
+  if(data.tier==='S'){
+    const tierDot = document.createElementNS(svgNS,'circle');
+    tierDot.setAttribute('cx', cx+r-4); tierDot.setAttribute('cy', cy-r+4);
+    tierDot.setAttribute('r','6');
+    tierDot.setAttribute('fill', TIER_COLOR[data.tier]);
+    tierDot.setAttribute('opacity','0.9');
+    g.appendChild(tierDot);
+    const tierT = document.createElementNS(svgNS,'text');
+    tierT.setAttribute('x', cx+r-4); tierT.setAttribute('y', cy-r+8);
+    tierT.setAttribute('text-anchor','middle');
+    tierT.setAttribute('fill','#1a1000');
+    tierT.setAttribute('font-size','6');
+    tierT.setAttribute('font-weight','700');
+    tierT.setAttribute('font-family','JetBrains Mono,monospace');
+    tierT.textContent='S';
+    g.appendChild(tierT);
+  }
+
+  // Label text
+  const lbl = document.createElementNS(svgNS,'text');
+  lbl.setAttribute('x',cx); lbl.setAttribute('y',cy-2);
+  lbl.setAttribute('text-anchor','middle');
+  lbl.setAttribute('fill',col);
+  lbl.setAttribute('font-size', data.type==='pure'?'8.5':'7.5');
+  lbl.setAttribute('font-weight','600');
+  lbl.setAttribute('font-family','JetBrains Mono,monospace');
+  lbl.setAttribute('pointer-events','none');
+  // Wrap long names
+  const words = data.short.split(' ');
+  if(words.length===1){
+    lbl.textContent=data.short;
+  } else {
+    // Split into 2 lines
+    const mid = Math.ceil(words.length/2);
+    const l1 = words.slice(0,mid).join(' ');
+    const l2 = words.slice(mid).join(' ');
+    const ts1 = document.createElementNS(svgNS,'tspan');
+    ts1.setAttribute('x',cx); ts1.setAttribute('dy','0'); ts1.textContent=l1;
+    const ts2 = document.createElementNS(svgNS,'tspan');
+    ts2.setAttribute('x',cx); ts2.setAttribute('dy','10'); ts2.textContent=l2;
+    lbl.appendChild(ts1); lbl.appendChild(ts2);
+  }
+  g.appendChild(lbl);
+
+  // Element dots at bottom of node
+  const dotY = cy + r - 6;
+  const dotCount = [...new Set(data.els)].length;
+  const dotSpacing = 10;
+  const uniqueEls = [...new Set(data.els)];
+  uniqueEls.forEach((e,i)=>{
+    const dx = cx + (i - (uniqueEls.length-1)/2)*dotSpacing;
+    const d = document.createElementNS(svgNS,'circle');
+    d.setAttribute('cx',dx); d.setAttribute('cy',dotY);
+    d.setAttribute('r','3');
+    d.setAttribute('fill',EL[e].color);
+    d.setAttribute('opacity','0.85');
+    d.setAttribute('pointer-events','none');
+    g.appendChild(d);
+  });
+
+  // Events
+  g.addEventListener('mouseenter',()=>hoverNode(id,true));
+  g.addEventListener('mouseleave',()=>hoverNode(id,false));
+  g.addEventListener('click',()=>selectNode(id));
+
+  nodesG.appendChild(g);
+  nodeGroupEls[id] = {g, glow, circ, col};
+});
+
+function hexWithAlpha(hex, a){
+  const r=parseInt(hex.slice(1,3),16);
+  const g=parseInt(hex.slice(3,5),16);
+  const b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function hoverNode(id, on){
+  const {glow,col} = nodeGroupEls[id];
+  glow.setAttribute('opacity', on?'0.35':'0');
+  // Show/dim edges
+  EDGES.forEach(([a,b,el])=>{
+    const key=a+'-'+b;
+    const involves = a===id||b===id;
+    const edgeList = edgeEls[id]||[];
+    edgeList.forEach(({line,el})=>{
+      line.setAttribute('opacity', on?(el==='M'?'0.7':el==='F'?'0.75':el==='L'?'0.7':'0.65'):'0.08');
+    });
+  });
+  // Dim unrelated edges
+  if(on){
+    const myEdges = new Set((edgeEls[id]||[]).map(e=>e.line));
+    edgesG.querySelectorAll('line').forEach(l=>{
+      if(!myEdges.has(l)) l.setAttribute('opacity','0.03');
+    });
+  } else {
+    edgesG.querySelectorAll('line').forEach(l=>l.setAttribute('opacity','0.08'));
+  }
+}
+
+let selectedNode = null;
+function selectNode(id){
+  // Deselect previous
+  if(selectedNode && selectedNode!==id){
+    const prev = nodeGroupEls[selectedNode];
+    prev.circ.setAttribute('stroke-width', COCKTAILS[selectedNode].type==='triple'?'2':'1.5');
+  }
+  selectedNode = id;
+  // Highlight selected
+  const {circ} = nodeGroupEls[id];
+  circ.setAttribute('stroke-width','3');
+
+  // Show detail panel
+  showDetailPanel(id);
+
+  // Trigger flask fill
+  flaskFillFromNode(id);
+
+  // Scroll to panel if below fold
+  document.getElementById('detailPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ══════════════════════════════════════════
+//  DETAIL PANEL
+// ══════════════════════════════════════════
+function showDetailPanel(id){
+  const data = COCKTAILS[id];
+  const panel = document.getElementById('detailPanel');
+
+  // Elements
+  const dpEls = document.getElementById('dpEls');
+  dpEls.innerHTML = '';
+  data.els.forEach(e=>{
+    const dot = document.createElement('span');
+    dot.className = 'el-dot '+e;
+    dpEls.appendChild(dot);
+  });
+
+  document.getElementById('dpName').textContent = data.name;
+
+  const tier = document.getElementById('dpTier');
+  tier.textContent = data.tier;
+  tier.className = 'tier-badge tier-'+data.tier;
+
+  document.getElementById('dpEffect').textContent = data.effect;
+  document.getElementById('dpMech').textContent = data.mech;
+  document.getElementById('dpTeam').textContent = data.team;
+
+  panel.classList.add('visible');
+  panel.style.display='block';
+}
+
+document.getElementById('dpClose').addEventListener('click',()=>{
+  document.getElementById('detailPanel').style.display='none';
+  if(selectedNode){
+    const prev = nodeGroupEls[selectedNode];
+    prev.circ.setAttribute('stroke-width', COCKTAILS[selectedNode].type==='triple'?'2':'1.5');
+    selectedNode=null;
+  }
+});
+
+// ══════════════════════════════════════════
+//  FLASK SYSTEM
+// ══════════════════════════════════════════
+const FLASK_LAYER_H = 43; // height of each layer fill
+// y positions of each layer bottom (SVG coords, fill grows upward)
+const LAYER_Y_BOTTOM = 194;
+const LAYER_TOPS = [194-FLASK_LAYER_H, 194-FLASK_LAYER_H*2, 194-FLASK_LAYER_H*3];
+
+let flaskEls = []; // selected elements ['M','F','L'] etc.
+let brewComplete = false;
+
+function animateRectFill(rectEl, targetY, targetH, duration){
+  const start = performance.now();
+  const startY = parseFloat(rectEl.getAttribute('y'));
+  const startH = parseFloat(rectEl.getAttribute('height'));
+  function step(ts){
+    const t = Math.min((ts-start)/duration,1);
+    const ease = 1-Math.pow(1-t,3);
+    rectEl.setAttribute('y', startY+(targetY-startY)*ease);
+    rectEl.setAttribute('height', startH+(targetH-startH)*ease);
+    if(t<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function addBubble(layerIndex){
+  const svgEl = document.getElementById('bubbles');
+  // Random x position within flask body
+  const x = 35 + Math.random()*50;
+  const yStart = 180 - layerIndex*FLASK_LAYER_H;
+  const col = EL[flaskEls[layerIndex]]?.color || '#8858d8';
+  const bub = document.createElementNS(svgNS,'circle');
+  bub.setAttribute('cx',x); bub.setAttribute('cy',yStart);
+  bub.setAttribute('r', 1.5+Math.random()*2);
+  bub.setAttribute('fill',col); bub.setAttribute('opacity','0.6');
+  svgEl.appendChild(bub);
+  // Animate upward
+  const dur = 800+Math.random()*600;
+  const targetY = LAYER_TOPS[layerIndex]-10;
+  const startT = performance.now();
+  function animBub(ts){
+    const t=Math.min((ts-startT)/dur,1);
+    bub.setAttribute('cy', yStart-(yStart-targetY)*t);
+    bub.setAttribute('opacity',0.6*(1-t));
+    if(t<1) requestAnimationFrame(animBub);
+    else bub.remove();
+  }
+  requestAnimationFrame(animBub);
+}
+
+function addFlaskElement(el){
+  if(flaskEls.length>=3||brewComplete) return;
+  flaskEls.push(el);
+  const idx = flaskEls.length-1;
+  const col = EL[el].color;
+
+  // Fill layer
+  const liq = document.getElementById('liq'+idx);
+  liq.setAttribute('fill', col);
+  const targetY = LAYER_TOPS[idx];
+  animateRectFill(liq, targetY, FLASK_LAYER_H, 450);
+
+  // Update slot dot
+  const dot = document.getElementById('sdot'+idx);
+  dot.textContent = EL[el].glyph;
+  dot.style.setProperty('--slot-color', col);
+  dot.style.color = col;
+  dot.style.borderColor = col;
+  dot.style.background = hexWithAlpha(col,0.15);
+  dot.classList.add('filled');
+
+  // Add bubbles with delay
+  for(let i=0;i<4;i++) setTimeout(()=>addBubble(idx), i*180);
+
+  // If 3 elements selected, brew
+  if(flaskEls.length===3) setTimeout(brewFlask, 600);
+}
+
+function brewFlask(){
+  // Find result
+  const key = getComboKey(flaskEls);
+  const data = COCKTAILS[key];
+  if(!data){ clearFlaskState(); return; }
+  brewComplete = true;
+
+  // Swirl animation
+  const swirl = document.getElementById('swirl');
+  swirl.setAttribute('opacity','1');
+  document.getElementById('swirlAnim').beginElement();
+
+  // Flask glow
+  const flaskSvg = document.getElementById('flaskSvg');
+  flaskSvg.style.setProperty('--brew-glow', hexWithAlpha(data.color||'#8858d8',0.8));
+  flaskSvg.classList.add('brewing');
+  document.getElementById('flaskGlow').style.opacity='1';
+
+  setTimeout(()=>{
+    swirl.setAttribute('opacity','0');
+    // Blend all layers to result color
+    [0,1,2].forEach(i=>{
+      const liq=document.getElementById('liq'+i);
+      liq.style.transition='fill 0.6s ease';
+      liq.setAttribute('fill', data.color||'#8858d8');
+    });
+
+    // Show result
+    setTimeout(()=>{
+      const name = document.getElementById('resName');
+      const link = document.getElementById('resLink');
+      name.textContent = data.name;
+      name.style.color = data.color||'#a070f0';
+      name.classList.add('visible');
+      link.href = '#card-'+key;
+      link.classList.add('visible');
+      // Pulse diagram node
+      pulseNode(key);
+    }, 500);
+  }, 1400);
+}
+
+function getComboKey(els){
+  // Count occurrences
+  const counts = {M:0,F:0,L:0,H:0};
+  els.forEach(e=>counts[e]++);
+  const uniq = Object.entries(counts).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const types = uniq.map(([k])=>k).sort();
+
+  // Match combinations
+  if(types.length===1) return types[0].toLowerCase().repeat(3);
+  if(types.length===2){
+    // Dual combo — order alphabetically
+    return types.join('').toLowerCase();
+  }
+  if(types.length===3) return types.join('').toLowerCase();
+  return null;
+}
+
+function pulseNode(id){
+  const el = nodeGroupEls[id];
+  if(!el) return;
+  el.glow.setAttribute('opacity','0.6');
+  setTimeout(()=>{
+    el.glow.setAttribute('opacity','0.25');
+    setTimeout(()=>el.glow.setAttribute('opacity','0'),800);
+  },400);
+  // Also highlight in diagram
+  el.circ.setAttribute('stroke-width','3');
+  selectedNode = id;
+  showDetailPanel(id);
+}
+
+function clearFlaskState(){
+  flaskEls = [];
+  brewComplete = false;
+  // Reset layers
+  [0,1,2].forEach(i=>{
+    const liq=document.getElementById('liq'+i);
+    liq.style.transition='none';
+    liq.setAttribute('y','194');
+    liq.setAttribute('height','0');
+    liq.setAttribute('fill','transparent');
+  });
+  // Reset dots
+  [0,1,2].forEach(i=>{
+    const dot=document.getElementById('sdot'+i);
+    dot.textContent='·';
+    dot.style.color='';
+    dot.style.borderColor='';
+    dot.style.background='';
+    dot.classList.remove('filled');
+  });
+  // Hide result
+  const name=document.getElementById('resName');
+  const link=document.getElementById('resLink');
+  name.classList.remove('visible');
+  link.classList.remove('visible');
+  // Clear flask glow
+  document.getElementById('flaskSvg').classList.remove('brewing');
+  document.getElementById('flaskGlow').style.opacity='0.5';
+}
+
+// Flask fill from node click (sequential)
+function flaskFillFromNode(id){
+  clearFlaskState();
+  const data = COCKTAILS[id];
+  // Get unique elements (for display we use first 3 in list)
+  const displayEls = data.els.slice(0,3);
+  let i=0;
+  function addNext(){
+    if(i<displayEls.length){
+      addFlaskElement(displayEls[i]);
+      i++;
+      if(i<displayEls.length) setTimeout(addNext, 420);
+    }
+  }
+  addNext();
+}
+
+// Nav pill scroll
+document.querySelectorAll('.nav-pill[data-target]').forEach(pill=>{
+  pill.addEventListener('click',()=>{
+    const t=document.getElementById(pill.dataset.target);
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+// Flask result link scroll
+document.getElementById('resLink').addEventListener('click',(e)=>{
+  e.preventDefault();
+  const href = e.currentTarget.getAttribute('href');
+  if(href && href.startsWith('#')){
+    const t=document.getElementById(href.slice(1));
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+});
+
+// Element button clicks
+document.querySelectorAll('.elem-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(brewComplete) clearFlaskState();
+    addFlaskElement(btn.dataset.el);
+  });
+});
+
+// Clear button
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  clearFlaskState();
+  // Reset diagram
+  if(selectedNode){
+    nodeGroupEls[selectedNode].circ.setAttribute('stroke-width', COCKTAILS[selectedNode].type==='triple'?'2':'1.5');
+    selectedNode=null;
+  }
+  document.getElementById('detailPanel').style.display='none';
+});
+</script>
+</body>
+</html>
