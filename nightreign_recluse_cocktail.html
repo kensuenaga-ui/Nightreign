@@ -29,12 +29,12 @@
   --F:        #e85a28;
   --Fbg:      rgba(232,90,40,0.15);
   --Fdim:     #902810;
-  --L:        #dfc030;
-  --Lbg:      rgba(223,192,48,0.15);
-  --Ldim:     #907808;
-  --H:        #c8a840;
-  --Hbg:      rgba(200,168,64,0.15);
-  --Hdim:     #805808;
+  --L:        #f2e050;
+  --Lbg:      rgba(242,224,80,0.15);
+  --Ldim:     #908010;
+  --H:        #c07818;
+  --Hbg:      rgba(192,120,24,0.15);
+  --Hdim:     #784010;
   --tierS:    #e8c028;
   --tierA:    #4a9e6a;
   --tierB:    #4880f0;
@@ -314,6 +314,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 }
 .card-footer .dmg-num{color:var(--textsub)}
 .card-footer .dagger{color:var(--violet3);margin-right:0.2rem}
+.el-icon{width:18px;height:18px;flex-shrink:0;border-radius:50%}
 
 /* ── STRATEGY ── */
 .strat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.6rem}
@@ -370,6 +371,47 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 <body>
 
 <!-- ── HEADER ── -->
+<!-- Element icon symbols -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <!-- MAGIC: waveform bars -->
+  <symbol id="ico-M" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="8.5" fill="#0a1840"/>
+    <circle cx="9" cy="9" r="8.5" fill="none" stroke="#4880f0" stroke-width="1.3"/>
+    <g fill="#4880f0">
+      <rect x="4"    y="11"  width="1.6" height="3.5" rx="0.6"/>
+      <rect x="6.3"  y="8.5" width="1.6" height="6"   rx="0.6"/>
+      <rect x="8.6"  y="6"   width="1.6" height="8.5" rx="0.6"/>
+      <rect x="10.9" y="8.5" width="1.6" height="6"   rx="0.6"/>
+      <rect x="13.2" y="11"  width="1.6" height="3.5" rx="0.6"/>
+    </g>
+  </symbol>
+  <!-- FIRE: flame -->
+  <symbol id="ico-F" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="8.5" fill="#3a0e06"/>
+    <circle cx="9" cy="9" r="8.5" fill="none" stroke="#e85a28" stroke-width="1.3"/>
+    <path d="M9,3 C9,3 12,6.5 12,9 C12,10.2 11.2,10.8 10.5,10.2 C11,11.8 10,13.8 9,14.5 C8,13.8 7,11.8 7.5,10.2 C6.8,10.8 6,10.2 6,9 C6,6.5 9,3 9,3 Z" fill="#e85a28"/>
+    <ellipse cx="9" cy="12.8" rx="2.5" ry="1.6" fill="#ff8040" opacity="0.55"/>
+  </symbol>
+  <!-- LIGHTNING: bolt -->
+  <symbol id="ico-L" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="8.5" fill="#252000"/>
+    <circle cx="9" cy="9" r="8.5" fill="none" stroke="#f2e050" stroke-width="1.3"/>
+    <path d="M11,3.5 L5.5,9.5 L9.5,9.5 L7,14.5 L12.5,8 L8.5,8 Z" fill="#f2e050"/>
+  </symbol>
+  <!-- HOLY: radiant cross -->
+  <symbol id="ico-H" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="8.5" fill="#201400"/>
+    <circle cx="9" cy="9" r="8.5" fill="none" stroke="#c07818" stroke-width="1.3"/>
+    <g stroke="#c07818" stroke-width="1.2" stroke-linecap="round">
+      <line x1="9" y1="3.5" x2="9" y2="14.5"/>
+      <line x1="3.5" y1="9" x2="14.5" y2="9"/>
+      <line x1="4.8" y1="4.8" x2="13.2" y2="13.2"/>
+      <line x1="13.2" y1="4.8" x2="4.8" y2="13.2"/>
+    </g>
+    <circle cx="9" cy="9" r="2.2" fill="#c07818"/>
+  </symbol>
+</svg>
+
 <header class="page-header">
   <div class="header-text">
     <p class="eyebrow">Nightreign · NTRN:REF · Recluse</p>
@@ -627,7 +669,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
       <div class="card-meta">
         <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Short-range thrown AoE. Leaves a lingering fire area on impact covering roughly 3–4 player widths. Burn persists after the initial hit.</span></div>
         <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-F">Fire</span> Moderate — spread across duration</span></div>
-        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Lingers ~4–5s</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Burns for <strong>8 seconds</strong></span></div>
         <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Good in confined corridors. Boss-phase utility against slow enemies. Outclassed by Fire Wisp (M+F) for single targets.</span></div>
         <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Short cast range. Agile bosses leave the AoE immediately.</span></div>
       </div>
@@ -685,7 +727,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 
   <div class="cocktail-card" id="card-mf">
     <div class="card-header">
-      <div class="card-els"><span class="el-dot M"></span><span class="el-dot F"></span></div>
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot M"></span><span class="el-dot F"></span></div>
       <span class="card-name">Magic + Fire — Fire Wisp</span>
       <span class="tier-badge tier-B">B</span>
     </div>
@@ -704,7 +746,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 
   <div class="cocktail-card" id="card-ml">
     <div class="card-header">
-      <div class="card-els"><span class="el-dot M"></span><span class="el-dot L"></span></div>
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot M"></span><span class="el-dot L"></span></div>
       <span class="card-name">Magic + Lightning — Carian Sword</span>
       <span class="tier-badge tier-S">S</span>
     </div>
@@ -712,18 +754,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
       <div class="card-effect">"Execute broad forward slash with magical blade. Hold to move with sword drawn."</div>
       <div class="card-meta">
         <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Conjures a Carian blade and fires a Carian Slicer-style slash. <strong>Hold to walk with sword drawn</strong> and extend the timing/range. Fast cast. Staggers most humanoid enemies and medium enemies. Community name: Pocket Moonveil.</span></div>
-        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-L">Lightning</span> <strong>High</strong> — best raw damage for a dual combo</span></div>
+        <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-M">Magic</span> <strong>High</strong> — best raw damage for a dual combo</span></div>
         <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Instant / holdable</span></div>
         <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Best dual combo. Fast enough to use aggressively. Stagger utility is significant. Farm Magic+Lightning whenever a lightning weapon or Recluse's starting sorceries are active on the team.</span></div>
         <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Requires Lightning on the team — less reliable solo. No real downsides otherwise.</span></div>
       </div>
     </div>
-    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~552 lightning (level 15, unmodified)</span></div>
+    <div class="card-footer"><span class="dagger">†</span> <span class="dmg-num">~552 magic (level 15, unmodified)</span></div>
   </div>
 
   <div class="cocktail-card" id="card-mh">
     <div class="card-header">
-      <div class="card-els"><span class="el-dot M"></span><span class="el-dot H"></span></div>
+      <div class="card-els"><span class="el-dot M"></span><span class="el-dot M"></span><span class="el-dot H"></span></div>
       <span class="card-name">Magic + Holy — FP Veil</span>
       <span class="tier-badge tier-A">A</span>
     </div>
@@ -742,7 +784,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 
   <div class="cocktail-card" id="card-fl">
     <div class="card-header">
-      <div class="card-els"><span class="el-dot F"></span><span class="el-dot L"></span></div>
+      <div class="card-els"><span class="el-dot F"></span><span class="el-dot F"></span><span class="el-dot L"></span></div>
       <span class="card-name">Fire + Lightning — Fire Blinkbolt</span>
       <span class="tier-badge tier-C">C</span>
     </div>
@@ -761,14 +803,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 
   <div class="cocktail-card" id="card-fh">
     <div class="card-header">
-      <div class="card-els"><span class="el-dot F"></span><span class="el-dot H"></span></div>
+      <div class="card-els"><span class="el-dot F"></span><span class="el-dot F"></span><span class="el-dot H"></span></div>
       <span class="card-name">Fire + Holy — Warming Torch</span>
       <span class="tier-badge tier-A">A</span>
     </div>
     <div class="card-body">
       <div class="card-effect">"Raise a torch for a limited time that raises max HP and reduces status ailment gauge buildup for nearby allies, and lowers max HP of nearby enemies."</div>
       <div class="card-meta">
-        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val"><strong>+30% max HP</strong> to self and nearby allies. Reduces ally status buildup (−5 per 0.5s while in range). Lowers enemy max HP within range. <strong>Torch lasts 15s</strong> — allies do NOT need to stay near it. HP buff persists 60s from last moment in range (up to 75s total).</span></div>
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val"><strong>+30% max HP</strong> to self and nearby allies. <strong>Actively cures status ailments</strong> on allies in range. Lowers enemy max HP within range. <strong>Torch lasts 15s</strong> — allies do NOT need to stay near it. HP buff persists 60s from last moment in range (up to 75s total).</span></div>
         <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-none">Support</span> None (debuffs enemy max HP)</span></div>
         <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Torch: <strong>15s</strong> — HP buff: up to <strong>75s total</strong></span></div>
         <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">Strongest sustained team support cocktail. Plant torch, fight freely — allies don't need to stand still. Stack with tanky characters (Guardian, Raider) for enormous effective HP. The 75-second total duration is exceptional value.</span></div>
@@ -780,7 +822,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 
   <div class="cocktail-card" id="card-lh">
     <div class="card-header">
-      <div class="card-els"><span class="el-dot L"></span><span class="el-dot H"></span></div>
+      <div class="card-els"><span class="el-dot L"></span><span class="el-dot L"></span><span class="el-dot H"></span></div>
       <span class="card-name">Lightning + Holy — Auto-Parry Shield</span>
       <span class="tier-badge tier-B">B</span>
     </div>
@@ -873,9 +915,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
     <div class="card-body">
       <div class="card-effect">"Create a lightning rod and thrust forward into terrain. White lightning strikes the rod after a short delay."</div>
       <div class="card-meta">
-        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Recluse thrusts a stake into the ground (initial hit: 467 lightning). After ~2–3 seconds, a <strong>massive white lightning strike detonates on the rod (1,637 lightning)</strong>. Total: 2,104 lightning — highest raw damage cocktail. Known targeting bug: misfires on downhill terrain.</span></div>
+        <div class="meta-row"><span class="meta-key">Mechanic</span><span class="meta-val">Recluse thrusts a stake into the ground (initial hit: 467 lightning). After ~<strong>5 seconds</strong>, a <strong>massive white lightning strike detonates on the rod (1,637 lightning)</strong>. Total: 2,104 lightning — highest raw damage cocktail. Known targeting bug: misfires on downhill terrain.</span></div>
         <div class="meta-row"><span class="meta-key">Damage</span><span class="meta-val"><span class="dmg-badge dmg-L">Lightning</span> <strong>Highest raw</strong> — 2,104 total when setup lands</span></div>
-        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">~3 second delay before detonation</span></div>
+        <div class="meta-row"><span class="meta-key">Duration</span><span class="meta-val">Rod stays <strong>~5 seconds</strong> before detonation</span></div>
         <div class="meta-row"><span class="meta-key">Team Use</span><span class="meta-val">S-tier against stationary or staggered targets. Team should hold aggro during the delay. Outstanding in phase transitions where the boss briefly pauses. Kills lightweight adds like Libra summons instantly.</span></div>
         <div class="meta-row"><span class="meta-key">Risk</span><span class="meta-val">Enemy moving out of rod range during delay = 467 damage instead of 2,104. Cast interruption = total loss. Terrain bug on slopes. Requires all three non-magic elements on the team.</span></div>
       </div>
@@ -898,7 +940,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
       <div class="dp-row"><span class="dp-rank">1</span><span class="dmg-badge dmg-L">L</span><span class="dp-name-small">Lightning Rod (F+L+H)</span><span class="dp-cond">— Requires stationary target</span></div>
       <div class="dp-row"><span class="dp-rank">2</span><span class="dmg-badge dmg-F">F</span><span class="dp-name-small">Fire Breath (M+F+H)</span><span class="dp-cond">— Full channel duration</span></div>
       <div class="dp-row"><span class="dp-rank">3</span><span class="dmg-badge dmg-M">M</span><span class="dp-name-small">Gravity Orb (M+F+L)</span><span class="dp-cond">— Best practical choice</span></div>
-      <div class="dp-row"><span class="dp-rank">4</span><span class="dmg-badge dmg-L">L</span><span class="dp-name-small">Carian Sword (M+L)</span><span class="dp-cond">— Best dual combo</span></div>
+      <div class="dp-row"><span class="dp-rank">4</span><span class="dmg-badge dmg-M">M</span><span class="dp-name-small">Carian Sword (M+L)</span><span class="dp-cond">— Best dual combo</span></div>
       <div class="dp-row"><span class="dp-rank">5</span><span class="dmg-badge dmg-F">F</span><span class="dp-name-small">Fire Wisp (M+F)</span><span class="dp-cond">— Reliable, low effort</span></div>
     </div>
   </div>
@@ -942,11 +984,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:
 const EL = {
   M: { label:'Magic',     color:'#4880f0', dim:'#1840a0', bg:'rgba(72,128,240,0.18)',  glyph:'✦' },
   F: { label:'Fire',      color:'#e85a28', dim:'#902810', bg:'rgba(232,90,40,0.18)',   glyph:'🔥' },
-  L: { label:'Lightning', color:'#dfc030', dim:'#907808', bg:'rgba(223,192,48,0.18)',  glyph:'⚡' },
-  H: { label:'Holy',      color:'#c8a840', dim:'#805808', bg:'rgba(200,168,64,0.18)',  glyph:'✧' },
+  L: { label:'Lightning', color:'#f2e050', dim:'#908010', bg:'rgba(242,224,80,0.18)',  glyph:'⚡' },
+  H: { label:'Holy',      color:'#c07818', dim:'#784010', bg:'rgba(192,120,24,0.18)',  glyph:'✧' },
 };
 
 const TIER_COLOR = { S:'#e8c028', A:'#4a9e6a', B:'#4880f0', C:'#7a7890', D:'#883840' };
+
+// Display elements (always 3, 2+1 for duals)
+const DISPLAY_ELS = {
+  mmm:['M','M','M'], fff:['F','F','F'], lll:['L','L','L'], hhh:['H','H','H'],
+  mf: ['M','M','F'], ml: ['M','M','L'], mh: ['M','M','H'],
+  fl: ['F','F','L'], fh: ['F','F','H'], lh: ['L','L','H'],
+  mfl:['M','F','L'], mfh:['M','F','H'], mlh:['M','L','H'], flh:['F','L','H'],
+};
+
+function makeElIcon(el, size=18){
+  const svg = document.createElementNS(svgNS,'svg');
+  svg.setAttribute('class','el-icon');
+  svg.setAttribute('width',size); svg.setAttribute('height',size);
+  svg.setAttribute('viewBox','0 0 18 18');
+  svg.style.borderRadius='50%';
+  const use = document.createElementNS(svgNS,'use');
+  use.setAttribute('href','#ico-'+el);
+  svg.appendChild(use);
+  return svg;
+}
 
 const COCKTAILS = {
   mmm: { els:['M','M','M'], type:'pure',   name:'Pure Magic',       short:'Magic Wisp',      tier:'C',
@@ -1144,20 +1206,32 @@ Object.entries(COCKTAILS).forEach(([id, data]) => {
   }
   g.appendChild(lbl);
 
-  // Element dots at bottom of node
-  const dotY = cy + r - 6;
-  const dotCount = [...new Set(data.els)].length;
-  const dotSpacing = 10;
-  const uniqueEls = [...new Set(data.els)];
-  uniqueEls.forEach((e,i)=>{
-    const dx = cx + (i - (uniqueEls.length-1)/2)*dotSpacing;
-    const d = document.createElementNS(svgNS,'circle');
-    d.setAttribute('cx',dx); d.setAttribute('cy',dotY);
-    d.setAttribute('r','3');
-    d.setAttribute('fill',EL[e].color);
-    d.setAttribute('opacity','0.85');
-    d.setAttribute('pointer-events','none');
-    g.appendChild(d);
+  // Element icons at bottom of node using display els (always 3)
+  const dotY = cy + r + 1;
+  const dispEls = DISPLAY_ELS[id] || data.els;
+  const iconSize = 12;
+  const iconSpacing = 13;
+  dispEls.forEach((e,i)=>{
+    const dx = cx + (i - (dispEls.length-1)/2)*iconSpacing;
+    const fo = document.createElementNS(svgNS,'foreignObject');
+    fo.setAttribute('x', dx - iconSize/2);
+    fo.setAttribute('y', dotY - iconSize/2);
+    fo.setAttribute('width', iconSize);
+    fo.setAttribute('height', iconSize);
+    fo.setAttribute('pointer-events','none');
+    const inner = document.createElement('div');
+    inner.style.cssText='width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+    const iconSvg = document.createElementNS(svgNS,'svg');
+    iconSvg.setAttribute('viewBox','0 0 18 18');
+    iconSvg.setAttribute('width',iconSize);
+    iconSvg.setAttribute('height',iconSize);
+    iconSvg.style.borderRadius='50%';
+    const use = document.createElementNS(svgNS,'use');
+    use.setAttribute('href','#ico-'+e);
+    iconSvg.appendChild(use);
+    inner.appendChild(iconSvg);
+    fo.appendChild(inner);
+    g.appendChild(fo);
   });
 
   // Events
@@ -1231,10 +1305,8 @@ function showDetailPanel(id){
   // Elements
   const dpEls = document.getElementById('dpEls');
   dpEls.innerHTML = '';
-  data.els.forEach(e=>{
-    const dot = document.createElement('span');
-    dot.className = 'el-dot '+e;
-    dpEls.appendChild(dot);
+  (DISPLAY_ELS[id]||data.els).forEach(e=>{
+    dpEls.appendChild(makeElIcon(e,18));
   });
 
   document.getElementById('dpName').textContent = data.name;
@@ -1457,6 +1529,22 @@ function flaskFillFromNode(id){
   }
   addNext();
 }
+
+// Convert all .el-dot spans to proper SVG icons
+document.querySelectorAll('.el-dot').forEach(dot=>{
+  const el=[...dot.classList].find(c=>c!=='el-dot');
+  if(!el) return;
+  const svg=document.createElementNS(svgNS,'svg');
+  svg.setAttribute('class','el-icon');
+  svg.setAttribute('width','18');
+  svg.setAttribute('height','18');
+  svg.setAttribute('viewBox','0 0 18 18');
+  svg.style.borderRadius='50%';
+  const use=document.createElementNS(svgNS,'use');
+  use.setAttribute('href','#ico-'+el);
+  svg.appendChild(use);
+  dot.replaceWith(svg);
+});
 
 // Nav pill scroll
 document.querySelectorAll('.nav-pill[data-target]').forEach(pill=>{
