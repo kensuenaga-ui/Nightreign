@@ -1,0 +1,2 @@
+# Keep Windows batch files byte-for-byte (CRLF) so cmd.exe runs them correctly
+*.bat -text
