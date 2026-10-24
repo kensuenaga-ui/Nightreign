@@ -11,6 +11,7 @@ Place to host and update Nightreign documents
 - [Starting Armament Relic Compatibility](https://kensuenaga-ui.github.io/Nightreign/nightreign_starting_armament_relics.html)
 - [Rise Strategy Guide](https://kensuenaga-ui.github.io/Nightreign/nightreign_rise_guide.html)
 - [Recluse Cocktail Guide](https://kensuenaga-ui.github.io/Nightreign/nightreign_recluse_cocktail.html)
+- [Mod Setup Guide](https://kensuenaga-ui.github.io/Nightreign/nightreign_mod_setup.html)
 
 ## Tools
 - [Setup Nightreign Mods.bat](tools/Setup%20Nightreign%20Mods.bat): one-click setup for Seamless Co-op + More Map Variations. Put it in a folder with the two mod zips and double-click. Download it with the download icon on the file page.
