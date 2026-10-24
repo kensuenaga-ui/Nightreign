@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nightreign Mod Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one reading column, sticky step strip, numbered steps as the only boxed objects */
+:root{
+  color-scheme:dark;
+  --ink:#0b1110;
+  --slab:#121a18;
+  --seam:#24332f;
+  --bone:#d9d3c4;
+  --ash:#8a9590;
+  --verd:#5fb39a;
+  --verd-dim:rgba(95,179,154,.12);
+  --ember:#e0a24a;
+  --ember-dim:rgba(224,162,74,.12);
+  --blood:#d4645a;
+  --blood-dim:rgba(212,100,90,.12);
+  --f-display:'IM Fell English SC','Palatino Linotype',Georgia,serif;
+  --f-body:'Alegreya Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--bone);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+a{color:var(--verd)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--verd);outline-offset:2px}
+.wrap{max-width:840px;margin:0 auto;padding-block:0 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header.top{padding-block:3rem 1.8rem;border-bottom:1px solid var(--seam)}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash)}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;margin:.4rem 0 .7rem;text-wrap:balance}
+h1 span{color:var(--verd)}
+.lede{max-width:62ch;color:var(--ash);font-size:1.05rem;margin:0}
+.lede b{color:var(--bone);font-weight:500}
+
+.facts-strip{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--ash)}
+.facts-strip b{color:var(--bone);font-weight:500}
+
+nav.runes{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);border-bottom:1px solid var(--seam);display:flex;gap:.35rem;flex-wrap:wrap;padding-block:.6rem}
+nav.runes button{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ash);border:1px solid var(--seam);padding:.3rem .6rem;border-radius:2px;cursor:pointer}
+nav.runes button:hover{color:var(--verd);border-color:var(--verd)}
+
+section{padding-top:2.4rem;scroll-margin-top:3.6rem}
+h2{font-family:var(--f-display);font-weight:400;font-size:1.75rem;margin:0 0 .4rem;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--verd);margin-bottom:.2rem}
+h3{font-weight:700;font-size:1.05rem;margin:1.3rem 0 .3rem}
+p{margin:.5rem 0;max-width:68ch}
+.muted{color:var(--ash)}
+code{font-family:var(--f-mono);font-size:.85em;background:var(--slab);border:1px solid var(--seam);padding:.05rem .35rem;border-radius:2px;word-break:break-word}
+
+/* mod summary */
+.gets{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--seam);border:1px solid var(--seam);margin:1rem 0}
+.gets div{background:var(--ink);padding:.8rem 1rem}
+.gets .n{font-family:var(--f-display);font-size:1.9rem;line-height:1;color:var(--verd);font-variant-numeric:tabular-nums}
+.gets .n s{color:var(--ash);font-size:1.1rem;text-decoration:none}
+.gets .l{font-size:.9rem;color:var(--ash);margin-top:.2rem}
+
+/* steps */
+.step{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:0 1rem;border-top:1px solid var(--seam);padding-block:1.4rem .4rem}
+.step .num{font-family:var(--f-display);font-size:2.4rem;line-height:1;color:var(--verd);text-align:center}
+.step h3{margin:.15rem 0 .4rem;font-size:1.15rem}
+.step ol,.step ul{margin:.4rem 0;padding-left:1.3rem}
+.step li{margin:.3rem 0}
+@media (max-width:480px){.step{grid-template-columns:2.2rem minmax(0,1fr);gap:0 .7rem}.step .num{font-size:1.9rem}}
+
+/* code blocks with copy */
+.code{position:relative;margin:.7rem 0}
+.code pre{font-family:var(--f-mono);font-size:.8rem;background:var(--slab);border:1px solid var(--seam);padding:.8rem 1rem;padding-right:4.6rem;overflow-x:auto;margin:0;line-height:1.55;white-space:pre}
+.code .lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);margin-bottom:.25rem}
+.code button{position:absolute;top:1.55rem;right:.45rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--verd);border:1px solid var(--verd);padding:.25rem .5rem;border-radius:2px;cursor:pointer}
+.code button.done{color:var(--ink);background:var(--verd)}
+
+.tree{font-family:var(--f-mono);font-size:.8rem;background:var(--slab);border:1px solid var(--seam);padding:.8rem 1rem;overflow-x:auto;white-space:pre;line-height:1.55;margin:.7rem 0}
+.tree .k{color:var(--verd)} .tree .x{color:var(--blood)} .tree .c{color:var(--ash)}
+
+/* callouts */
+.note{border-left:3px solid var(--verd);background:var(--verd-dim);padding:.65rem 1rem;margin:.9rem 0}
+.note.warn{border-color:var(--ember);background:var(--ember-dim)}
+.note.stop{border-color:var(--blood);background:var(--blood-dim)}
+.note b.tag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;margin-right:.4rem;color:var(--verd)}
+.note.warn b.tag{color:var(--ember)} .note.stop b.tag{color:var(--blood)}
+
+.chip{display:inline-block;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.03rem .4rem;border:1px solid;border-radius:2px;vertical-align:.12em;margin-left:.25rem;white-space:nowrap}
+.chip.v{color:var(--verd);border-color:var(--verd)}
+.chip.c{color:var(--ember);border-color:var(--ember)}
+
+/* version table */
+.tbl{overflow-x:auto;margin:.8rem 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem;min-width:460px}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--seam);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);font-weight:500}
+td.ver{font-family:var(--f-mono);font-size:.85rem;color:var(--verd);font-variant-numeric:tabular-nums}
+
+ul.check{list-style:none;padding:0;margin:.6rem 0}
+ul.check li{display:flex;gap:.7rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px dashed var(--seam)}
+ul.check input{margin-top:.35rem;accent-color:var(--verd);flex-shrink:0;width:1rem;height:1rem}
+ul.check label{min-width:0;cursor:pointer}
+.reset{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ash);border:1px solid var(--seam);padding:.25rem .55rem;border-radius:2px;cursor:pointer}
+
+.trouble div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--seam)}
+.trouble .sym{font-family:var(--f-mono);font-size:.8rem;color:var(--ember)}
+@media (max-width:600px){.trouble div{grid-template-columns:1fr;gap:.2rem}}
+
+details.manual{border-top:1px solid var(--seam);margin-top:1.4rem;padding-top:.9rem}
+details.manual summary{cursor:pointer;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ash)}
+details.manual summary:hover{color:var(--verd)}
+details.manual > div{padding-top:.4rem}
+details.manual ol{padding-left:1.3rem}
+.extra{border-top:1px solid var(--seam);padding-top:.9rem;margin-top:.9rem}
+.extra h3{margin-top:0}
+
+ol.sources{font-size:.88rem;color:var(--ash);padding-left:1.4rem}
+ol.sources li{margin:.25rem 0;word-break:break-word}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--seam);font-family:var(--f-mono);font-size:.7rem;color:var(--ash)}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">NTRN:REF · For Ken, Pete, Dax &amp; Felix · Updated 24 Oct 2026</div>
+  <h1>Nightreign <span>Mod Setup</span></h1>
+  <p class="lede">Seamless Co-op plus More Map Variations. Same Nightfarers, same relics, a much bigger pool of things that want you dead. Set it up once with one script, then <b>every session is one double-click</b>. Your normal game stays untouched: launch from Steam like always and you're playing vanilla.</p>
+  <div class="facts-strip">
+    <span><b>~10 min</b> setup</span>
+    <span><b>~1 GB</b> download</span>
+    <span>Needs <b>Forsaken Hollows</b> DLC</span>
+    <span>Windows · Steam</span>
+  </div>
+</header>
+
+<nav class="runes" aria-label="Sections">
+  <button data-target="what">What you get</button>
+  <button data-target="setup">Setup</button>
+  <button data-target="session">Each session</button>
+  <button data-target="trouble">Troubleshooting</button>
+  <button data-target="extras">Optional extras</button>
+  <button data-target="sources">Sources</button>
+</nav>
+
+<section id="what">
+  <h2><small>The bargain</small>What you get</h2>
+  <div class="gets">
+    <div><div class="n"><s>22→</s>87</div><div class="l">possible field bosses</div></div>
+    <div><div class="n"><s>3→</s>24</div><div class="l">castle layouts</div></div>
+    <div><div class="n"><s>7→</s>28</div><div class="l">castle basement bosses</div></div>
+    <div><div class="n"><s>35→</s>54</div><div class="l">night bosses, any of them for any Nightlord</div></div>
+  </div>
+  <p>New night bosses include Malenia, Radahn, Maliketh, Godfrey, Messmer, Midra, Rellana, Rennala, Gael and Manus. Fortissax replaces Ancient Dragon. Seamless Co-op also unlocks every Everdark boss and Deep of Night without FromSoftware's servers, so we can run Deep of Night together.</p>
+  <div class="note warn"><b class="tag">Relics</b>Anything earned in modded runs lands in the Seamless save, not your normal one. Deep of Night relics farmed here won't show up in vanilla. Depth and rank tracking under Seamless is unconfirmed until we try it.</div>
+  <p class="muted">Balance stays close to vanilla: the mod team rebalances rune rewards and HP for every added enemy. No god mode, no stat changes to Nightfarers or relics.</p>
+  <div class="note stop"><b class="tag">One rule</b>Never take the modded game into vanilla online matchmaking. Seamless keeps you off FromSoftware's servers on purpose. Launch from Steam normally whenever you want vanilla.</div>
+</section>
+
+<section id="setup">
+  <h2><small>Once per PC · about 10 minutes</small>Setup</h2>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h3>Install ModEngine 3</h3>
+      <p>The launcher that loads mods without touching your game folder.</p>
+      <ol>
+        <li>Go to <a href="https://github.com/garyttierney/me3/releases" target="_blank" rel="noopener">github.com/garyttierney/me3/releases</a>.</li>
+        <li>Download <code>me3_installer.exe</code> from the newest release and run it.</li>
+      </ol>
+      <p class="muted">The “Mod Engine 3 Manager” on Nexus is a different tool. Skip it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h3>Make a folder and fill it with three files</h3>
+      <p>Make a folder at <code>\games\nightreign-mods</code> on whichever drive has about 3 GB free, for example <code>E:\games\nightreign-mods</code>. Not inside the Steam game folder, and not inside OneDrive. Then put these three files in it:</p>
+      <div class="tbl"><table>
+        <thead><tr><th>File</th><th>Where from</th><th>Our version</th></tr></thead>
+        <tbody>
+          <tr><td>More Map Variations <code>.zip</code></td><td><a href="https://www.nexusmods.com/eldenringnightreign/mods/578" target="_blank" rel="noopener">Nexus 578</a></td><td class="ver">2.1.8.3 <span class="muted">(26 Aug 2026)</span></td></tr>
+          <tr><td>Seamless Co-op <code>.zip</code></td><td><a href="https://www.nexusmods.com/eldenringnightreign/mods/3" target="_blank" rel="noopener">Nexus 3</a></td><td class="ver">1.1.3</td></tr>
+          <tr><td><code>Setup Nightreign Mods.bat</code></td><td><a href="https://github.com/kensuenaga-ui/Nightreign/blob/main/tools/Setup%20Nightreign%20Mods.bat" target="_blank" rel="noopener">Ken's GitHub</a></td><td class="ver">—</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>Getting the script:</b> on its GitHub page, click the download icon at the top right of the file view. Don't copy the text or use “Save as” on a raw link, because Windows can quietly save it as <code>.txt</code>.</p>
+      <p><b>How to check you got the right one:</b> the version is in the filename. The MMV download looks like <code>More Map Variations 578 2.1.8.3 2026-08-26T22-19Z ….zip</code>. If you see <code>2.1.8.3</code> in yours, it's the right file. The Seamless one should have <code>1.1.3</code> in its name the same way.</p>
+      <p class="muted">Nexus needs a free account. Don't unzip anything; the script does that. The version pairing is community-tested <span class="chip c">Community</span>, and if we ever move to newer versions, Ken says so in The Terror of Tana.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h3>Close the game, double-click Setup</h3>
+      <p>Double-click <code>Setup Nightreign Mods.bat</code> and let it run. It:</p>
+      <ul>
+        <li>backs up your save into <code>Save Backups</code> in that folder</li>
+        <li>unpacks both mods and puts Seamless where MMV expects it</li>
+        <li>writes our shared launch file, the one that skips MMV's Server Redirector (loading that alongside Seamless crashes the game)</li>
+        <li>copies your relics and unlocks into the Seamless save, unless you already have one</li>
+        <li>puts a <b>Nightreign (Modded)</b> shortcut on your desktop</li>
+      </ul>
+      <p>At the end it prints two version lines. <b>Paste them in The Terror of Tana</b> on LINE so we can see we match.</p>
+      <div class="note warn"><b class="tag">Windows warning</b>If Windows says “Windows protected your PC”, click <b>More info → Run anyway</b>. It does that for any script that came from the internet. The file is plain text, and you can open it in Notepad to read every line.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <div>
+      <h3>Play</h3>
+      <ol>
+        <li>Open Steam (signed in, not in offline mode).</li>
+        <li>Double-click <b>Nightreign (Modded)</b> on your desktop.</li>
+        <li>One of us hosts and invites the others through Steam.</li>
+      </ol>
+      <p class="muted">Launching Nightreign from Steam still gives you the normal, unmodded game with your normal save.</p>
+      <p class="muted">All four of us at once? Seamless allows up to 6 players. Nightreign itself is balanced for three, so in a four-player run, the extra scaling comes from Seamless rather than FromSoftware.</p>
+    </div>
+  </div>
+
+  <details class="manual">
+    <summary>Doing it by hand instead</summary>
+    <div>
+      <ol>
+        <li>Unzip More Map Variations into your folder. Inside you'll find a <code>mod</code> folder next to a <code>.me3</code> file.</li>
+        <li>Unzip Seamless Co-op somewhere else and move only its <code>SeamlessCoop</code> folder into MMV's <code>mod</code> folder.</li>
+        <li>Next to MMV's own <code>.me3</code> file, create <code>MMV_Seamless.me3</code> with exactly this text. Turn on “File name extensions” in Explorer first, so it isn't secretly <code>.me3.txt</code>.</li>
+      </ol>
+      <div class="code"><div class="lbl">MMV_Seamless.me3</div><pre id="c-me3">profileVersion = "v1"
+start_online = false
+
+[[supports]]
+game = "nightreign"
+
+[[packages]]
+id = "MMV"
+path = 'mod'
+
+[[natives]]
+path = 'mod/SeamlessCoop/nrsc.dll'
+load_early = true</pre><button data-copy="c-me3">Copy</button></div>
+      <p>To carry your progress over, close the game and run this in PowerShell. It only copies; it never overwrites an existing Seamless save.</p>
+      <div class="code"><div class="lbl">PowerShell</div><pre id="c-co2">Get-ChildItem "$env:APPDATA\Nightreign" -Directory | ForEach-Object { $s = Join-Path $_.FullName 'NR0000.sl2'; $c = Join-Path $_.FullName 'NR0000.co2'; if ((Test-Path $s) -and -not (Test-Path $c)) { Copy-Item $s $c; "Copied: $c" } }</pre><button data-copy="c-co2">Copy</button></div>
+      <p class="muted">Then launch with <code>MMV_Seamless.me3</code>, never MMV's own <code>.me3</code>.</p>
+    </div>
+  </details>
+</section>
+
+<section id="session">
+  <h2><small>Every time</small>Each session</h2>
+  <ul class="check">
+    <li><input type="checkbox" id="s-launch"><label for="s-launch">Everyone launched from the <b>Nightreign (Modded)</b> shortcut.</label></li>
+  </ul>
+  <button class="reset" id="reset">Clear checks</button>
+
+  <h3>When Ken says “update”</h3>
+  <p>Download the new zip(s) into the same folder and double-click Setup again. It replaces the old install, keeps your Seamless save, and makes a fresh save backup first. It always uses the newest zip of each, so old ones can stay or go.</p>
+</section>
+
+<section id="trouble">
+  <h2><small>When the night bites</small>Troubleshooting</h2>
+  <div class="trouble">
+    <div><span class="sym">“host is not using seamless co-op” / “host version … does not match”</span><span>Someone's on a different MMV or Seamless version, or used a different launch file. Compare the version lines everyone pasted, re-download the odd one out and run Setup again.</span></div>
+    <div><span class="sym">“Method SignIn is not available”</span><span>The launch file got changed. Run Setup again to rewrite it.</span></div>
+    <div><span class="sym">Game opens but it's vanilla, no new bosses</span><span>You launched from Steam. Use the <b>Nightreign (Modded)</b> shortcut.</span></div>
+    <div><span class="sym">Shortcut does nothing</span><span>me3 isn't installed properly. Re-run <code>me3_installer.exe</code> from step 1.</span></div>
+    <div><span class="sym">FromSoftware patched Nightreign</span><span>Celebrate, then launch from Steam and play the new official content. The modded setup can wait until MMV and Seamless catch up.</span></div>
+    <div><span class="sym">Setup says “STOPPED”</span><span>Read the line after it. It tells you exactly what's missing, and nothing was changed.</span></div>
+    <div><span class="sym">Console window flashes and closes</span><span>Steam isn't running.</span></div>
+    <div><span class="sym">Seamless loads but never connects</span><span>Update me3 (it needs v0.6.0 or newer). Last resort: change <code>start_online</code> to <code>true</code>.</span></div>
+    <div><span class="sym">Random crashes</span><span>Folder is inside OneDrive, or the Server Redirector got loaded. Move the whole folder somewhere else and run Setup again.</span></div>
+    <div><span class="sym">My relics are gone</span><span>You're on an empty Seamless save. Delete <code>NR0000.co2</code> from <code>%APPDATA%\Nightreign\&lt;your Steam ID&gt;</code> (or move it out), then run Setup again to copy your normal save across.</span></div>
+    <div><span class="sym">Everdark bosses missing</span><span>Seamless pulls the Everdark rotation from GitHub. Check that GitHub isn't blocked on your network.</span></div>
+  </div>
+  <p class="muted">Still stuck? The MMV team doesn't answer in Nexus comments. They answer in their Discord, linked on the mod page.</p>
+</section>
+
+<section id="extras">
+  <h2><small>Your machine, your call</small>Optional extras</h2>
+  <p>None of these change balance, and none of them have to match across the group. Get the main setup running first, then add one at a time and test it solo. Running Setup again replaces the MMV folder and the launch file, so re-add extras after every update.</p>
+
+  <div class="extra">
+    <h3>Unlock the 60 fps cap</h3>
+    <p><a href="https://www.nexusmods.com/eldenringnightreign/mods/25" target="_blank" rel="noopener">UnlockTheFps (Nexus 25)</a>. Put its folder inside <code>mod\</code>, then add this to the end of your launch file:</p>
+    <div class="code"><div class="lbl">Add to MMV_Seamless.me3</div><pre id="c-fps">[[natives]]
+path = 'mod/UnlockTheFps/UnlockTheFps.dll'</pre><button data-copy="c-fps">Copy</button></div>
+    <p class="muted">The mod page says it supports Seamless. Its instructions are written for a different loader, so the snippet above isn't confirmed working. Last updated July 2025. <span class="chip c">Test solo</span></p>
+  </div>
+
+  <div class="extra">
+    <h3>Ultrawide monitor fix</h3>
+    <p><a href="https://www.nexusmods.com/eldenringnightreign/mods/35" target="_blank" rel="noopener">Nexus 35</a> removes the black bars. It's built for me3 and works with Seamless. Cutscenes and loading screens can show the world behind them. Only matters if you're on a 21:9 screen.</p>
+  </div>
+
+  <div class="extra">
+    <h3>Later: new weapons</h3>
+    <p>MMV's changelog mentions a compatibility patch with TerraMag's SotE/DS3 Weapons mod. We haven't confirmed how the two install together yet, so it's not part of this guide. Ken will add it once someone's tested it.</p>
+  </div>
+</section>
+
+<section id="sources">
+  <h2><small>Where this came from</small>Sources</h2>
+  <ol class="sources">
+    <li><a href="https://www.nexusmods.com/eldenringnightreign/mods/578" target="_blank" rel="noopener">More Map Variations</a> (Team Daybreak) and its <a href="https://www.xmodhub.com/en/game-mods/elden-ring-nightreign-mods/more-map-variations" target="_blank" rel="noopener">mirrored description</a>: content counts, DLC requirement, rebalancing, install notes</li>
+    <li><a href="https://www.nexusmods.com/eldenringnightreign/mods/3" target="_blank" rel="noopener">Seamless Co-op for Nightreign</a> (Yui): Steam requirement, separate save, Everdark via GitHub, version matching</li>
+    <li><a href="https://github.com/eepycloud/More-Map-Variations-MMV-Seamless-Coop" target="_blank" rel="noopener">eepycloud/MMV-Seamless-Coop</a>: tested version pair, launch file, folder layout, error fixes <span class="chip c">Community</span></li>
+    <li><a href="https://github.com/garyttierney/me3/releases" target="_blank" rel="noopener">ModEngine 3 releases</a></li>
+    <li><a href="https://www.nexusmods.com/eldenringnightreign/mods/25" target="_blank" rel="noopener">UnlockTheFps</a> · <a href="https://www.nexusmods.com/eldenringnightreign/mods/35" target="_blank" rel="noopener">Ultrawide fix</a></li>
+  </ol>
+</section>
+
+<footer><span class="chip c">Community</span> = from a community guide rather than the mod authors. It works for others, but double-check it if something looks off.</footer>
+</div>
+
+<script>
+document.querySelectorAll('[data-target]').forEach(function(el){
+  el.addEventListener('click',function(e){
+    e.preventDefault();
+    var t=document.getElementById(el.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
+  });
+});
+document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pre=document.getElementById(btn.getAttribute('data-copy'));
+    var txt=pre.textContent;
+    function ok(){btn.textContent='Copied';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy';btn.classList.remove('done');},1600);}
+    function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Ctrl+C';}
+    try{navigator.clipboard.writeText(txt).then(ok,fallback);}catch(e){fallback();}
+  });
+});
+var boxes=document.querySelectorAll('ul.check input');
+boxes.forEach(function(cb){
+  try{if(localStorage.getItem('nr-mmv-'+cb.id)==='1')cb.checked=true;}catch(e){}
+  cb.addEventListener('change',function(){try{localStorage.setItem('nr-mmv-'+cb.id,cb.checked?'1':'0');}catch(e){}});
+});
+document.getElementById('reset').addEventListener('click',function(){
+  boxes.forEach(function(cb){cb.checked=false;try{localStorage.removeItem('nr-mmv-'+cb.id);}catch(e){}});
+});
+</script>
+
+</body>
+</html>
