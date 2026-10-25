@@ -55,7 +55,8 @@ p{margin:.5rem 0;max-width:68ch}
 code{font-family:var(--f-mono);font-size:.85em;background:var(--slab);border:1px solid var(--seam);padding:.05rem .35rem;border-radius:2px;word-break:break-word}
 
 /* mod summary */
-.gets{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--seam);border:1px solid var(--seam);margin:1rem 0}
+.gets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--seam);border:1px solid var(--seam);margin:1rem 0}
+@media (max-width:720px){.gets{grid-template-columns:repeat(2,minmax(0,1fr))}.gets div:last-child{grid-column:1/-1}}
 .gets div{background:var(--ink);padding:.8rem 1rem}
 .gets .n{font-family:var(--f-display);font-size:1.9rem;line-height:1;color:var(--verd);font-variant-numeric:tabular-nums}
 .gets .n s{color:var(--ash);font-size:1.1rem;text-decoration:none}
