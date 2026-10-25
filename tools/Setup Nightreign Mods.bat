@@ -56,6 +56,7 @@ function Fail($msg) {
 
 Write-Host ''
 Write-Host '  NIGHTREIGN MOD SETUP  -  Seamless Co-op + More Map Variations' -ForegroundColor Green
+Write-Host '  Setup version 2026-10-25' -ForegroundColor DarkGray
 Write-Host "  Folder: $root" -ForegroundColor DarkGray
 
 try {
