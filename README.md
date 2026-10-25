@@ -14,4 +14,4 @@ Place to host and update Nightreign documents
 - [Mod Setup Guide](https://kensuenaga-ui.github.io/Nightreign/nightreign_mod_setup.html)
 
 ## Tools
-- [Setup Nightreign Mods.bat](tools/Setup%20Nightreign%20Mods.bat): one-click setup for Seamless Co-op + More Map Variations. Put it in a folder with the two mod zips and double-click. Download it with the download icon on the file page.
+- [Setup Nightreign Mods.bat](tools/Setup%20Nightreign%20Mods.bat): one-click setup for Seamless Co-op + More Map Variations (prefers the official Weapons Mod Merge build). Put it in a folder with the two mod zips and double-click. Download it with the download icon on the file page.
