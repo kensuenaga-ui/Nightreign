@@ -12,7 +12,8 @@ exit /b
 # ---------------------------------------------------------------------------
 # What this does (nothing outside this list is touched):
 #   1. Checks the game is closed and this folder is a sensible place
-#   2. Finds the More Map Variations (or MMV + Weapons Merge) and Seamless Co-op zips
+#   2. Finds the More Map Variations and Seamless Co-op zips (plain MMV wins over the
+#      Weapons Mod Merge build; Weapons is used only when it is the only MMV zip)
 #   3. Backs up your Nightreign save into "Save Backups" in this folder
 #   4. Extracts More Map Variations into "MMV" in this folder
 #   5. Puts Seamless Co-op inside MMV's mod folder
@@ -87,10 +88,12 @@ try {
     Step 2 'Looking for the two mod downloads in this folder'
 
     $all = Get-ChildItem -LiteralPath $root -File
-    # Prefer the official 'More Map Variations and Weapons Mod Merge' build when it is present
-    $mmvZip = $all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'map.?variation' } |
-        Sort-Object @{ Expression = { $_.Name -match 'weapon' }; Descending = $true }, @{ Expression = 'LastWriteTime'; Descending = $true } |
-        Select-Object -First 1
+    # Plain MMV wins whenever its zip is here. The Weapons Mod Merge build is used only
+    # when it is the only MMV zip, so downloading it early never switches anyone by accident.
+    $mmvAll = @($all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'map.?variation' })
+    $mmvPlain = $mmvAll | Where-Object { $_.Name -notmatch 'weapon' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $mmvMerge = $mmvAll | Where-Object { $_.Name -match 'weapon' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $mmvZip = if ($mmvPlain) { $mmvPlain } else { $mmvMerge }
     $scZip = $all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'seamless' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
     $missing = @()
@@ -105,6 +108,10 @@ try {
     $mmvLabel = if ($mmvZip.Name -match 'weapon') { 'MMV + Weapons:' } else { 'MMV:          ' }
     Say "$mmvLabel $($mmvZip.Name)"
     Say "Seamless:      $($scZip.Name)"
+    if ($mmvPlain -and $mmvMerge) {
+        Say 'Also found the Weapons build. Staying on plain MMV.' Yellow
+        Say 'To switch to Weapons: delete the plain MMV zip, then run Setup again.' Yellow
+    }
 
     $needBytes = [int64]($mmvZip.Length * 2.5) + 300MB
     $free = $null
@@ -234,7 +241,7 @@ load_early = true
     if ($scVer) { $scLine += "   [nrsc.dll $scVer]" }
     Write-Host "    Seamless:      $scLine"
     Write-Host ''
-    Write-Host '  You can delete the two .zip files now if you want the space back.' -ForegroundColor DarkGray
+    Write-Host '  Keep the .zip files in this folder. Setup needs them if you ever run it again.' -ForegroundColor DarkGray
 }
 catch {
     Fail $_.Exception.Message
