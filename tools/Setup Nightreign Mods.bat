@@ -12,7 +12,7 @@ exit /b
 # ---------------------------------------------------------------------------
 # What this does (nothing outside this list is touched):
 #   1. Checks the game is closed and this folder is a sensible place
-#   2. Finds the More Map Variations and Seamless Co-op zips in this folder
+#   2. Finds the More Map Variations (or MMV + Weapons Merge) and Seamless Co-op zips
 #   3. Backs up your Nightreign save into "Save Backups" in this folder
 #   4. Extracts More Map Variations into "MMV" in this folder
 #   5. Puts Seamless Co-op inside MMV's mod folder
@@ -87,7 +87,10 @@ try {
     Step 2 'Looking for the two mod downloads in this folder'
 
     $all = Get-ChildItem -LiteralPath $root -File
-    $mmvZip = $all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'map.?variation' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    # Prefer the official 'More Map Variations and Weapons Mod Merge' build when it is present
+    $mmvZip = $all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'map.?variation' } |
+        Sort-Object @{ Expression = { $_.Name -match 'weapon' }; Descending = $true }, @{ Expression = 'LastWriteTime'; Descending = $true } |
+        Select-Object -First 1
     $scZip = $all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'seamless' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
     $missing = @()
@@ -99,8 +102,9 @@ try {
         if ($odd) { $hint = "`nFound $($odd.Name -join ', ') - this script needs the .zip downloads." }
         Fail ("Put these .zip downloads in this folder first:`n" + ($missing -join "`n") + $hint)
     }
-    Say "MMV:      $($mmvZip.Name)"
-    Say "Seamless: $($scZip.Name)"
+    $mmvLabel = if ($mmvZip.Name -match 'weapon') { 'MMV + Weapons:' } else { 'MMV:          ' }
+    Say "$mmvLabel $($mmvZip.Name)"
+    Say "Seamless:      $($scZip.Name)"
 
     $needBytes = [int64]($mmvZip.Length * 2.5) + 300MB
     $free = $null
@@ -224,11 +228,11 @@ load_early = true
     Write-Host '  DONE. Open Steam, then double-click "Nightreign (Modded)" on your desktop.' -ForegroundColor Green
     Write-Host '  Launching Nightreign from Steam still gives you the normal, unmodded game.' -ForegroundColor DarkGray
     Write-Host ''
-    Write-Host '  Paste this in the group chat so we know we match:' -ForegroundColor Cyan
-    Write-Host "    MMV:      $($mmvZip.BaseName)   [$stockProfiles]"
+    Write-Host '  Paste this in The Terror of Tana so we know we match:' -ForegroundColor Cyan
+    Write-Host "    $mmvLabel $($mmvZip.BaseName)"
     $scLine = $scZip.BaseName
     if ($scVer) { $scLine += "   [nrsc.dll $scVer]" }
-    Write-Host "    Seamless: $scLine"
+    Write-Host "    Seamless:      $scLine"
     Write-Host ''
     Write-Host '  You can delete the two .zip files now if you want the space back.' -ForegroundColor DarkGray
 }
