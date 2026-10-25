@@ -12,8 +12,8 @@ exit /b
 # ---------------------------------------------------------------------------
 # What this does (nothing outside this list is touched):
 #   1. Checks the game is closed and this folder is a sensible place
-#   2. Finds the More Map Variations and Seamless Co-op zips (plain MMV wins over the
-#      Weapons Mod Merge build; Weapons is used only when it is the only MMV zip)
+#   2. Finds the More Map Variations and Seamless Co-op zips. If both plain MMV and the
+#      Weapons Mod Merge build are here, it asks once; Enter keeps whatever you have now
 #   3. Backs up your Nightreign save into "Save Backups" in this folder
 #   4. Extracts More Map Variations into "MMV" in this folder
 #   5. Puts Seamless Co-op inside MMV's mod folder
@@ -88,12 +88,29 @@ try {
     Step 2 'Looking for the two mod downloads in this folder'
 
     $all = Get-ChildItem -LiteralPath $root -File
-    # Plain MMV wins whenever its zip is here. The Weapons Mod Merge build is used only
-    # when it is the only MMV zip, so downloading it early never switches anyone by accident.
     $mmvAll = @($all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'map.?variation' })
     $mmvPlain = $mmvAll | Where-Object { $_.Name -notmatch 'weapon' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $mmvMerge = $mmvAll | Where-Object { $_.Name -match 'weapon' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $mmvZip = if ($mmvPlain) { $mmvPlain } else { $mmvMerge }
+
+    # Which build is installed right now? (installs made before this marker existed were plain MMV)
+    $marker = Join-Path $final 'installed_build.txt'
+    $current = 'none'
+    if (Test-Path -LiteralPath $marker) { $current = (Get-Content -LiteralPath $marker -Raw).Trim() }
+    elseif (Test-Path -LiteralPath $final) { $current = 'plain' }
+
+    # Both zips here: ask once. Enter / N always keeps what you have, so a re-run never switches by accident.
+    if ($mmvPlain -and $mmvMerge) {
+        if ($current -eq 'weapons') {
+            Say 'You are on MMV + Weapons. The plain MMV zip is here too.' Yellow
+            $mmvZip = if (Ask 'Switch BACK to plain MMV? Only say Y if the whole group is switching') { $mmvPlain } else { $mmvMerge }
+        } else {
+            if ($current -eq 'plain') { Say 'You are on plain MMV. The Weapons build is here too.' Yellow }
+            else { Say 'Found both plain MMV and the Weapons build. Plain MMV is the group default.' Yellow }
+            $mmvZip = if (Ask 'Switch to MMV + Weapons? Only say Y if the whole group is switching') { $mmvMerge } else { $mmvPlain }
+        }
+    } else {
+        $mmvZip = if ($mmvPlain) { $mmvPlain } else { $mmvMerge }
+    }
     $scZip = $all | Where-Object { $_.Extension -eq '.zip' -and $_.Name -match 'seamless' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
     $missing = @()
@@ -105,13 +122,10 @@ try {
         if ($odd) { $hint = "`nFound $($odd.Name -join ', ') - this script needs the .zip downloads." }
         Fail ("Put these .zip downloads in this folder first:`n" + ($missing -join "`n") + $hint)
     }
-    $mmvLabel = if ($mmvZip.Name -match 'weapon') { 'MMV + Weapons:' } else { 'MMV:          ' }
+    $build = if ($mmvZip.Name -match 'weapon') { 'weapons' } else { 'plain' }
+    $mmvLabel = if ($build -eq 'weapons') { 'MMV + Weapons:' } else { 'MMV:          ' }
     Say "$mmvLabel $($mmvZip.Name)"
     Say "Seamless:      $($scZip.Name)"
-    if ($mmvPlain -and $mmvMerge) {
-        Say 'Also found the Weapons build. Staying on plain MMV.' Yellow
-        Say 'To switch to Weapons: delete the plain MMV zip, then run Setup again.' Yellow
-    }
 
     $needBytes = [int64]($mmvZip.Length * 2.5) + 300MB
     $free = $null
@@ -152,6 +166,10 @@ try {
     if (-not $mmvProfile) { Fail "Couldn't find MMV's 'mod' folder inside the zip. The download layout may have changed - tell Ken." }
     $mmvDir = $mmvProfile.DirectoryName
     $modDir = Join-Path $mmvDir 'mod'
+    if ($current -ne 'none' -and $current -ne $build) {
+        $nice = @{ plain = 'plain MMV'; weapons = 'MMV + Weapons' }
+        Say "Switching from $($nice[$current]) to $($nice[$build])." Cyan
+    }
     Say 'OK' Green
 
     # ---- 5. Seamless into mod\SeamlessCoop --------------------------------
@@ -187,7 +205,7 @@ path = 'mod/SeamlessCoop/nrsc.dll'
 load_early = true
 '@
     [System.IO.File]::WriteAllText((Join-Path $mmvDir $launchName), ($toml -replace "`r?`n", "`r`n"), (New-Object System.Text.UTF8Encoding($false)))
-    $stockProfiles = (Get-ChildItem -LiteralPath $mmvDir -Filter '*.me3' -File | Where-Object { $_.Name -ne $launchName }).Name -join ', '
+    [System.IO.File]::WriteAllText((Join-Path $mmvDir 'installed_build.txt'), $build)
 
     # swap the new install into place, only now that everything above worked
     if (Test-Path -LiteralPath $final) { Remove-Item -LiteralPath $final -Recurse -Force }
